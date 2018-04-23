@@ -1,0 +1,14 @@
+{
+  "ngPackage": {
+    "lib": {
+      "entryFile": "index.ts",
+      "umdId": "Santech.AngularPlatform.Testing",
+      "umdModuleIds": {
+        "@santech/core/testing": "Santech.Core.Testing"
+      }
+    }
+  },
+  "peerDependencies": {
+    "@santech/core": "*"
+  }
+}

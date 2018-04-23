@@ -1,0 +1,52 @@
+{
+  "extends": "tslint:latest",
+  "linterOptions": {
+    "exclude": [
+      "**/node_modules/**",
+      "**/coverage/**",
+      "**/dist/**",
+      "**/docs/**"
+    ]
+  },
+  "rules": {
+    "no-console": [
+      true,
+      "log",
+      "debug"
+    ],
+    "no-reference": false,
+    "no-submodule-imports": [
+      true,
+      "@angular/common/locales",
+      "@angular/core/testing",
+      "@santech/common/testing",
+      "@santech/core/testing",
+      "@santech/websocket/testing",
+      "rxjs"
+    ],
+    "no-unused-expression": false,
+    "quotemark": [
+      true,
+      "single"
+    ],
+    "variable-name": [
+      true,
+      "allow-leading-underscore"
+    ],
+    "whitespace": [
+      true,
+      "check-branch",
+      "check-decl",
+      "check-operator",
+      "check-module",
+      "check-separator",
+      "check-type"
+    ]
+  },
+  "jsRules": {
+    "quotemark": [
+      true,
+      "single"
+    ]
+  }
+}

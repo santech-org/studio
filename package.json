@@ -1,0 +1,31 @@
+{
+  "name": "studio",
+  "version": "7.0.0-alpha.0",
+  "private": true,
+  "description": "Modules for santech clients",
+  "keywords": [
+    "santech"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/santech-org/studio"
+  },
+  "workspaces": [
+    "@santech/*"
+  ],
+  "scripts": {
+    "bootstrap": "lerna bootstrap",
+    "build": "lerna run build",
+    "lint": "lerna run lint --parallel",
+    "test": "lerna run test --parallel",
+    "upgrade": "lerna publish --skip-git --skip-npm --yes",
+    "postinstall": "lerna run build"
+  },
+  "license": "MIT",
+  "resolutions": {
+    "@segment/analytics.js-core/**/uuid": "3.2.1"
+  },
+  "devDependencies": {
+    "lerna": "^2.0.0"
+  }
+}

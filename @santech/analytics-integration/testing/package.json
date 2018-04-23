@@ -1,0 +1,5 @@
+{
+  "main": "../dist/umd/index-testing.js",
+  "module": "../dist/index-testing.js",
+  "types": "../dist/index-testing.d.ts"
+}

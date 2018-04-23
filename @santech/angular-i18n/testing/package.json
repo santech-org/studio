@@ -1,0 +1,18 @@
+{
+  "ngPackage": {
+    "lib": {
+      "entryFile": "index.ts",
+      "umdId": "Santech.AngularI18n.Testing",
+      "umdModuleIds": {
+        "@ngx-translate/core": "ngx-translate.core",
+        "@santech/angular-i18n": "Santech.AngularI18n",
+        "@santech/core/testing": "Santech.Core.Testing"
+      }
+    }
+  },
+  "peerDependencies": {
+    "@ngx-translate/core": "^9.0.0",
+    "@santech/angular-i18n": "^6.0.0",
+    "@santech/core": "^6.0.0"
+  }
+}

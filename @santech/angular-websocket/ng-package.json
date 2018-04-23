@@ -1,0 +1,18 @@
+{
+  "$schema": "./node_modules/ng-packagr/ng-package.schema.json",
+  "dest": "dist",
+  "workingDirectory": ".ng_build",
+  "lib": {
+    "entryFile": "src/index.ts",
+    "umdId": "Santech.AngularWebsocket",
+    "umdModuleIds": {
+      "@santech/angular-common": "Santech.AngularCommon",
+      "@santech/common": "Santech.Common",
+      "@santech/core": "Santech.Core",
+      "@santech/types": "Santech.Types",
+      "@santech/websocket": "Santech.Websocket",
+      "@stomp/stompjs": "Stomp",
+      "sockjs-client": "SockJS"
+    }
+  }
+}

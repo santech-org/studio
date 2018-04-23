@@ -1,0 +1,15 @@
+{
+  "$schema": "./node_modules/ng-packagr/ng-package.schema.json",
+  "dest": "dist",
+  "workingDirectory": ".ng_build",
+  "lib": {
+    "entryFile": "src/index.ts",
+    "umdId": "Santech.AngularAnalytics",
+    "umdModuleIds": {
+      "@santech/analytics-core": "Santech.AnalyticsCore",
+      "@santech/analytics-integration": "Santech.AnalyticsIntegration",
+      "@santech/angular-common": "Santech.AngularCommon",
+      "@santech/core": "Santech.Core"
+    }
+  }
+}

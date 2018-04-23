@@ -1,0 +1,17 @@
+{
+  "ngPackage": {
+    "lib": {
+      "entryFile": "index.ts",
+      "umdId": "Santech.AngularCommon.Testing",
+      "umdModuleIds": {
+        "@santech/angular-common": "Santech.AngularCommon",
+        "@santech/core/testing": "Santech.Core.Testing"
+      }
+    }
+  },
+  "peerDependencies": {
+    "@angular/router": "^5.0.0",
+    "@santech/angular-common": "^6.0.0",
+    "@santech/core": "^6.0.0"
+  }
+}

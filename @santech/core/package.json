@@ -1,0 +1,70 @@
+{
+  "name": "@santech/core",
+  "version": "7.0.0-alpha.0",
+  "description": "Core module for santech studio",
+  "main": "dist/umd/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/*",
+    "docs/*",
+    "testing/*"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/santech-org/studio"
+  },
+  "scripts": {
+    "build": "npm run clean && npm run transpile && npm run rollup && npm run docs && npm run package",
+    "clean": "rimraf docs dist coverage .rpt2_cache dist.tgz",
+    "docs": "typedoc index.ts",
+    "lint": "tslint \"**/*.ts\" \"**/*.js\"",
+    "package": "npm pack && rename santech-core*.tgz dist.tgz",
+    "rollup": "node rollup.js",
+    "start": "tsc -p . -w",
+    "test": "jest --coverage",
+    "test-watch": "jest --watch",
+    "transpile": "tsc -p . --declaration true"
+  },
+  "keywords": [
+    "santech",
+    "studio",
+    "core",
+    "fetch",
+    "http",
+    "storage",
+    "jwt"
+  ],
+  "author": "Paul Souche <psouche@santech.fr>",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jest": "*",
+    "@types/node": "*",
+    "@types/sinon": "*",
+    "fetch-headers": "*",
+    "jest": "*",
+    "rename-cli": "*",
+    "rollup": "*",
+    "rollup-plugin-typescript2": "*",
+    "sinon": "*",
+    "ts-helpers": "*",
+    "ts-jest": "*",
+    "ts-node": "*",
+    "tslint": "*",
+    "typedoc": "*",
+    "typescript": "*"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.ts$": "ts-jest"
+    },
+    "testRegex": "^.+\\.spec.ts$",
+    "moduleFileExtensions": [
+      "ts",
+      "js"
+    ],
+    "setupFiles": [
+      "ts-helpers"
+    ]
+  }
+}

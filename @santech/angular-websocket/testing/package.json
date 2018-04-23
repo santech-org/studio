@@ -1,0 +1,16 @@
+{
+  "ngPackage": {
+    "lib": {
+      "entryFile": "index.ts",
+      "umdId": "Santech.AngularWebsocket.Testing",
+      "umdModuleIds": {
+        "@santech/angular-websocket": "Santech.AngularWebsocket",
+        "@santech/core/testing": "Santech.Core.Testing"
+      }
+    }
+  },
+  "peerDependencies": {
+    "@santech/angular-websocket": "^6.0.0",
+    "@santech/core": "^6.0.0"
+  }
+}

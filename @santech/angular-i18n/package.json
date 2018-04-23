@@ -1,0 +1,84 @@
+{
+  "name": "@santech/angular-i18n",
+  "version": "7.0.0-alpha.0",
+  "description": "santech angular i18n module",
+  "main": "dist/bundles/santech-angular-i18n.umd.js",
+  "module": "dist/esm5/santech-angular-i18n.js",
+  "es2015": "dist/esm2015/santech-angular-i18n.js",
+  "types": "dist/index.d.ts",
+  "typings": "dist/santech-angular-i18n.d.ts",
+  "scripts": {
+    "assets": "npm run docs && cpx \"docs/**/*\" ./dist/docs",
+    "build": "npm run clean && ng-packagr -p ng-package.json && npm run assets",
+    "clean": "rimraf dist docs coverage",
+    "docs": "typedoc src/index.ts",
+    "lint": "tslint \"**/*.ts\" \"**/*.js\"",
+    "test": "jest --coverage",
+    "test-watch": "jest --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/santech-org/studio"
+  },
+  "keywords": [
+    "santech",
+    "studio",
+    "angular",
+    "i18n"
+  ],
+  "author": "Paul Souche <psouche@santech.fr>",
+  "license": "MIT",
+  "peerDependencies": {
+    "@angular/common": "^5.0.0",
+    "@angular/core": "^5.0.0",
+    "@ngx-translate/core": "^9.0.0",
+    "@santech/angular-platform": "^7.0.0-alpha.0",
+    "rxjs": "^5.0.0"
+  },
+  "devDependencies": {
+    "@angular/common": "*",
+    "@angular/compiler": "*",
+    "@angular/compiler-cli": "*",
+    "@angular/core": "*",
+    "@angular/platform-browser": "*",
+    "@ngx-translate/core": "^9.0.0",
+    "@angular/platform-browser-dynamic": "*",
+    "@santech/angular-platform": "^7.0.0-alpha.0",
+    "jest": "*",
+    "jest-localstorage-mock": "*",
+    "jest-preset-angular": "*",
+    "ng-packagr": "*",
+    "rxjs": "^5.0.0",
+    "tsickle": "*",
+    "tslib": "*",
+    "typedoc": "*",
+    "typescript": "*",
+    "whatwg-fetch": "*",
+    "zone.js": "*"
+  },
+  "jest": {
+    "globals": {
+      "ts-jest": {
+        "tsConfigFile": "src/tsconfig.json"
+      }
+    },
+    "transform": {
+      "^.+\\.(ts|js|html)$": "<rootDir>../../node_modules/jest-preset-angular/preprocessor.js"
+    },
+    "preset": "jest-preset-angular",
+    "roots": [
+      "<rootDir>/src/"
+    ],
+    "setupFiles": [
+      "jest-localstorage-mock"
+    ],
+    "setupTestFrameworkScriptFile": "<rootDir>/setup-jest.ts",
+    "transformIgnorePatterns": [
+      "node_modules/(?!@angular/common/locales)"
+    ],
+    "snapshotSerializers": [
+      "<rootDir>../../node_modules/jest-preset-angular/AngularSnapshotSerializer.js",
+      "<rootDir>../../node_modules/jest-preset-angular/HTMLCommentSerializer.js"
+    ]
+  }
+}
