@@ -13,4 +13,4 @@ PUBLISHED_PACKAGE_VERSIONS=`npm show ${PACKAGE_NAME} versions --json`
 
 echo $PUBLISHED_PACKAGE_VERSIONS | grep "\"$PACKAGE_VERSION\"" > /dev/null \
   && echo "Module Deja publié" \
-  || (npm publish dist.tgz --verbose)
+  || (npm publish dist.tgz --verbose --access=public)
