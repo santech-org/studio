@@ -49,6 +49,7 @@
     "jest-localstorage-mock": "*",
     "jest-preset-angular": "*",
     "ng-packagr": "*",
+    "rimraf": "*",
     "rxjs": "^5.0.0",
     "tsickle": "*",
     "tslib": "*",
