@@ -110,13 +110,13 @@ import { Component, Optional } from '@angular/core';
 import { Authenticator } from '@santech/common';
 import { Http, Jwt, TokenStorage } from '@santech/core';
 import { WebSocketClient, webSocketClientFactory } from '@santech/websocket';
-import * as Stomp from '@stomp/stompjs';
-import * as SockJs from 'sockjs-client';
+import StompJs = require('@stomp/stompjs');
+import SockJs = require('sockjs-client');
 
 export const AUTHENTICATOR_END_POINTS = new InjectionToken<IAuthenticatorEndPoints>('authenticatorEndPoints');
 
 interface ISockWindow extends Window {
-  Stomp: typeof Stomp;
+  Stomp: typeof StompJs;
   SockJs: typeof SockJs;
 }
 

@@ -34,6 +34,7 @@
     "@segment/analytics.js-integration": "*",
     "cpx": "*",
     "rename-cli": "*",
+    "rimraf": "*",
     "rollup": "*",
     "rollup-plugin-commonjs": "*",
     "rollup-plugin-json": "*",

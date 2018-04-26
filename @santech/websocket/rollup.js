@@ -6,9 +6,9 @@ const plugins = [typescript()];
 const buildModule = async () => {
   const bundle = await rollup.rollup({
     external: [
-      '@stomp/stompjs',
       '@santech/common',
       '@santech/core',
+      '@stomp/stompjs',
       '@types/sockjs-client',
       'sockjs-client',
     ],
@@ -20,9 +20,9 @@ const buildModule = async () => {
     file: 'dist/umd/index.js',
     format: 'umd',
     globals: {
-      '@stomp/stompjs': '',
       '@santech/common': 'Santech.Common',
       '@santech/core': 'Santech.Core',
+      '@stomp/stompjs': '',
       '@types/sockjs-client': '',
       'sockjs-client': '',
     },

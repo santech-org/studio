@@ -8,8 +8,7 @@
   "types": "dist/index.d.ts",
   "typings": "dist/santech-angular-platform.d.ts",
   "scripts": {
-    "assets": "npm run docs && cpx \"docs/**/*\" ./dist/docs",
-    "build": "npm run clean && ng-packagr -p ng-package.json && npm run assets",
+    "build": "npm run clean && ng-packagr -p ng-package.json && npm run docs",
     "clean": "rimraf dist docs coverage dist.tgz",
     "docs": "typedoc src/index.ts",
     "lint": "tslint \"**/*.ts\" \"**/*.js\"",
@@ -44,6 +43,7 @@
     "jest-localstorage-mock": "*",
     "jest-preset-angular": "*",
     "ng-packagr": "*",
+    "rimraf": "*",
     "rxjs": "^5.0.0",
     "tsickle": "*",
     "tslib": "*",

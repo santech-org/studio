@@ -44,6 +44,7 @@
     "@types/node": "*",
     "jest": "*",
     "rename-cli": "*",
+    "rimraf": "*",
     "rollup": "*",
     "rollup-plugin-typescript2": "*",
     "ts-helpers": "*",

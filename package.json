@@ -17,7 +17,8 @@
     "bootstrap": "lerna bootstrap",
     "build": "lerna run build",
     "lint": "lerna run lint --parallel",
-    "test": "lerna run test --parallel",
+    "test": "lerna run test",
+    "test-parallel": "lerna run test --parallel",
     "upgrade": "lerna publish --skip-git --skip-npm --yes",
     "postinstall": "lerna run build"
   },

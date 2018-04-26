@@ -46,6 +46,7 @@
     "@types/sinon": "*",
     "jest": "*",
     "rename-cli": "*",
+    "rimraf": "*",
     "rollup": "*",
     "rollup-plugin-typescript2": "*",
     "sinon": "*",

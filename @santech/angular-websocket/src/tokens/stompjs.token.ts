@@ -1,4 +1,4 @@
 import { InjectionToken } from '@angular/core';
-import * as Stomp from '@stomp/stompjs';
+import * as StompJs from '@stomp/stompjs';
 
-export const STOMPJS = new InjectionToken<typeof Stomp>('stompjs');
+export const STOMPJS = new InjectionToken<typeof StompJs>('stompjs');
