@@ -1,5 +1,5 @@
 @santech/angular-websocket
-[![Dependency Status](https://david-dm.org/santech-org/studio/status.svg?path=%40santech%2Fangular-websocket)](https://david-dm.org/santech-org/studio?path=%40santech%2Fangular-websocket)
+[![Dependency Status](https://david-dm.org/santech-org/studio/peer-status.svg?path=%40santech%2Fangular-websocket)](https://david-dm.org/santech-org/studio?path=%40santech%2Fangular-websocket&type=peer)
 [![devDependency Status](https://david-dm.org/santech-org/studio/dev-status.svg?path=%40santech%2Fangular-websocket)](https://david-dm.org/santech-org/studio?path=%40santech%2Fangular-websocket&type=dev)
 ========
 

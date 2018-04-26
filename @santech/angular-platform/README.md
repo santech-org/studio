@@ -1,5 +1,5 @@
 @santech/angular-platform
-[![Dependency Status](https://david-dm.org/santech-org/studio/status.svg?path=%40santech%2Fangular-platform)](https://david-dm.org/santech-org/studio?path=%40santech%2Fangular-platform)
+[![Dependency Status](https://david-dm.org/santech-org/studio/peer-status.svg?path=%40santech%2Fangular-platform)](https://david-dm.org/santech-org/studio?path=%40santech%2Fangular-platform&type=peer)
 [![devDependency Status](https://david-dm.org/santech-org/studio/dev-status.svg?path=%40santech%2Fangular-platform)](https://david-dm.org/santech-org/studio?path=%40santech%2Fangular-platform&type=dev)
 ========
 

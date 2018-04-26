@@ -1,5 +1,5 @@
 @santech/angular-common
-[![Dependency Status](https://david-dm.org/santech-org/studio/status.svg?path=%40santech%2Fangular-common)](https://david-dm.org/santech-org/studio?path=%40santech%2Fangular-common)
+[![Dependency Status](https://david-dm.org/santech-org/studio/peer-status.svg?path=%40santech%2Fangular-common)](https://david-dm.org/santech-org/studio?path=%40santech%2Fangular-common&type=peer)
 [![devDependency Status](https://david-dm.org/santech-org/studio/dev-status.svg?path=%40santech%2Fangular-common)](https://david-dm.org/santech-org/studio?path=%40santech%2Fangular-common&type=dev)
 ========
 
