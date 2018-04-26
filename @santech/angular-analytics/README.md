@@ -1,4 +1,7 @@
-# @santech/angular-analytics
+@santech/angular-analytics
+[![Dependency Status](https://david-dm.org/santech-org/studio/status.svg?path=%40santech%2Fangular-analytics)](https://david-dm.org/santech-org/studio?path=%40santech%2Fangular-analytics)
+[![devDependency Status](https://david-dm.org/santech-org/studio/dev-status.svg?path=%40santech%2Fangular-analytics)](https://david-dm.org/santech-org/studio?path=%40santech%2Fangular-analytics&type=dev)
+========
 
 @santech/angular-analytics is a npm module that exports santech analytics module for angular
 

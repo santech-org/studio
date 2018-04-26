@@ -1,4 +1,7 @@
-# @santech/common
+@santech/common
+[![Dependency Status](https://david-dm.org/santech-org/studio/status.svg?path=%40santech%2Fcommon)](https://david-dm.org/santech-org/studio?path=%40santech%2Fcommon)
+[![devDependency Status](https://david-dm.org/santech-org/studio/dev-status.svg?path=%40santech%2Fcommon)](https://david-dm.org/santech-org/studio?path=%40santech%2Fcommon&type=dev)
+========
 
 @santech/common is a npm module that exports common models of the santech studio
 

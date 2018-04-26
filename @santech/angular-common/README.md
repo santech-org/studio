@@ -1,4 +1,7 @@
-# @santech/angular-common
+@santech/angular-common
+[![Dependency Status](https://david-dm.org/santech-org/studio/status.svg?path=%40santech%2Fangular-common)](https://david-dm.org/santech-org/studio?path=%40santech%2Fangular-common)
+[![devDependency Status](https://david-dm.org/santech-org/studio/dev-status.svg?path=%40santech%2Fangular-common)](https://david-dm.org/santech-org/studio?path=%40santech%2Fangular-common&type=dev)
+========
 
 @santech/angular-common is a npm module that exports santech common module for angular
 

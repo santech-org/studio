@@ -1,4 +1,7 @@
-# @santech/angular-platform
+@santech/angular-platform
+[![Dependency Status](https://david-dm.org/santech-org/studio/status.svg?path=%40santech%2Fangular-platform)](https://david-dm.org/santech-org/studio?path=%40santech%2Fangular-platform)
+[![devDependency Status](https://david-dm.org/santech-org/studio/dev-status.svg?path=%40santech%2Fangular-platform)](https://david-dm.org/santech-org/studio?path=%40santech%2Fangular-platform&type=dev)
+========
 
 @santech/angular-platform is a npm module that exports platform global variables & constructors for angular
 

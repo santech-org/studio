@@ -1,4 +1,7 @@
-# @santech/angular-websocket
+@santech/angular-websocket
+[![Dependency Status](https://david-dm.org/santech-org/studio/status.svg?path=%40santech%2Fangular-websocket)](https://david-dm.org/santech-org/studio?path=%40santech%2Fangular-websocket)
+[![devDependency Status](https://david-dm.org/santech-org/studio/dev-status.svg?path=%40santech%2Fangular-websocket)](https://david-dm.org/santech-org/studio?path=%40santech%2Fangular-websocket&type=dev)
+========
 
 @santech/angular-websocket is a npm module that exports santech websocket client module for angular
 

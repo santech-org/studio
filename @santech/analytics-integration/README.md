@@ -1,4 +1,7 @@
-# @santech/analytics-integration
+@santech/analytics-integration
+[![Dependency Status](https://david-dm.org/santech-org/studio/status.svg?path=%40santech%2Fanalytics-integration)](https://david-dm.org/santech-org/studio?path=%40santech%2Fanalytics-integration)
+[![devDependency Status](https://david-dm.org/santech-org/studio/dev-status.svg?path=%40santech%2Fanalytics-integration)](https://david-dm.org/santech-org/studio?path=%40santech%2Fanalytics-integration&type=dev)
+========
 
 @santech/analytics-integration is a npm module that exports analytics integration of the santech studio
 

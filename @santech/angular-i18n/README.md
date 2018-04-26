@@ -1,4 +1,7 @@
-# @santech/angular-i18n
+@santech/angular-i18n
+[![Dependency Status](https://david-dm.org/santech-org/studio/status.svg?path=%40santech%2Fangular-i18n)](https://david-dm.org/santech-org/studio?path=%40santech%2Fangular-i18n)
+[![devDependency Status](https://david-dm.org/santech-org/studio/dev-status.svg?path=%40santech%2Fangular-i18n)](https://david-dm.org/santech-org/studio?path=%40santech%2Fangular-i18n&type=dev)
+========
 
 @santech/angular-i18n is a npm module that exports santech i18n module for angular
 
