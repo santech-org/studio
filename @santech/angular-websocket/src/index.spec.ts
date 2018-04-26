@@ -3,7 +3,7 @@ import { CONFIG_END_POINTS, SantechCommonModule } from '@santech/angular-common'
 import { PLATFORM_GLOBAL_CONTEXT, SantechPlatformModule } from '@santech/angular-platform';
 import { WebSocketClient } from '@santech/websocket';
 import '@stomp/stompjs';
-import * as sockjs from 'sockjs-client';
+import sockjs = require('sockjs-client');
 import { SantechWebSocketModule, SOCKJS_CLIENT, STOMPJS, stompjsFactory } from './';
 
 const endPoint = 'http://host:port';

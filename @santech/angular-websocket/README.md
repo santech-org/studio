@@ -62,7 +62,7 @@ import { PLATFORM_GLOBAL_CONTEXT, SantechPlatformModule } from '@santech/angular
 import { SantechWebSocketModule, stompjsFactory } from '@santech/angular-websocket';
 import { WebSocketClient } from '@santech/websocket';
 import '@stomp/stompjs';
-import * as sockjs from 'sockjs-client';
+import sockjs = require('sockjs-client');
 
 @NgModule({
   imports: [

@@ -1,5 +1,5 @@
-import * as Stomp from '@stomp/stompjs';
 import { Authenticator } from '@santech/common';
+import StompJs = require('@stomp/stompjs');
 import sinon = require('sinon');
 import SockJs = require('sockjs-client');
 import { WebSocketClient, webSocketClientFactory } from '..';
@@ -26,8 +26,8 @@ interface IStompClientStub {
 }
 
 let clientStompStub: IStompClientStub;
-let sockJsStub;
-let stompStub: IStompStub;
+let sockJsStub: sinon.SinonStub & typeof SockJs;
+let stompStub: IStompStub & typeof StompJs;
 
 const sockConfig = {
   connectionString: sockConnection,
@@ -61,12 +61,12 @@ describe('WebSocketClient', () => {
     });
     clientStompStub.connect.callsArgAsync(1);
 
-    sockJsStub = sinon.stub();
+    sockJsStub = sinon.stub() as sinon.SinonStub & typeof SockJs;
 
     stompStub = {
       client: sinon.stub(),
       over: sinon.stub(),
-    };
+    } as any as IStompStub & typeof StompJs;
     stompStub.over.returns(clientStompStub);
     stompStub.client.returns(clientStompStub);
   });
@@ -74,7 +74,7 @@ describe('WebSocketClient', () => {
   describe('When using SockJs', () => {
     beforeEach(() => {
       client = webSocketClientFactory
-        .create(auth, stompStub as any as typeof Stomp, sockJsStub as any as typeof SockJs, sockConfig);
+        .create(auth, stompStub, sockJsStub, sockConfig);
       return client.connect();
     });
 
@@ -87,7 +87,7 @@ describe('WebSocketClient', () => {
   describe('When using WS', () => {
     beforeEach(() => {
       client = webSocketClientFactory
-        .create(auth, stompStub as any as typeof Stomp, sockJsStub as any as typeof SockJs, wssConfig);
+        .create(auth, stompStub, sockJsStub, wssConfig);
       return client.connect();
     });
 
@@ -99,7 +99,7 @@ describe('WebSocketClient', () => {
   describe('When not setting heartbeats', () => {
     beforeEach(() => {
       client = webSocketClientFactory
-        .create(auth, stompStub as any as typeof Stomp, sockJsStub as any as typeof SockJs, wsConfig);
+        .create(auth, stompStub, sockJsStub, wsConfig);
       return client.connect();
     });
 
@@ -116,7 +116,7 @@ describe('WebSocketClient', () => {
   describe('When setting heartbeats', () => {
     beforeEach(() => {
       client = webSocketClientFactory
-        .create(auth, stompStub as any as typeof Stomp, sockJsStub as any as typeof SockJs, {
+        .create(auth, stompStub, sockJsStub, {
           heartbeats: {
             incoming: 10000,
             outgoing: 0,
@@ -139,7 +139,7 @@ describe('WebSocketClient', () => {
   describe('When not debugging', () => {
     beforeEach(() => {
       client = webSocketClientFactory
-        .create(auth, stompStub as any as typeof Stomp, sockJsStub as any as typeof SockJs, wsConfig);
+        .create(auth, stompStub, sockJsStub, wsConfig);
       return client.connect();
     });
 
@@ -151,7 +151,7 @@ describe('WebSocketClient', () => {
   describe('When debugging', () => {
     beforeEach(() => {
       client = webSocketClientFactory
-        .create(auth, stompStub as any as typeof Stomp, sockJsStub as any as typeof SockJs, {
+        .create(auth, stompStub, sockJsStub, {
           debug: true, ...wsConfig,
         });
       return client.connect();
@@ -166,7 +166,7 @@ describe('WebSocketClient', () => {
     beforeEach(() => {
       clientStompStub.connect.callsArg(1);
       client = webSocketClientFactory
-        .create(auth, stompStub as any as typeof Stomp, sockJsStub as any as typeof SockJs, wsConfig);
+        .create(auth, stompStub, sockJsStub, wsConfig);
       return client.connect();
     });
 
@@ -182,7 +182,7 @@ describe('WebSocketClient', () => {
     beforeEach(() => {
       clientStompStub.connect.callsArg(2);
       return client = webSocketClientFactory
-        .create(auth, stompStub as any as typeof Stomp, sockJsStub as any as typeof SockJs, wsConfig);
+        .create(auth, stompStub, sockJsStub, wsConfig);
     });
 
     it('Should not throw', () => {
@@ -200,7 +200,7 @@ describe('WebSocketClient', () => {
     beforeEach(() => {
       clientStompStub.disconnect.callsArg(0);
       client = webSocketClientFactory
-        .create(auth, stompStub as any as typeof Stomp, sockJsStub as any as typeof SockJs, wsConfig);
+        .create(auth, stompStub, sockJsStub, wsConfig);
 
       return client.connect().then(() => client.disconnect());
     });
@@ -214,7 +214,7 @@ describe('WebSocketClient', () => {
     beforeEach(() => {
       clientStompStub.disconnect.throws(new Error('LOL'));
       client = webSocketClientFactory
-        .create(auth, stompStub as any as typeof Stomp, sockJsStub as any as typeof SockJs, wsConfig);
+        .create(auth, stompStub, sockJsStub, wsConfig);
       return client.connect();
     });
 
@@ -237,7 +237,7 @@ describe('WebSocketClient', () => {
         });
 
       client = webSocketClientFactory
-        .create(auth, stompStub as any as typeof Stomp, sockJsStub as any as typeof SockJs, wsConfig);
+        .create(auth, stompStub, sockJsStub, wsConfig);
 
       return client.connect()
         .then(() => subscription = client
@@ -279,7 +279,7 @@ describe('WebSocketClient', () => {
         .callsArgWith(2, 'ACK');
 
       client = webSocketClientFactory
-        .create(auth, stompStub as any as typeof Stomp, sockJsStub as any as typeof SockJs, wsConfig);
+        .create(auth, stompStub, sockJsStub, wsConfig);
 
       client.connect()
         .then(() => {
@@ -298,7 +298,7 @@ describe('WebSocketClient', () => {
         .callsArgWith(3, 'NACK');
 
       client = webSocketClientFactory
-        .create(auth, stompStub as any as typeof Stomp, sockJsStub as any as typeof SockJs, wsConfig);
+        .create(auth, stompStub, sockJsStub, wsConfig);
 
       client.connect()
         .then(() => {

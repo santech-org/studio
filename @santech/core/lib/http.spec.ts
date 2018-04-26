@@ -1,4 +1,4 @@
-import * as sinon from 'sinon';
+import sinon = require('sinon');
 import { Http } from '..';
 import { failure, internalServerError, success, unauthorized } from './testing/fetch';
 

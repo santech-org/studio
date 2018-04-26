@@ -1,4 +1,4 @@
-import * as sinon from 'sinon';
+import sinon = require('sinon');
 import { TokenStorage } from '..';
 
 export const token = 'clmqsdkjflsdkhfoqjidsgfvpçGH';
