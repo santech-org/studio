@@ -1,4 +1,7 @@
-# @santech/analytics-core
+@santech/analytics-core
+[![Dependency Status](https://david-dm.org/santech-org/studio/status.svg?path=%40santech%2Fanalytics-core)](https://david-dm.org/santech-org/studio?path=%40santech%2Fanalytics-core)
+[![devDependency Status](https://david-dm.org/santech-org/studio/dev-status.svg?path=%40santech%2Fanalytics-core)](https://david-dm.org/santech-org/studio?path=%40santech%2Fanalytics-core&type=dev)
+========
 
 @santech/analytics-core is a npm module that exports segment core bundle of the santech studio
 

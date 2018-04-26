@@ -1,4 +1,7 @@
-# @santech/core
+@santech/core
+[![Dependency Status](https://david-dm.org/santech-org/studio/status.svg?path=%40santech%2Fcore)](https://david-dm.org/santech-org/studio?path=%40santech%2Fcore)
+[![devDependency Status](https://david-dm.org/santech-org/studio/dev-status.svg?path=%40santech%2Fcore)](https://david-dm.org/santech-org/studio?path=%40santech%2Fcore&type=dev)
+========
 
 @santech/core is a npm module that exports core models of the santech studio
 

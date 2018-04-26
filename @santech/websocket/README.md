@@ -1,4 +1,7 @@
-# @santech/websocket
+@santech/websocket
+[![Dependency Status](https://david-dm.org/santech-org/studio/status.svg?path=%40santech%2Fwebsocket)](https://david-dm.org/santech-org/studio?path=%40santech%2Fwebsocket)
+[![devDependency Status](https://david-dm.org/santech-org/studio/dev-status.svg?path=%40santech%2Fwebsocket)](https://david-dm.org/santech-org/studio?path=%40santech%2Fwebsocket&type=dev)
+========
 
 @santech/websocket is a npm module that exports connector for the websocket studio
 

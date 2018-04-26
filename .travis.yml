@@ -4,11 +4,11 @@ sudo: false
 notifications:
   email: false
 node_js:
-- '9'
+  - '9'
 before_script:
-- yarn lint
+  - yarn lint
 after_success:
-  on: master - ./scripts/publish.sh
+  - test $TRAVIS_BRANCH = "master" && ./scripts/publish.sh
 env:
   global:
     secure: tEOJ51Seg/XFLQWVXpQNPBrliSu3IedrsEF8KCSfRjMNOmnROGksy6JdRqaEdc/LccGvcak/M9cy//SeYfZlVENVkRaueoC1xGwe47QS7XEcu+ASQNEzrpOtRGp4oM5LWTtV/O2tBsiyLBYyrCr46p4osmlwLr6gEMkMZHXgxmsaGsV/CPAcESyDoFYqAnDGWPpoAPTCrkHixMZTj4UfQEGF4nxNmeB1NlGfVd5USzlQfiC+PxOOMQz+AeWOJL4re/wBIxkuOngjjyv/vetaZny1WiafmP1y7CLX8mkGNaEezX7BWJhswtGeIiQiWZe5LFPhbSgCW6wjnVP2LTMOUVsCj9LWZRD5XhHHShkVw7BbBJaHaD8rMtADe4+txc51E6yHdhvBhrIR5tEpNxsB6iAwIu85ZCABYVIdAjFg5DGos0KqnJ3gFsXyBtr5x7nY0d9w1JxIgRx+vio6/0ge1Am3O9NT6RPp6v3nLutKmQFynKwmkY7VUmxyQNxNpONjtRqQsDXvbTSvDFSNeSmwwscTrVweir42Q2EOvO9VCEoszh9pniqi//1zs0ZKAsEj7A49bMQxAK/eNA8vdTTVmjQUlNJdh9KM8f1bZYvRLj0MFm/reiS+sZxnRq+XMtNM80LjTu0PE8eabq9x7mFSPRl/hXIifeLi7mrxWcRngu8=
