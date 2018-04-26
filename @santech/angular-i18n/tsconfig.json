@@ -14,7 +14,7 @@
   ],
   "typedocOptions": {
     "mode": "modules",
-    "out": "docs",
+    "out": "dist/docs",
     "theme": "default",
     "ignoreCompilerErrors": true,
     "excludePrivate": true,
