@@ -1,6 +1,6 @@
 import { async, TestBed } from '@angular/core/testing';
 import { CropperSettings } from 'ngx-img-cropper';
-import { SantechCropperModule } from '../index';
+import { SantechCropperModule } from '..';
 import { CROPPER_SETTINGS_FACTORY } from '../tokens/cropper-settings-factory';
 import { ImageService } from './image.service';
 

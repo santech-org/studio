@@ -3,15 +3,14 @@
   "compilerOptions": {
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "outDir": "./dist",
-    "types": [
-      "jest",
-      "node"
-    ]
+    "outDir": "./dist"
   },
   "files": [
     "./src/index.ts",
-    "./src/testing/index.ts"
+    "./testing/index.ts"
+  ],
+  "include": [
+    "./src/**/*.spec.ts",
   ],
   "typedocOptions": {
     "mode": "modules",
@@ -20,7 +19,7 @@
     "ignoreCompilerErrors": true,
     "excludePrivate": true,
     "excludeNotExported": true,
-    "target": "es2015",
+    "target": "es5",
     "moduleResolution": "node",
     "preserveConstEnums": true,
     "stripInternal": true,

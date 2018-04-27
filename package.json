@@ -26,6 +26,26 @@
   "resolutions": {
     "@segment/analytics.js-core/**/uuid": "3.2.1"
   },
+  "dependencies": {
+    "@angular/core": "^5.0.0",
+    "@angular/common": "^5.0.0",
+    "@angular/compiler": "^5.0.0",
+    "@ionic-native/camera": "^4.0.0",
+    "@ionic-native/core": "^4.0.0",
+    "@ionic-native/file": "^4.0.0",
+    "@ionic-native/keyboard": "^4.0.0",
+    "@ionic-native/network": "^4.0.0",
+    "@ionic-native/splash-screen": "^4.0.0",
+    "@ionic/storage": "^2.0.0",
+    "@ngx-translate/core": "^9.0.0",
+    "@stomp/stompjs": "^4.0.0",
+    "ionic-angular": "^3.0.0",
+    "ionic-cache": "^3.0.0",
+    "ngx-img-cropper": "^0.10.0",
+    "rxjs": "^5.0.0",
+    "sockjs-client": "^1.0.0",
+    "zone.js": "^0.8.0"
+  },
   "devDependencies": {
     "lerna": "^2.0.0"
   }

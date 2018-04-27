@@ -42,7 +42,6 @@
   },
   "devDependencies": {
     "@types/jest": "*",
-    "@types/node": "*",
     "@types/sinon": "*",
     "jest": "*",
     "rename-cli": "*",

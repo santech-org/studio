@@ -19,6 +19,8 @@
       true,
       "@angular/common/locales",
       "@angular/core/testing",
+      "@santech/angular-common/testing",
+      "@santech/angular-platform/testing",
       "@santech/common/testing",
       "@santech/core/testing",
       "@santech/websocket/testing",

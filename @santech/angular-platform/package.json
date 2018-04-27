@@ -32,6 +32,8 @@
     "@angular/core": "^5.0.0"
   },
   "devDependencies": {
+    "@types/jest": "*",
+    "@types/node": "*",
     "@angular/common": "*",
     "@angular/compiler": "*",
     "@angular/compiler-cli": "*",

@@ -8,12 +8,11 @@
   "types": "dist/index.d.ts",
   "typings": "dist/santech-angular-cropper.d.ts",
   "scripts": {
-    "build": "npm run clean && npm run fix-ng-packagr && ng-packagr -p ng-package.json && npm run docs",
+    "build": "npm run clean && ng-packagr -p ng-package.json && npm run docs",
     "clean": "rimraf dist coverage .ng-build",
     "docs": "typedoc src/index.ts",
-    "fix-ng-packagr": "cpx tsconfig.ngc.json \"./node_modules/ng-packagr/lib/ts/conf\"",
     "lint": "tslint \"**/*.ts\" \"**/*.js\"",
-    "test": "npm run clean && jest --coverage",
+    "test": "jest --coverage",
     "test-watch": "jest --watch"
   },
   "repository": {
@@ -31,8 +30,7 @@
   "peerDependencies": {
     "@angular/core": "^5.0.0",
     "@santech/core": "^7.0.0-alpha.0",
-    "ngx-img-cropper": "^0.10.0",
-    "ts-helpers": "^1.0.0"
+    "ngx-img-cropper": "^0.10.0"
   },
   "devDependencies": {
     "@angular/common": "*",

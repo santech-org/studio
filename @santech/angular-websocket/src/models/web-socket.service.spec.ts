@@ -4,7 +4,12 @@ import { PLATFORM_SET_TIMEOUT, SantechPlatformModule } from '@santech/angular-pl
 import { WebSocketClient } from '@santech/websocket';
 import { spyWebSocketClient, spyWebSocketUnsubscriber } from '@santech/websocket/testing';
 import '@stomp/stompjs';
-import { ISubscribedTopic, SantechWebSocketModule, SOCKJS_CLIENT, STOMPJS, WebSocketService, WS_TOPICS } from '..';
+import { SantechWebSocketModule } from '..';
+import { ISubscribedTopic } from '../interfaces/websocket';
+import { SOCKJS_CLIENT } from '../tokens/sockjs-clients.token';
+import { STOMPJS } from '../tokens/stompjs.token';
+import { WS_TOPICS } from '../tokens/ws-topics.token';
+import { WebSocketService } from './web-socket.service';
 
 const firstTopicSpy = jest.fn();
 const secondTopicSpy = jest.fn();

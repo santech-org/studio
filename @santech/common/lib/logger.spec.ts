@@ -1,7 +1,7 @@
 import { Http } from '@santech/core';
 import { success } from '@santech/core/testing';
 import sinon = require('sinon');
-import { Logger } from '../lib/logger';
+import { Logger } from './logger';
 import { ILogDto } from './models';
 
 const logEndPoint = 'url/to/logger/api/log';

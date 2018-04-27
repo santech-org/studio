@@ -3,13 +3,15 @@
   "compilerOptions": {
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "target": "es5",
     "outDir": "./dist",
     "allowJs": true
   },
   "files": [
     "./src/index.ts",
-    "./testing/index.ts"
+    "./testing/index.ts",
+  ],
+  "include": [
+    "./src/**/*.spec.ts",
   ],
   "typedocOptions": {
     "mode": "modules",
