@@ -1,0 +1,30 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "es5",
+    "outDir": "./dist",
+    "allowJs": true
+  },
+  "files": [
+    "./src/index.ts",
+    "./testing/index.ts"
+  ],
+  "typedocOptions": {
+    "mode": "modules",
+    "out": "dist/docs",
+    "exclude": "test",
+    "theme": "default",
+    "ignoreCompilerErrors": true,
+    "excludePrivate": true,
+    "excludeNotExported": false,
+    "target": "es5",
+    "moduleResolution": "node",
+    "preserveConstEnums": true,
+    "stripInternal": true,
+    "suppressExcessPropertyErrors": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "module": "commonjs"
+  }
+}

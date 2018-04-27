@@ -1,0 +1,87 @@
+{
+  "name": "@santech/angular-cropper",
+  "version": "7.0.0-alpha.1",
+  "description": "Angular cropper module for santech studio",
+  "main": "dist/bundles/santech-angular-cropper.umd.js",
+  "module": "dist/esm5/santech-angular-cropper.js",
+  "es2015": "dist/esm2015/santech-angular-cropper.js",
+  "types": "dist/index.d.ts",
+  "typings": "dist/santech-angular-cropper.d.ts",
+  "scripts": {
+    "build": "npm run clean && npm run fix-ng-packagr && ng-packagr -p ng-package.json && npm run docs",
+    "clean": "rimraf dist coverage .ng-build",
+    "docs": "typedoc src/index.ts",
+    "fix-ng-packagr": "cpx tsconfig.ngc.json \"./node_modules/ng-packagr/lib/ts/conf\"",
+    "lint": "tslint \"**/*.ts\" \"**/*.js\"",
+    "test": "npm run clean && jest --coverage",
+    "test-watch": "jest --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/santech-org/studio"
+  },
+  "keywords": [
+    "santech",
+    "studio",
+    "angular",
+    "cropper"
+  ],
+  "license": "MIT",
+  "author": "Endika Esteban <eesteban@santech.fr>",
+  "peerDependencies": {
+    "@angular/core": "^5.0.0",
+    "@santech/core": "^7.0.0-alpha.0",
+    "ngx-img-cropper": "^0.10.0",
+    "ts-helpers": "^1.0.0"
+  },
+  "devDependencies": {
+    "@angular/common": "*",
+    "@angular/compiler": "*",
+    "@angular/compiler-cli": "*",
+    "@angular/core": "*",
+    "@angular/platform-browser": "*",
+    "@angular/platform-browser-dynamic": "*",
+    "@santech/core": "^7.0.0-alpha.0",
+    "@types/jest": "*",
+    "cpx": "*",
+    "jest": "*",
+    "jest-localstorage-mock": "*",
+    "jest-preset-angular": "*",
+    "ng-packagr": "*",
+    "ngx-img-cropper": "*",
+    "rimraf": "*",
+    "rxjs": "^5.0.0",
+    "ts-helpers": "*",
+    "tslint": "*",
+    "typedoc": "*",
+    "typescript": "*",
+    "whatwg-fetch": "*",
+    "zone.js": "*"
+  },
+  "jest": {
+    "globals": {
+      "ts-jest": {
+        "tsConfigFile": "tsconfig.json"
+      }
+    },
+    "transform": {
+      "^.+\\.(ts|js|html)$": "<rootDir>../../node_modules/jest-preset-angular/preprocessor.js"
+    },
+    "preset": "jest-preset-angular",
+    "roots": [
+      "<rootDir>/src/"
+    ],
+    "setupFiles": [
+      "whatwg-fetch",
+      "jest-localstorage-mock"
+    ],
+    "setupTestFrameworkScriptFile": "<rootDir>/setup-jest.ts",
+    "transformIgnorePatterns": [
+      "node_modules/(?!ngx-img-cropper)"
+    ],
+    "snapshotSerializers": [
+      "<rootDir>../../node_modules/jest-preset-angular/AngularSnapshotSerializer.js",
+      "<rootDir>../../node_modules/jest-preset-angular/HTMLCommentSerializer.js"
+    ]
+  }
+}
