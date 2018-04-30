@@ -1,0 +1,22 @@
+{
+  "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
+  "dest": "dist",
+  "workingDirectory": ".ng_build",
+  "lib": {
+    "entryFile": "src/index.ts",
+    "umdId": "Santech.AngularIonic",
+    "umdModuleIds": {
+      "@santech/angular-cropper": "Santech.AngularCropper",
+      "@ionic-native/camera": "",
+      "@ionic-native/core": "",
+      "@ionic-native/file": "",
+      "@ionic-native/keyboard": "",
+      "@ionic-native/network": "",
+      "@ionic-native/splash-screen": "",
+      "@santech/angular-common": "Dantech.AngularComon",
+      "@santech/angular-platform": "Dantech.AngularPlatform",
+      "ionic-angular": "ionicBundle",
+      "rxjs/Subscription": "Rx.Subscription"
+    }
+  }
+}

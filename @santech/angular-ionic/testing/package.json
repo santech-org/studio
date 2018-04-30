@@ -1,0 +1,26 @@
+{
+  "ngPackage": {
+    "lib": {
+      "entryFile": "index.ts",
+      "umdId": "Santech.AngularIonic.Testing",
+      "umdModuleIds": {
+        "@santech/angular-ionic": "Santech.AngularIonic",
+        "@ionic-native/camera": "",
+        "@ionic-native/keyboard": "",
+        "@ionic-native/network": "",
+        "@ionic-native/splash-screen": "",
+        "@santech/core/testing": "Santech.Core.Testing",
+        "ionic-angular": "ionicBundle"
+      }
+    }
+  },
+  "peerDependencies": {
+    "@santech/angular-ionic": "*",
+    "@ionic-native/camera": "*",
+    "@ionic-native/keyboard": "*",
+    "@ionic-native/network": "*",
+    "@ionic-native/splash-screen": "*",
+    "@santech/core": "*",
+    "ionic-angular": "*"
+  }
+}
