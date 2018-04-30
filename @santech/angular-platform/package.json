@@ -56,11 +56,6 @@
     "zone.js": "*"
   },
   "jest": {
-    "globals": {
-      "ts-jest": {
-        "tsConfigFile": "src/tsconfig.json"
-      }
-    },
     "transform": {
       "^.+\\.(ts|js|html)$": "<rootDir>../../node_modules/jest-preset-angular/preprocessor.js"
     },

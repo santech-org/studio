@@ -83,11 +83,6 @@
     "zone.js": "*"
   },
   "jest": {
-    "globals": {
-      "ts-jest": {
-        "tsConfigFile": "tsconfig.json"
-      }
-    },
     "transform": {
       "^.+\\.(ts|js|html)$": "<rootDir>../../node_modules/jest-preset-angular/preprocessor.js"
     },
@@ -102,7 +97,7 @@
     ],
     "setupTestFrameworkScriptFile": "<rootDir>/setup-jest.ts",
     "transformIgnorePatterns": [
-      "node_modules/(?!@ionic|ngx-img-cropper|ionic-cache)"
+      "node_modules/(?!@ionic|ngx-img-cropper|ionic)"
     ],
     "snapshotSerializers": [
       "<rootDir>../../node_modules/jest-preset-angular/AngularSnapshotSerializer.js",

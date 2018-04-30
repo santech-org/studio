@@ -4,7 +4,8 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "skipLibCheck": true,
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "allowJs": true,
   },
   "files": [
     "./src/index.ts",
