@@ -1,6 +1,6 @@
 {
   "name": "@santech/angular-platform",
-  "version": "7.0.0-alpha.1",
+  "version": "7.0.0-alpha.0",
   "description": "santech angular platform module",
   "main": "dist/bundles/santech-angular-platform.umd.js",
   "module": "dist/esm5/santech-angular-platform.js",
@@ -38,13 +38,16 @@
     "@angular/core": "*",
     "@angular/platform-browser": "*",
     "@angular/platform-browser-dynamic": "*",
-    "@santech/core": "^7.0.0-alpha.1",
+    "@santech/core": "^7.0.0-alpha.0",
+    "@types/jest": "*",
+    "@types/node": "*",
     "jest": "*",
     "jest-localstorage-mock": "*",
     "jest-preset-angular": "*",
     "ng-packagr": "*",
     "rimraf": "*",
     "rxjs": "^5.0.0",
+    "ts-helpers": "*",
     "tsickle": "*",
     "tslib": "*",
     "typedoc": "*",
@@ -53,11 +56,6 @@
     "zone.js": "*"
   },
   "jest": {
-    "globals": {
-      "ts-jest": {
-        "tsConfigFile": "src/tsconfig.json"
-      }
-    },
     "transform": {
       "^.+\\.(ts|js|html)$": "<rootDir>../../node_modules/jest-preset-angular/preprocessor.js"
     },
@@ -66,6 +64,7 @@
       "<rootDir>/src/"
     ],
     "setupFiles": [
+      "ts-helpers",
       "whatwg-fetch",
       "jest-localstorage-mock"
     ],

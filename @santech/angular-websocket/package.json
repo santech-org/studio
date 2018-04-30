@@ -1,6 +1,6 @@
 {
   "name": "@santech/angular-websocket",
-  "version": "7.0.0-alpha.1",
+  "version": "7.0.0-alpha.0",
   "description": "santech angular websocket module",
   "main": "dist/bundles/santech-angular-websocket.umd.js",
   "module": "dist/esm5/santech-angular-websocket.js",
@@ -45,11 +45,11 @@
     "@angular/core": "*",
     "@angular/platform-browser": "*",
     "@angular/platform-browser-dynamic": "*",
-    "@santech/angular-common": "^7.0.0-alpha.1",
-    "@santech/angular-platform": "^7.0.0-alpha.1",
-    "@santech/common": "^7.0.0-alpha.1",
-    "@santech/core": "^7.0.0-alpha.1",
-    "@santech/websocket": "^7.0.0-alpha.1",
+    "@santech/angular-common": "^7.0.0-alpha.0",
+    "@santech/angular-platform": "^7.0.0-alpha.0",
+    "@santech/common": "^7.0.0-alpha.0",
+    "@santech/core": "^7.0.0-alpha.0",
+    "@santech/websocket": "^7.0.0-alpha.0",
     "@stomp/stompjs": "*",
     "@types/sockjs-client": "*",
     "jest": "*",
@@ -59,6 +59,7 @@
     "rimraf": "*",
     "rxjs": "^5.0.0",
     "sockjs-client": "*",
+    "ts-helpers": "*",
     "tsickle": "*",
     "tslib": "*",
     "typedoc": "*",
@@ -67,11 +68,6 @@
     "zone.js": "*"
   },
   "jest": {
-    "globals": {
-      "ts-jest": {
-        "tsConfigFile": "src/tsconfig.json"
-      }
-    },
     "transform": {
       "^.+\\.(ts|js|html)$": "<rootDir>../../node_modules/jest-preset-angular/preprocessor.js"
     },
@@ -80,6 +76,7 @@
       "<rootDir>/src/"
     ],
     "setupFiles": [
+      "ts-helpers",
       "whatwg-fetch",
       "jest-localstorage-mock"
     ],

@@ -3,7 +3,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { SantechPlatformModule } from '@santech/angular-platform';
 import { Http, THttpRequestInterceptor } from '@santech/core';
 import { spyHttp } from '@santech/core/testing';
-import { APP_INFORMATION, SantechCommonModule } from '..';
+import { SantechCommonModule } from '..';
+import { APP_INFORMATION } from '../tokens/app-information.token';
 
 @Component({
   selector: 'test-add-header-version',

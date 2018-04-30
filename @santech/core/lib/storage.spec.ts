@@ -1,5 +1,5 @@
 import sinon = require('sinon');
-import { TokenStorage } from '..';
+import { TokenStorage } from './storage';
 
 export const token = 'clmqsdkjflsdkhfoqjidsgfvpçGH';
 

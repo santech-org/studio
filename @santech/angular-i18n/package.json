@@ -1,6 +1,6 @@
 {
   "name": "@santech/angular-i18n",
-  "version": "7.0.0-alpha.1",
+  "version": "7.0.0-alpha.0",
   "description": "santech angular i18n module",
   "main": "dist/bundles/santech-angular-i18n.umd.js",
   "module": "dist/esm5/santech-angular-i18n.js",
@@ -42,13 +42,14 @@
     "@angular/platform-browser": "*",
     "@angular/platform-browser-dynamic": "*",
     "@ngx-translate/core": "^9.0.0",
-    "@santech/angular-platform": "^7.0.0-alpha.1",
+    "@santech/angular-platform": "^7.0.0-alpha.0",
     "jest": "*",
     "jest-localstorage-mock": "*",
     "jest-preset-angular": "*",
     "ng-packagr": "*",
     "rimraf": "*",
     "rxjs": "^5.0.0",
+    "ts-helpers": "*",
     "tsickle": "*",
     "tslib": "*",
     "typedoc": "*",
@@ -57,11 +58,6 @@
     "zone.js": "*"
   },
   "jest": {
-    "globals": {
-      "ts-jest": {
-        "tsConfigFile": "src/tsconfig.json"
-      }
-    },
     "transform": {
       "^.+\\.(ts|js|html)$": "<rootDir>../../node_modules/jest-preset-angular/preprocessor.js"
     },
@@ -70,11 +66,13 @@
       "<rootDir>/src/"
     ],
     "setupFiles": [
+      "ts-helpers",
+      "whatwg-fetch",
       "jest-localstorage-mock"
     ],
     "setupTestFrameworkScriptFile": "<rootDir>/setup-jest.ts",
     "transformIgnorePatterns": [
-      "node_modules/(?!@angular/common/locales)"
+      "node_modules/(?!@angular/common)"
     ],
     "snapshotSerializers": [
       "<rootDir>../../node_modules/jest-preset-angular/AngularSnapshotSerializer.js",

@@ -1,7 +1,7 @@
 import { Http, Jwt, THttpRequestInterceptor, TokenStorage } from '@santech/core';
 import { conflict, failure, internalServerError, success, unauthorized } from '@santech/core/testing';
 import sinon = require('sinon');
-import { Authenticator } from '..';
+import { Authenticator } from './authenticator';
 
 // No typings for fetch-headers...
 // tslint:disable-next-line:no-var-requires

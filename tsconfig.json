@@ -13,8 +13,7 @@
       "./node_modules/@types"
     ],
     "types": [
-      "jest",
-      "node"
+      "jest"
     ],
     "lib": [
       "dom",

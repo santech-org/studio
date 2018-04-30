@@ -1,6 +1,6 @@
 {
   "name": "@santech/angular-common",
-  "version": "7.0.0-alpha.1",
+  "version": "7.0.0-alpha.0",
   "description": "santech angular common module",
   "main": "dist/bundles/santech-angular-common.umd.js",
   "module": "dist/esm5/santech-angular-common.js",
@@ -41,15 +41,16 @@
     "@angular/platform-browser": "*",
     "@angular/platform-browser-dynamic": "*",
     "@angular/router": "*",
-    "@santech/angular-platform": "^7.0.0-alpha.1",
-    "@santech/common": "^7.0.0-alpha.1",
-    "@santech/core": "^7.0.0-alpha.1",
+    "@santech/angular-platform": "^7.0.0-alpha.0",
+    "@santech/common": "^7.0.0-alpha.0",
+    "@santech/core": "^7.0.0-alpha.0",
     "jest": "*",
     "jest-localstorage-mock": "*",
     "jest-preset-angular": "*",
     "ng-packagr": "*",
     "rimraf": "*",
     "rxjs": "^5.0.0",
+    "ts-helpers": "*",
     "tsickle": "*",
     "tslib": "*",
     "typedoc": "*",
@@ -58,11 +59,6 @@
     "zone.js": "*"
   },
   "jest": {
-    "globals": {
-      "ts-jest": {
-        "tsConfigFile": "src/tsconfig.json"
-      }
-    },
     "transform": {
       "^.+\\.(ts|js|html)$": "<rootDir>../../node_modules/jest-preset-angular/preprocessor.js"
     },
@@ -71,6 +67,7 @@
       "<rootDir>/src/"
     ],
     "setupFiles": [
+      "ts-helpers",
       "whatwg-fetch",
       "jest-localstorage-mock"
     ],
