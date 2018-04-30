@@ -70,6 +70,7 @@
       "<rootDir>/src/"
     ],
     "setupFiles": [
+      "ts-helpers",
       "whatwg-fetch",
       "jest-localstorage-mock"
     ],
