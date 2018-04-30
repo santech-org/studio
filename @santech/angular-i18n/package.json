@@ -1,6 +1,6 @@
 {
   "name": "@santech/angular-i18n",
-  "version": "7.0.0-alpha.0",
+  "version": "7.0.0-alpha.1",
   "description": "santech angular i18n module",
   "main": "dist/bundles/santech-angular-i18n.umd.js",
   "module": "dist/esm5/santech-angular-i18n.js",
@@ -42,7 +42,7 @@
     "@angular/platform-browser": "*",
     "@angular/platform-browser-dynamic": "*",
     "@ngx-translate/core": "^9.0.0",
-    "@santech/angular-platform": "^7.0.0-alpha.0",
+    "@santech/angular-platform": "^7.0.0-alpha.1",
     "jest": "*",
     "jest-localstorage-mock": "*",
     "jest-preset-angular": "*",
