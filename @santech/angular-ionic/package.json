@@ -1,0 +1,107 @@
+{
+  "name": "@santech/angular-ionic",
+  "version": "7.0.0-alpha.0",
+  "description": "Ionic module for santech studio",
+  "main": "dist/bundles/santech-angular-ionic.umd.js",
+  "module": "dist/esm5/santech-angular-ionic.js",
+  "es2015": "dist/esm2015/santech-angular-ionic.js",
+  "types": "dist/index.d.ts",
+  "typings": "dist/santech-angular-ionic.d.ts",
+  "scripts": {
+    "build": "npm run clean && ng-packagr -p ng-package.json && npm run docs",
+    "clean": "rimraf dist coverage .ng-build",
+    "docs": "typedoc src/index.ts",
+    "lint": "tslint \"**/*.ts\" \"**/*.js\"",
+    "test": "npm run clean && jest --coverage",
+    "test-watch": "jest --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/santech-org/studio"
+  },
+  "keywords": [
+    "santech",
+    "studio",
+    "angular",
+    "ionic"
+  ],
+  "license": "MIT",
+  "author": "Paul Souche <psouche@santech.fr>",
+  "peerDependencies": {
+    "@angular/core": "^5.0.0",
+    "@ionic-native/camera": "^4.0.0",
+    "@ionic-native/core": "^4.0.0",
+    "@ionic-native/file": "^4.0.0",
+    "@ionic-native/keyboard": "^4.0.0",
+    "@ionic-native/network": "^4.0.0",
+    "@ionic-native/splash-screen": "^4.0.0",
+    "@ionic/storage": "^2.0.0",
+    "@santech/angular-common": "^7.0.0-alpha.0",
+    "@santech/angular-cropper": "^7.0.0-alpha.0",
+    "@santech/angular-platform": "^7.0.0-alpha.0",
+    "@santech/core": "^7.0.0-alpha.0",
+    "ionic-angular": "^3.0.0",
+    "ionic-cache": "^3.0.0",
+    "rxjs": "^5.0.0"
+  },
+  "devDependencies": {
+    "@angular/common": "*",
+    "@angular/compiler": "*",
+    "@angular/compiler-cli": "*",
+    "@angular/core": "*",
+    "@angular/forms": "*",
+    "@angular/platform-browser": "*",
+    "@angular/platform-browser-dynamic": "*",
+    "@ionic-native/camera": "*",
+    "@ionic-native/core": "*",
+    "@ionic-native/file": "*",
+    "@ionic-native/keyboard": "*",
+    "@ionic-native/network": "*",
+    "@ionic-native/splash-screen": "*",
+    "@ionic/storage": "*",
+    "@santech/angular-common": "^7.0.0-alpha.0",
+    "@santech/angular-cropper": "^7.0.0-alpha.0",
+    "@santech/angular-platform": "^7.0.0-alpha.0",
+    "@santech/common": "^7.0.0-alpha.0",
+    "@santech/core": "^7.0.0-alpha.0",
+    "@types/jest": "*",
+    "cpx": "*",
+    "ionic-angular": "*",
+    "ionic-cache": "*",
+    "jest": "*",
+    "jest-localstorage-mock": "*",
+    "jest-preset-angular": "*",
+    "ng-packagr": "*",
+    "ngx-img-cropper": "*",
+    "rimraf": "*",
+    "rxjs": "^5.0.0",
+    "ts-helpers": "*",
+    "tslint": "*",
+    "typedoc": "*",
+    "typescript": "*",
+    "whatwg-fetch": "*",
+    "zone.js": "*"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.(ts|js|html)$": "<rootDir>../../node_modules/jest-preset-angular/preprocessor.js"
+    },
+    "preset": "jest-preset-angular",
+    "roots": [
+      "<rootDir>/src/"
+    ],
+    "setupFiles": [
+      "ts-helpers",
+      "whatwg-fetch",
+      "jest-localstorage-mock"
+    ],
+    "setupTestFrameworkScriptFile": "<rootDir>/setup-jest.ts",
+    "transformIgnorePatterns": [
+      "node_modules/(?!@ionic|ngx-img-cropper|ionic)"
+    ],
+    "snapshotSerializers": [
+      "<rootDir>../../node_modules/jest-preset-angular/AngularSnapshotSerializer.js",
+      "<rootDir>../../node_modules/jest-preset-angular/HTMLCommentSerializer.js"
+    ]
+  }
+}
