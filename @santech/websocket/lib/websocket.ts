@@ -1,6 +1,6 @@
 import { Authenticator } from '@santech/common';
-import StompJs = require('@stomp/stompjs');
-import SockJs = require('sockjs-client');
+import * as StompJs from '@stomp/stompjs';
+import * as SockJs from 'sockjs-client';
 
 const webSocketReg = /^ws(s?):\/\//;
 

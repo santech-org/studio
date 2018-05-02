@@ -34,7 +34,7 @@ export class Authenticator implements IAuthenticator {
 
   private static _logoutHooks: Array<() => void> = [];
 
-  private _tokenRenewer: NodeJS.Timer | void | number | undefined;
+  private _tokenRenewer: void | number | undefined;
   private _token: string | undefined;
   private _http: IHttp;
   private _jwt: IJwt;
@@ -250,7 +250,7 @@ export class Authenticator implements IAuthenticator {
 
   private _clearTokenRenewer() {
     if (this._tokenRenewer) {
-      this._tokenRenewer = clearTimeout(this._tokenRenewer as NodeJS.Timer);
+      this._tokenRenewer = clearTimeout(this._tokenRenewer);
     }
   }
 

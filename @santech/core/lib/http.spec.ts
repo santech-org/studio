@@ -1,5 +1,5 @@
 import sinon = require('sinon');
-import { Http } from '..';
+import { Http } from './http';
 import { failure, internalServerError, success, unauthorized } from './testing/fetch';
 
 const fetchStub = sinon.stub() as typeof fetch & sinon.SinonStub;

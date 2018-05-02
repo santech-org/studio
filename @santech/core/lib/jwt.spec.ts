@@ -1,4 +1,4 @@
-import { Jwt } from '..';
+import { Jwt } from './jwt';
 
 const atob = (str: string) => new Buffer(str, 'base64').toString();
 const btoa = (str: string) => new Buffer(str).toString('base64');

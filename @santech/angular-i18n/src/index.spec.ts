@@ -1,7 +1,10 @@
 import { async, inject, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { PLATFORM_NAVIGATOR, SantechPlatformModule } from '@santech/angular-platform';
-import { ILocaleStore, LOCALES, LocalesService, SantechI18nModule } from './';
+import { SantechI18nModule } from './';
+import { ILocaleStore } from './interfaces/locales';
+import { LocalesService } from './models/locales.service';
+import { LOCALES } from './tokens/locales.token';
 
 const locales: ILocaleStore = {
   en: {

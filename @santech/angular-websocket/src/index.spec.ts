@@ -4,7 +4,10 @@ import { PLATFORM_GLOBAL_CONTEXT, SantechPlatformModule } from '@santech/angular
 import { WebSocketClient } from '@santech/websocket';
 import '@stomp/stompjs';
 import sockjs = require('sockjs-client');
-import { SantechWebSocketModule, SOCKJS_CLIENT, STOMPJS, stompjsFactory } from './';
+import { SantechWebSocketModule } from '.';
+import { stompjsFactory } from './models/stompjs.factory';
+import { SOCKJS_CLIENT } from './tokens/sockjs-clients.token';
+import { STOMPJS } from './tokens/stompjs.token';
 
 const endPoint = 'http://host:port';
 const wsEndPoint = 'ws://host:port';

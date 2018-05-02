@@ -1,6 +1,6 @@
 import { analytics } from '@santech/analytics-core';
 import { spyHttp } from '@santech/core/testing';
-import { SantechIntegration } from '..';
+import { SantechIntegration } from './integration';
 
 const publicEndPoint = '/publicapi';
 

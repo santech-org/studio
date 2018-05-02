@@ -3,5 +3,5 @@ coverage
 dist
 docs
 .rpt2_cache
-.ng-build
+.ng_build
 *.tgz

@@ -39,7 +39,6 @@
   "license": "MIT",
   "devDependencies": {
     "@types/jest": "*",
-    "@types/node": "*",
     "@types/sinon": "*",
     "fetch-headers": "*",
     "jest": "*",

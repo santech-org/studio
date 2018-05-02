@@ -59,6 +59,7 @@
     "rimraf": "*",
     "rxjs": "^5.0.0",
     "sockjs-client": "*",
+    "ts-helpers": "*",
     "tsickle": "*",
     "tslib": "*",
     "typedoc": "*",
@@ -67,11 +68,6 @@
     "zone.js": "*"
   },
   "jest": {
-    "globals": {
-      "ts-jest": {
-        "tsConfigFile": "src/tsconfig.json"
-      }
-    },
     "transform": {
       "^.+\\.(ts|js|html)$": "<rootDir>../../node_modules/jest-preset-angular/preprocessor.js"
     },
@@ -80,6 +76,7 @@
       "<rootDir>/src/"
     ],
     "setupFiles": [
+      "ts-helpers",
       "whatwg-fetch",
       "jest-localstorage-mock"
     ],

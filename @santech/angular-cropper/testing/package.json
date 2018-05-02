@@ -1,0 +1,18 @@
+{
+  "ngPackage": {
+    "lib": {
+      "entryFile": "index.ts",
+      "umdId": "Santech.AngularCropper.Testing",
+      "umdModuleIds": {
+        "@santech/angular-cropper": "Santech.AngularCropper",
+        "@santech/core/testing": "Santech.Core.Testing",
+        "ngx-img-cropper": ""
+      }
+    }
+  },
+  "peerDependencies": {
+    "@santech/angular-cropper": "*",
+    "@santech/core": "*",
+    "ngx-img-cropper": "*"
+  }
+}

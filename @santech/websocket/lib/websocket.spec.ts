@@ -2,7 +2,7 @@ import { Authenticator } from '@santech/common';
 import StompJs = require('@stomp/stompjs');
 import sinon = require('sinon');
 import SockJs = require('sockjs-client');
-import { WebSocketClient, webSocketClientFactory } from '..';
+import { WebSocketClient, webSocketClientFactory } from './websocket';
 
 const sockConnection = 'http://host:9090';
 const wsConnection = 'ws://host:9090';

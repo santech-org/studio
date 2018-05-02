@@ -7,7 +7,7 @@ import { LocalesStore } from './locales.store';
 export class LocalesService {
   private _store: LocalesStore;
   private _locales: ILocaleStore;
-  private _labels: { [key: string]: string };
+  private _labels: { [key: string]: string } | undefined;
 
   constructor(store: LocalesStore, @Inject(LOCALES) locales: ILocaleStore) {
     this._store = store;
@@ -24,6 +24,9 @@ export class LocalesService {
   }
 
   public getLabel(key: string) {
-    return this._labels[key] || '';
+    const labels = this._labels;
+    return labels
+      ? labels[key] || ''
+      : '';
   }
 }

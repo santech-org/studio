@@ -2,7 +2,11 @@ import { inject, TestBed } from '@angular/core/testing';
 import { SantechPlatformModule } from '@santech/angular-platform';
 import { Authenticator, IAuthenticatorEndPoints } from '@santech/common';
 import { Http, Jwt, TokenStorage } from '@santech/core';
-import { APP_INFORMATION, CONFIG_END_POINTS, END_POINTS, IAppInformation, SantechCommonModule } from './';
+import { SantechCommonModule } from './';
+import { IAppInformation } from './interfaces/app-information';
+import { APP_INFORMATION } from './tokens/app-information.token';
+import { CONFIG_END_POINTS } from './tokens/config-end-points.token';
+import { END_POINTS } from './tokens/end-points.token';
 
 const endPoint = 'http://host:port';
 const wsEndPoint = 'ws://host:port';

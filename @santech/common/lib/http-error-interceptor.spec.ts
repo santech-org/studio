@@ -1,7 +1,7 @@
 import { Http } from '@santech/core';
 import { failure, internalServerError } from '@santech/core/testing';
 import sinon = require('sinon');
-import { HttpErrorInterceptor } from '..';
+import { HttpErrorInterceptor } from './http-error-interceptor';
 
 const fetchStub = sinon.stub() as typeof fetch & sinon.SinonStub;
 

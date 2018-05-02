@@ -41,7 +41,6 @@
   },
   "devDependencies": {
     "@types/jest": "*",
-    "@types/node": "*",
     "jest": "*",
     "rename-cli": "*",
     "rimraf": "*",
