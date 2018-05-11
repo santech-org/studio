@@ -1,6 +1,6 @@
 {
   "name": "studio",
-  "version": "7.0.0-alpha.1",
+  "version": "7.0.0-alpha.2",
   "private": true,
   "description": "Modules for santech clients",
   "keywords": [
@@ -24,7 +24,8 @@
   },
   "license": "MIT",
   "resolutions": {
-    "@segment/analytics.js-core/**/uuid": "3.2.1"
+    "@segment/analytics.js-core/**/uuid": "3.2.1",
+    "lolex": "2.3.2"
   },
   "dependencies": {
     "@angular/core": "^5.0.0",

@@ -1,6 +1,6 @@
 {
   "name": "@santech/common",
-  "version": "7.0.0-alpha.1",
+  "version": "7.0.0-alpha.2",
   "description": "Common module for santech studio",
   "main": "dist/umd/index.js",
   "module": "dist/index.js",
@@ -36,7 +36,7 @@
   "author": "Paul Souche <psouche@santech.fr>",
   "license": "MIT",
   "dependencies": {
-    "@santech/core": "^7.0.0-alpha.1"
+    "@santech/core": "^7.0.0-alpha.2"
   },
   "devDependencies": {
     "@types/jest": "*",

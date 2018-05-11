@@ -1,6 +1,6 @@
 {
   "name": "@santech/angular-cropper",
-  "version": "7.0.0-alpha.1",
+  "version": "7.0.0-alpha.2",
   "description": "Angular cropper module for santech studio",
   "main": "dist/bundles/santech-angular-cropper.umd.js",
   "module": "dist/esm5/santech-angular-cropper.js",
@@ -33,13 +33,13 @@
     "ngx-img-cropper": "^0.10.0"
   },
   "devDependencies": {
-    "@angular/common": "*",
-    "@angular/compiler": "*",
-    "@angular/compiler-cli": "*",
-    "@angular/core": "*",
-    "@angular/platform-browser": "*",
-    "@angular/platform-browser-dynamic": "*",
-    "@santech/core": "^7.0.0-alpha.1",
+    "@angular/common": "^5.0.0",
+    "@angular/compiler": "^5.0.0",
+    "@angular/compiler-cli": "^5.0.0",
+    "@angular/core": "^5.0.0",
+    "@angular/platform-browser": "^5.0.0",
+    "@angular/platform-browser-dynamic": "^5.0.0",
+    "@santech/core": "^7.0.0-alpha.2",
     "@types/jest": "*",
     "cpx": "*",
     "jest": "*",
