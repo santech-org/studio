@@ -1,6 +1,6 @@
 {
   "name": "@santech/analytics-core",
-  "version": "7.0.0-alpha.2",
+  "version": "7.0.0-alpha.3",
   "description": "santech analytics core bundle",
   "main": "dist/umd/index.js",
   "types": "dist/index.d.ts",
@@ -30,8 +30,8 @@
   "author": "Paul Souche",
   "license": "MIT",
   "dependencies": {
-    "@types/segment-analytics": "*",
-    "@santech/core": "^7.0.0-alpha.2"
+    "@santech/core": "^7.0.0-alpha.3",
+    "@types/segment-analytics": "*"
   },
   "devDependencies": {
     "@segment/analytics.js-core": "*",
