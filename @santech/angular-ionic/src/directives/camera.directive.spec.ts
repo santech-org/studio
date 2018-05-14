@@ -9,6 +9,9 @@ import {
   PictureSourceType,
 } from '@ionic-native/camera';
 import { File } from '@ionic-native/file';
+import { SantechAnalyticsModule } from '@santech/angular-analytics';
+import { SantechCommonModule } from '@santech/angular-common';
+import { SantechPlatformModule } from '@santech/angular-platform';
 import { Platform } from 'ionic-angular';
 import { CameraDirective, cordovaPlatform, ICameraOptions, SantechIonicModule } from '..';
 import { spyCamera, spyPlatform } from '../../testing/ionic';
@@ -70,7 +73,12 @@ describe('Camera directive', () => {
         declarations: [
           CameraTestComponent,
         ],
-        imports: [SantechIonicModule],
+        imports: [
+          SantechIonicModule.forRoot(),
+          SantechAnalyticsModule.forRoot(),
+          SantechCommonModule.forRoot(),
+          SantechPlatformModule.forRoot(),
+        ],
         providers: [
           { provide: Platform, useValue: spyPlatform },
           { provide: Camera, useValue: spyCamera },

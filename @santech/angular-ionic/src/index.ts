@@ -1,11 +1,13 @@
 import { ModuleWithProviders, NgModule, Provider } from '@angular/core';
 import { Camera } from '@ionic-native/camera';
 import { File } from '@ionic-native/file';
+import { SantechAnalyticsModule } from '@santech/angular-analytics';
 import { SantechCommonModule } from '@santech/angular-common';
 import { SantechCropperModule } from '@santech/angular-cropper';
 import { SantechPlatformModule } from '@santech/angular-platform';
 import { IonicModule } from 'ionic-angular';
 import { CacheModule } from 'ionic-cache';
+import { AppAnalyticsDirective } from './directives/app-analytics.directive';
 import { BackButtonConfirmDirective } from './directives/back-button-confirm.directive';
 import { CameraDirective } from './directives/camera.directive';
 import { DemoTogglerDirective } from './directives/demo-toggler.directive';
@@ -47,6 +49,7 @@ export interface ISantechIonicProviders {
 
 @NgModule({
   declarations: [
+    AppAnalyticsDirective,
     BackButtonConfirmDirective,
     CameraDirective,
     DemoTogglerDirective,
@@ -57,6 +60,7 @@ export interface ISantechIonicProviders {
   ],
   exports: [
     IonicModule,
+    AppAnalyticsDirective,
     BackButtonConfirmDirective,
     CameraDirective,
     DemoTogglerDirective,
@@ -66,6 +70,7 @@ export interface ISantechIonicProviders {
     NoNetworkDirective,
   ],
   imports: [
+    SantechAnalyticsModule.forChild(),
     SantechCommonModule.forChild(),
     SantechCropperModule.forChild(),
     SantechPlatformModule.forChild(),

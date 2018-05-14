@@ -1,6 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
 import { async, ComponentFixture, TestBed  } from '@angular/core/testing';
 import { Network } from '@ionic-native/network';
+import { SantechAnalyticsModule } from '@santech/angular-analytics';
+import { SantechCommonModule } from '@santech/angular-common';
 import { SantechPlatformModule } from '@santech/angular-platform';
 import { Subject } from 'rxjs/Subject';
 import { NETWORK_CONNECTION_DELAY, NoNetworkDirective, SantechIonicModule } from '..';
@@ -33,8 +35,10 @@ describe('No network directive', () => {
           NoNetworkTestComponent,
         ],
         imports: [
+          SantechIonicModule.forRoot(),
+          SantechAnalyticsModule.forRoot(),
+          SantechCommonModule.forRoot(),
           SantechPlatformModule.forRoot(),
-          SantechIonicModule,
         ],
       })
       .overrideDirective(NoNetworkDirective, {

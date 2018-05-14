@@ -19,6 +19,7 @@
       true,
       "@angular/common/locales",
       "@angular/core/testing",
+      "@santech/analytics-core/testing",
       "@santech/angular-common/testing",
       "@santech/angular-platform/testing",
       "@santech/common/testing",

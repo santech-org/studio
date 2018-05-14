@@ -6,6 +6,7 @@
     "entryFile": "src/index.ts",
     "umdId": "Santech.AngularIonic",
     "umdModuleIds": {
+      "@santech/angular-analytics": "Santech.AngularAnalytics",
       "@santech/angular-cropper": "Santech.AngularCropper",
       "@ionic-native/camera": "",
       "@ionic-native/core": "",
