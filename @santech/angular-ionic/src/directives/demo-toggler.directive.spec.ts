@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 // tslint:disable-next-line:no-implicit-dependencies
 import { By } from '@angular/platform-browser';
+import { SantechAnalyticsModule } from '@santech/angular-analytics';
 import { SantechCommonModule, TimeoutService } from '@santech/angular-common';
 import { MockTimeoutService } from '@santech/angular-common/testing';
 import { PLATFORM_LOCATION, PLATFORM_STORAGE, SantechPlatformModule } from '@santech/angular-platform';
@@ -38,6 +39,7 @@ describe('Demo toggler directive', () => {
         ],
         imports: [
           SantechIonicModule.forRoot(),
+          SantechAnalyticsModule.forRoot(),
           SantechCommonModule.forRoot(),
           SantechPlatformModule.forRoot(),
         ],
@@ -126,6 +128,7 @@ describe('Demo toggler directive', () => {
               useValue: 10000,
             },
           }),
+          SantechAnalyticsModule.forRoot(),
           SantechCommonModule.forRoot(),
           SantechPlatformModule.forRoot(),
         ],

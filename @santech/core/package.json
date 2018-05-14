@@ -1,6 +1,6 @@
 {
   "name": "@santech/core",
-  "version": "7.0.0-alpha.2",
+  "version": "7.0.0-alpha.3",
   "description": "Core module for santech studio",
   "main": "dist/umd/index.js",
   "module": "dist/index.js",

@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import { Keyboard } from '@ionic-native/keyboard';
+import { SantechAnalyticsModule } from '@santech/angular-analytics';
+import { SantechCommonModule } from '@santech/angular-common';
+import { SantechPlatformModule } from '@santech/angular-platform';
 import { Platform } from 'ionic-angular';
 import { cordovaPlatform, KeyboardEnableAccessoryBarDirective, SantechIonicModule } from '..';
 import { spyKeyboard, spyPlatform } from '../../testing/ionic';
@@ -20,7 +23,12 @@ describe('Keyboard enable accessory bar directive', () => {
         declarations: [
           KeyboardEnableAccessoryBarTestComponent,
         ],
-        imports: [SantechIonicModule],
+        imports: [
+          SantechIonicModule.forRoot(),
+          SantechAnalyticsModule.forRoot(),
+          SantechCommonModule.forRoot(),
+          SantechPlatformModule.forRoot(),
+        ],
         providers: [
           { provide: Platform, useValue: spyPlatform },
         ],

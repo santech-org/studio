@@ -1,22 +1,25 @@
 {
   "name": "@santech/analytics-core",
-  "version": "7.0.0-alpha.2",
+  "version": "7.0.0-alpha.3",
   "description": "santech analytics core bundle",
   "main": "dist/umd/index.js",
   "types": "dist/index.d.ts",
   "files": [
-    "dist/*"
+    "dist/*",
+    "testing/*"
   ],
   "repository": {
     "type": "git",
     "url": "https://github.com/santech-org/studio"
   },
   "scripts": {
-    "build": "npm run clean && rollup -c && cpx \"+(index.d.ts)\" dist && npm run package",
+    "build": "npm run clean && npm run transpile && npm run rollup && npm run package",
     "clean": "rimraf dist dist.tgz",
     "lint": "tslint \"**/*.ts\" \"**/*.js\"",
     "package": "npm pack && rename santech-analytics-core*.tgz dist.tgz",
-    "test": "echo no test"
+    "rollup": "node rollup.js",
+    "test": "echo no test",
+    "transpile": "tsc -p . --declaration true && cpx \"+(index.d.ts)\" dist"
   },
   "keywords": [
     "santech",
@@ -27,6 +30,7 @@
   "author": "Paul Souche",
   "license": "MIT",
   "dependencies": {
+    "@santech/core": "^7.0.0-alpha.3",
     "@types/segment-analytics": "*"
   },
   "devDependencies": {
@@ -39,6 +43,8 @@
     "rollup-plugin-commonjs": "*",
     "rollup-plugin-json": "*",
     "rollup-plugin-node-builtins": "*",
-    "rollup-plugin-node-resolve": "3.0.0"
+    "rollup-plugin-node-resolve": "3.0.0",
+    "rollup-plugin-typescript2": "*",
+    "typescript": "*"
   }
 }

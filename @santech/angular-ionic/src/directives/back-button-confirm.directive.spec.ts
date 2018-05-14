@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
+import { SantechAnalyticsModule } from '@santech/angular-analytics';
+import { SantechCommonModule } from '@santech/angular-common';
+import { SantechPlatformModule } from '@santech/angular-platform';
 import { AlertController, App, Platform } from 'ionic-angular';
 import {
   BACK_BUTTON_CONFIRMATION_FUNC,
@@ -31,7 +34,12 @@ describe('Back button confirm directive', () => {
           declarations: [
             BackButtonConfirmTestComponent,
           ],
-          imports: [SantechIonicModule.forRoot()],
+          imports: [
+            SantechIonicModule.forRoot(),
+            SantechAnalyticsModule.forRoot(),
+            SantechCommonModule.forRoot(),
+            SantechPlatformModule.forRoot(),
+          ],
           providers: [
             { provide: Platform, useValue: spyPlatform },
             { provide: App, useValue: spyApp },
@@ -124,16 +132,21 @@ describe('Back button confirm directive', () => {
           declarations: [
             BackButtonConfirmTestComponent,
           ],
-          imports: [SantechIonicModule.forRoot({
-            backBtndefaultProvider: {
-              provide: BACK_BUTTON_CONFIRMATION_FUNC,
-              useValue: backButtonConfirmationFunc,
-            },
-            networkConnectionDelayProvider: {
-              provide: NETWORK_CONNECTION_DELAY,
-              useValue: 0,
-            },
-          })],
+          imports: [
+            SantechIonicModule.forRoot({
+              backBtndefaultProvider: {
+                provide: BACK_BUTTON_CONFIRMATION_FUNC,
+                useValue: backButtonConfirmationFunc,
+              },
+              networkConnectionDelayProvider: {
+                provide: NETWORK_CONNECTION_DELAY,
+                useValue: 0,
+              },
+            }),
+            SantechAnalyticsModule.forRoot(),
+            SantechCommonModule.forRoot(),
+            SantechPlatformModule.forRoot(),
+          ],
           providers: [
             { provide: Platform, useValue: spyPlatform },
             { provide: App, useValue: spyApp },
