@@ -58,7 +58,7 @@ export function pictureCropperSettingsFactory(image?: ICropperImage) {
 }
 
 export function imgRegExFactory() {
-  return new RegExp('\.(png|jpe?g|gif)$');
+  return new RegExp('\.(png|jpe?g|gif)$', 'i');
 }
 
 @NgModule({
