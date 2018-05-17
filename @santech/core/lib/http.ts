@@ -1,7 +1,7 @@
 import {
-  IStdHttpQueryParams,
-  IStdRequestConfig,
-  IStdResponse,
+  IHttpQueryParams,
+  IRequestConfig,
+  IResponse,
   THttpRequestInterceptor,
   THttpResponseDeserializer,
   THttpResponseInterceptor,
@@ -14,12 +14,12 @@ export interface IHttp {
   addResponseDeserializer<T>(deserializer: THttpResponseDeserializer<T>): () => void;
   addResponseInterceptor<T>(interceptor: THttpResponseInterceptor<T>): () => void;
   createHeaders(headers?: HeadersInit | undefined): Headers;
-  fetch<T>(input: RequestInfo, init?: IStdRequestConfig): Promise<IStdResponse<T>>;
-  get<T>(url: string, config?: IStdRequestConfig): Promise<IStdResponse<T>>;
-  post<T>(url: string, data: any, config?: IStdRequestConfig): Promise<IStdResponse<T>>;
-  put<T>(url: string, data: any, config?: IStdRequestConfig): Promise<IStdResponse<T>>;
-  delete<T>(url: string, config?: IStdRequestConfig): Promise<IStdResponse<T>>;
-  patch<T>(url: string, data: any, config?: IStdRequestConfig): Promise<IStdResponse<T>>;
+  fetch<T>(input: RequestInfo, init?: IRequestConfig): Promise<IResponse<T>>;
+  get<T>(url: string, config?: IRequestConfig): Promise<IResponse<T>>;
+  post<T>(url: string, data: any, config?: IRequestConfig): Promise<IResponse<T>>;
+  put<T>(url: string, data: any, config?: IRequestConfig): Promise<IResponse<T>>;
+  delete<T>(url: string, config?: IRequestConfig): Promise<IResponse<T>>;
+  patch<T>(url: string, data: any, config?: IRequestConfig): Promise<IResponse<T>>;
 }
 
 export class Http implements IHttp {
@@ -28,7 +28,7 @@ export class Http implements IHttp {
   private _requestInterceptors: THttpRequestInterceptor[];
   private _responseInterceptors: Array<THttpResponseInterceptor<any>>;
   private _responseDeserializers: Array<THttpResponseDeserializer<any>>;
-  private _doRequest: <T>(input: RequestInfo, init: RequestInit) => Promise<IStdResponse<T>>;
+  private _doRequest: <T>(input: RequestInfo, init: RequestInit) => Promise<IResponse<T>>;
 
   constructor(client: typeof fetch, headers: typeof Headers) {
     this._doRequest = this._setHttpClient(client);
@@ -64,7 +64,7 @@ export class Http implements IHttp {
   /**
    * @description Call directly fetch + call interceptors
    */
-  public fetch<T>(input: RequestInfo, init: IStdRequestConfig = {}): Promise<IStdResponse<T>> {
+  public fetch<T>(input: RequestInfo, init: IRequestConfig = {}): Promise<IResponse<T>> {
     try {
       return this._requestInterceptors
         .reduce((p, ri) => p.then((c) => ri(typeof input === 'string' ? input : input.url, c)), Promise.resolve(init))
@@ -75,35 +75,35 @@ export class Http implements IHttp {
     }
   }
 
-  public get<T>(url: string, config?: IStdRequestConfig): Promise<IStdResponse<T>> {
+  public get<T>(url: string, config?: IRequestConfig): Promise<IResponse<T>> {
     return this._request<T>(url, config);
   }
 
-  public post<T>(url: string, data: any, config?: IStdRequestConfig): Promise<IStdResponse<T>> {
+  public post<T>(url: string, data: any, config?: IRequestConfig): Promise<IResponse<T>> {
     return this._request<T>(url, config, 'POST', data);
   }
 
-  public put<T>(url: string, data: any, config?: IStdRequestConfig): Promise<IStdResponse<T>> {
+  public put<T>(url: string, data: any, config?: IRequestConfig): Promise<IResponse<T>> {
     return this._request<T>(url, config, 'PUT', data);
   }
 
-  public delete<T>(url: string, config?: IStdRequestConfig): Promise<IStdResponse<T>> {
+  public delete<T>(url: string, config?: IRequestConfig): Promise<IResponse<T>> {
     return this._request<T>(url, config, 'DELETE');
   }
 
-  public patch<T>(url: string, data: any, config?: IStdRequestConfig): Promise<IStdResponse<T>> {
+  public patch<T>(url: string, data: any, config?: IRequestConfig): Promise<IResponse<T>> {
     return this._request<T>(url, config, 'PATCH', data);
   }
 
   private _setHttpClient(client: typeof fetch) {
-    return (input: RequestInfo, init: RequestInit) => client(input, init) as Promise<IStdResponse<any>>;
+    return (input: RequestInfo, init: RequestInit) => client(input, init) as Promise<IResponse<any>>;
   }
 
   private _setHeadersConstructor(headersConstructor: typeof Headers) {
     return (headers: HeadersInit = []) => new headersConstructor(headers);
   }
 
-  private _request<T>(url: string, config: IStdRequestConfig = {}, method?: string, body?: any) {
+  private _request<T>(url: string, config: IRequestConfig = {}, method?: string, body?: any) {
     if (config.params) {
       url = [url, this._parseParams(config.params)].join('?');
     }
@@ -116,7 +116,7 @@ export class Http implements IHttp {
     return this.fetch<T>(url, config);
   }
 
-  private _parseParams(params: IStdHttpQueryParams) {
+  private _parseParams(params: IHttpQueryParams) {
     const knownTypes = ['string', 'number', 'boolean'];
     const paramToString = (k: string, v: any) => [k, encodeURIComponent(v)].join('=');
 
@@ -142,7 +142,7 @@ export class Http implements IHttp {
   }
 
   private _deserializeResponse<T>() {
-    return (resp: IStdResponse<T>): Promise<IStdResponse<T>> => {
+    return (resp: IResponse<T>): Promise<IResponse<T>> => {
       this._responseInterceptors.forEach((i) => i(resp));
       const deserializedPromise = this._deserialize(resp);
       if (resp.ok) {
@@ -153,7 +153,7 @@ export class Http implements IHttp {
     };
   }
 
-  private _deserialize<T>(resp: IStdResponse<T>): Promise<IStdResponse<T>> {
+  private _deserialize<T>(resp: IResponse<T>): Promise<IResponse<T>> {
     for (const deserializer of this._responseDeserializers) {
       const deserialized = deserializer(resp);
       if (deserialized !== resp) {
@@ -166,7 +166,7 @@ export class Http implements IHttp {
     return Promise.resolve(resp);
   }
 
-  private _jsonRequestInterceptor(_: string, config: IStdRequestConfig) {
+  private _jsonRequestInterceptor(_: string, config: IRequestConfig) {
     return new Promise((res) => {
       const body = config.body;
       const headers = config.headers = this.createHeaders(config.headers);
@@ -182,7 +182,7 @@ export class Http implements IHttp {
     });
   }
 
-  private _formDataRequestInterceptor(_: string, config: IStdRequestConfig) {
+  private _formDataRequestInterceptor(_: string, config: IRequestConfig) {
     return new Promise((res) => {
       const headers = config.headers = this.createHeaders(config.headers);
       if (headers.get('content-type') === 'multipart/form-data') {
