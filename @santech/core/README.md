@@ -67,8 +67,8 @@ Angular 1
 class MyCtrl {
   constructor(http) {
     http.get('some/url')
-      .then((fooBar) => {
-        console.log(fooBar.foo);
+      .then((res => {
+        console.log(res.data.foo);
       });
   }
 }
@@ -77,8 +77,11 @@ angular.module('santech', [])
   .factory('santech-http', () => new Santech.Core.Http(fetch, Headers))
   .controller('MyCtrl', ['santech-http', MyCtrl])
   .run(['santech-http', '$rootScope', function (http, $rootScope) {
-    http.addResponseInterceptor(() => {
-      $rootScope.$applyAsync();
+    http.addInterceptor({
+      response: (res) => {
+        $rootScope.$applyAsync();
+        return res;
+      }
     })
   }]);
 ```
@@ -105,8 +108,8 @@ interface FooBar {
 export class AppComponent {
   constructor(http: Http) {
     http.get<FooBar>('some/url')
-      .then((fooBar) => {
-        console.log(fooBar.foo);
+      .then((res => {
+        console.log(res.data.foo);
       });
   }
 }

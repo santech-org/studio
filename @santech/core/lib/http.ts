@@ -1,122 +1,121 @@
-import {
-  IHttpQueryParams,
-  IRequestConfig,
-  IResponse,
-  THttpRequestInterceptor,
-  THttpResponseDeserializer,
-  THttpResponseInterceptor,
-} from './models';
+import { IHttpDeserializer } from './deserializers';
+import { IHttpInterceptor } from './interceptors';
+import { IDeserializedResponse, IHttpQueryParams, IRequestConfig, IRequestInit, IResponse } from './models';
 
-const JSON_TYPES = ['[object Object]', '[object Array]'];
+export interface IHttpParams {
+  client: typeof fetch;
+  headers: typeof Headers;
+  interceptors?: IHttpInterceptor[] | undefined;
+  deserializers?: Array<IHttpDeserializer<any>> | undefined;
+}
 
 export interface IHttp {
-  addRequestInterceptor(interceptor: THttpRequestInterceptor): () => void;
-  addResponseDeserializer<T>(deserializer: THttpResponseDeserializer<T>): () => void;
-  addResponseInterceptor<T>(interceptor: THttpResponseInterceptor<T>): () => void;
+  addInterceptor(interceptor: IHttpInterceptor): () => void;
+  addDeserializer<T>(deserializer: IHttpDeserializer<T>): () => void;
   createHeaders(headers?: HeadersInit | undefined): Headers;
-  fetch<T>(input: RequestInfo, init?: IRequestConfig): Promise<IResponse<T>>;
-  get<T>(url: string, config?: IRequestConfig): Promise<IResponse<T>>;
-  post<T>(url: string, data: any, config?: IRequestConfig): Promise<IResponse<T>>;
-  put<T>(url: string, data: any, config?: IRequestConfig): Promise<IResponse<T>>;
-  delete<T>(url: string, config?: IRequestConfig): Promise<IResponse<T>>;
-  patch<T>(url: string, data: any, config?: IRequestConfig): Promise<IResponse<T>>;
+  fetch<T>(input: RequestInfo, init?: IRequestConfig): Promise<IDeserializedResponse<T>>;
+  get<T>(url: string, config?: IRequestConfig): Promise<IDeserializedResponse<T>>;
+  post<T>(url: string, data: any, config?: IRequestConfig): Promise<IDeserializedResponse<T>>;
+  put<T>(url: string, data: any, config?: IRequestConfig): Promise<IDeserializedResponse<T>>;
+  delete<T>(url: string, config?: IRequestConfig): Promise<IDeserializedResponse<T>>;
+  patch<T>(url: string, data: any, config?: IRequestConfig): Promise<IDeserializedResponse<T>>;
 }
 
 export class Http implements IHttp {
   public createHeaders: (headers?: HeadersInit | undefined) => Headers;
 
-  private _requestInterceptors: THttpRequestInterceptor[];
-  private _responseInterceptors: Array<THttpResponseInterceptor<any>>;
-  private _responseDeserializers: Array<THttpResponseDeserializer<any>>;
+  private _interceptors: IHttpInterceptor[];
+  private _deserializers: Array<IHttpDeserializer<any>>;
   private _doRequest: <T>(input: RequestInfo, init: RequestInit) => Promise<IResponse<T>>;
 
-  constructor(client: typeof fetch, headers: typeof Headers) {
-    this._doRequest = this._setHttpClient(client);
-    this.createHeaders = this._setHeadersConstructor(headers);
-    this._requestInterceptors = [
-      this._jsonRequestInterceptor.bind(this),
-      this._formDataRequestInterceptor.bind(this),
-    ];
-    this._responseInterceptors = [];
-    this._responseDeserializers = [
-      this._jsonDeserializer,
-      this._imageDeserializer,
-      this._base64Deserializer,
-      this._textPlainDeserializer,
-    ];
+  constructor(params: IHttpParams) {
+    this._interceptors = params.interceptors || [];
+    this._deserializers = params.deserializers || [];
+    this._doRequest = this._setHttpClient(params.client);
+    this.createHeaders = this._setHeadersConstructor(params.headers);
   }
 
-  public addRequestInterceptor(interceptor: THttpRequestInterceptor) {
-    this._requestInterceptors.push(interceptor);
-    return this._remover(interceptor, this._requestInterceptors);
+  public addInterceptor(interceptor: IHttpInterceptor) {
+    this._interceptors.push(interceptor);
+    return this._remover(interceptor, this._interceptors);
   }
 
-  public addResponseInterceptor<T>(interceptor: THttpResponseInterceptor<T>) {
-    this._responseInterceptors.push(interceptor);
-    return this._remover(interceptor, this._responseInterceptors);
-  }
-
-  public addResponseDeserializer<T>(deserializer: THttpResponseDeserializer<T>) {
-    this._responseDeserializers.push(deserializer);
-    return this._remover(deserializer, this._responseDeserializers);
+  public addDeserializer<T>(deserializer: IHttpDeserializer<T>) {
+    this._deserializers.push(deserializer);
+    return this._remover(deserializer, this._deserializers);
   }
 
   /**
    * @description Call directly fetch + call interceptors
    */
-  public fetch<T>(input: RequestInfo, init: IRequestConfig = {}): Promise<IResponse<T>> {
-    try {
-      return this._requestInterceptors
-        .reduce((p, ri) => p.then((c) => ri(typeof input === 'string' ? input : input.url, c)), Promise.resolve(init))
-        .then((config) => this._doRequest<T>(input, config))
-        .then(this._deserializeResponse<T>());
-    } catch (e) {
-      return Promise.reject(e);
+  public async fetch<T>(requestInfo: RequestInfo, requestInit: RequestInit = {}): Promise<IDeserializedResponse<T>> {
+    const baseConfig: IRequestConfig = {
+      ...requestInit,
+      headers: this.createHeaders(requestInit.headers),
+    };
+
+    const config = await this._interceptors
+      .reduce(async (p, i) => i.request ? i.request.call(i, requestInfo, await p) : p, Promise.resolve(baseConfig));
+
+    const res = await this._doRequest<T>(requestInfo, config);
+    const des = this._deserialize(res);
+
+    const end = await this._interceptors
+      .reduce(async (p, i) => i.response ? i.response.call(i, await p) : p, des);
+
+    if (end.ok) {
+      return end;
     }
+    throw end;
   }
 
-  public get<T>(url: string, config?: IRequestConfig): Promise<IResponse<T>> {
+  public async get<T>(url: string, config?: IRequestInit): Promise<IDeserializedResponse<T>> {
     return this._request<T>(url, config);
   }
 
-  public post<T>(url: string, data: any, config?: IRequestConfig): Promise<IResponse<T>> {
-    return this._request<T>(url, config, 'POST', data);
+  public async post<T>(url: string, body: any, config?: IRequestInit): Promise<IDeserializedResponse<T>> {
+    return this._request<T>(url, config, {
+      body,
+      method: 'POST',
+    });
   }
 
-  public put<T>(url: string, data: any, config?: IRequestConfig): Promise<IResponse<T>> {
-    return this._request<T>(url, config, 'PUT', data);
+  public async put<T>(url: string, body: any, config?: IRequestInit): Promise<IDeserializedResponse<T>> {
+    return this._request<T>(url, config, {
+      body,
+      method: 'PUT',
+    });
   }
 
-  public delete<T>(url: string, config?: IRequestConfig): Promise<IResponse<T>> {
-    return this._request<T>(url, config, 'DELETE');
+  public async delete<T>(url: string, config?: IRequestInit): Promise<IDeserializedResponse<T>> {
+    return this._request<T>(url, config, {
+      method: 'DELETE',
+    });
   }
 
-  public patch<T>(url: string, data: any, config?: IRequestConfig): Promise<IResponse<T>> {
-    return this._request<T>(url, config, 'PATCH', data);
+  public async patch<T>(url: string, body: any, config?: IRequestInit): Promise<IDeserializedResponse<T>> {
+    return this._request<T>(url, config, {
+      body,
+      method: 'PATCH',
+    });
   }
 
   private _setHttpClient(client: typeof fetch) {
-    return (input: RequestInfo, init: RequestInit) => client(input, init) as Promise<IResponse<any>>;
+    return (input: RequestInfo, init: IRequestInit) => client(input, init);
   }
 
   private _setHeadersConstructor(headersConstructor: typeof Headers) {
     return (headers: HeadersInit = []) => new headersConstructor(headers);
   }
 
-  private _request<T>(url: string, config: IRequestConfig = {}, method?: string, body?: any) {
-    if (config.params) {
-      url = [url, this._parseParams(config.params)].join('?');
-    }
-    if (body) {
-      config.body = body;
-    }
-    if (method) {
-      config.method = method;
-    }
-    return this.fetch<T>(url, config);
+  private async _request<T>(url: string, config: IRequestInit = {}, meta: { method?: string, body?: any } = {}) {
+    const { params } = config;
+    const queryString = this._parseParams(params);
+    Object.assign(config, meta);
+    return this.fetch<T>(queryString ? `${url}?${queryString}` : url, config);
   }
 
-  private _parseParams(params: IHttpQueryParams) {
+  private _parseParams(params: IHttpQueryParams = {}) {
     const knownTypes = ['string', 'number', 'boolean'];
     const paramToString = (k: string, v: any) => [k, encodeURIComponent(v)].join('=');
 
@@ -141,96 +140,27 @@ export class Http implements IHttp {
       .join('&');
   }
 
-  private _deserializeResponse<T>() {
-    return (resp: IResponse<T>): Promise<IResponse<T>> => {
-      this._responseInterceptors.forEach((i) => i(resp));
-      const deserializedPromise = this._deserialize(resp);
-      if (resp.ok) {
-        return deserializedPromise;
-      }
-
-      return deserializedPromise.then((r) => Promise.reject(r));
-    };
-  }
-
-  private _deserialize<T>(resp: IResponse<T>): Promise<IResponse<T>> {
-    for (const deserializer of this._responseDeserializers) {
-      const deserialized = deserializer(resp);
-      if (deserialized !== resp) {
-        return (deserialized as Promise<T>).then((data: T) => {
-          resp.data = data;
-          return resp;
-        });
+  private async _deserialize(resp: IResponse<any>): Promise<IDeserializedResponse<any>> {
+    for (const deserializer of this._deserializers) {
+      const data = await deserializer.deserialize.call(deserializer, resp);
+      if (data !== resp) {
+        return {
+          ...resp,
+          data,
+        };
       }
     }
-    return Promise.resolve(resp);
-  }
-
-  private _jsonRequestInterceptor(_: string, config: IRequestConfig) {
-    return new Promise((res) => {
-      const body = config.body;
-      const headers = config.headers = this.createHeaders(config.headers);
-      // Try to detect non native types #YOLO
-      if (JSON_TYPES.includes(Object.prototype.toString.apply(body)) && !headers.get('content-type')) {
-        headers.append('content-type', 'application/json');
-      }
-      if (typeof body === 'object' && headers.get('content-type') === 'application/json') {
-        config.body = JSON.stringify(body);
-      }
-
-      res(config);
+    return Promise.resolve({
+      ...resp,
+      data: {},
     });
   }
 
-  private _formDataRequestInterceptor(_: string, config: IRequestConfig) {
-    return new Promise((res) => {
-      const headers = config.headers = this.createHeaders(config.headers);
-      if (headers.get('content-type') === 'multipart/form-data') {
-        // delete header as browser will set the boundary
-        headers.delete('content-type');
-      }
-
-      res(config);
-    });
-  }
-
-  private _jsonDeserializer(resp: Response) {
-    const contentType = resp.headers.get('content-type');
-    if (contentType && contentType.includes('application/json')) {
-      return resp.json();
-    }
-    return resp;
-  }
-
-  private _imageDeserializer(resp: Response) {
-    const contentType = resp.headers.get('content-type');
-    if (contentType && contentType.startsWith('image/')) {
-      return resp.blob();
-    }
-    return resp;
-  }
-
-  private _base64Deserializer(resp: Response) {
-    const contentType = resp.headers.get('content-type');
-    if (contentType && contentType.includes('application/base64')) {
-      return resp.text();
-    }
-    return resp;
-  }
-
-  private _textPlainDeserializer(resp: Response) {
-    const contentType = resp.headers.get('content-type');
-    if (contentType && contentType.includes('text/plain')) {
-      return resp.text();
-    }
-    return resp;
-  }
-
-  private _remover<T>(interceptor: T, interceptors: T[]) {
+  private _remover<T>(func: T, funcs: T[]) {
     return () => {
-      const index = interceptors.indexOf(interceptor);
+      const index = funcs.indexOf(func);
       if (index >= 0) {
-        interceptors.splice(index, 1);
+        funcs.splice(index, 1);
       }
     };
   }

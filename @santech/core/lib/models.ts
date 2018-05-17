@@ -1,17 +1,50 @@
-export type THttpRequestInterceptor = (request: string, config: IRequestConfig) => Promise<IRequestConfig>;
-export type THttpResponseInterceptor<T> = (response: IResponse<T>) => void;
-export type THttpResponseDeserializer<T> = (response: IResponse<T>) => (Promise<T> | Response);
+export interface IRequestInit extends RequestInit {
+  params?: IHttpQueryParams | undefined;
+}
 
-export interface IResponse<T> extends Response {
-  data: T;
+export interface IRequestConfig extends IRequestInit {
+  headers: Headers;
 }
 
 export interface IHttpQueryParams {
   [paramKey: string]: string | number | boolean | undefined | Array<string | number | boolean | undefined>;
 }
 
-export interface IRequestConfig extends RequestInit {
-  params?: IHttpQueryParams | undefined;
+export interface IResponse<T> extends Response {
+  data?: T | undefined;
+}
+
+export interface IDeserializedResponse<T> extends IResponse<T> {
+  data: T;
+}
+
+export interface IError {
+  code: number;
+  error: string;
+}
+
+export interface IEndPoints {
+  [endpoint: string]: string;
+}
+
+export interface IPrivateEndPoints extends IEndPoints {
+  endPoint: string;
+}
+
+export interface IPublicEndPoints extends IEndPoints {
+  publicEndPoint: string;
+}
+
+export interface IWsEndPoints extends IEndPoints {
+  wsEndPoint: string;
+}
+
+export interface IZuulEndPoints extends IPrivateEndPoints {
+  zuulEndPoint: string;
+}
+
+export interface IDtoAttributes {
+  [attribute: string]: string | number | boolean | string[] | IDtoAttributes | undefined | null;
 }
 
 export interface IDeserializedToken {
