@@ -1,6 +1,5 @@
 import { integration, ISegmentIntegrationStatic } from '@santech/analytics-core';
-import { IPublicEndPoints } from '@santech/common';
-import { Http } from '@santech/core';
+import { Http, IPublicEndPoints } from '@santech/core';
 
 // tslint:disable-next-line:variable-name
 export const Integration: ISegmentIntegrationStatic = integration('santech');
