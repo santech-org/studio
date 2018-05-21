@@ -1,14 +1,13 @@
-import { IDeserializedToken, IHttp, IJwt, IStdResponse, ITokenStorage } from '@santech/core';
-import { httpErrors } from './constants';
-import { IAuthenticateParams, IAuthenticatorEndPoints, IJwtDto, TAuthFailure } from './models';
+import { IDeserializedResponse, IDeserializedToken, IHttp, IJwt, ITokenStorage } from '@santech/core';
+import { IAuthenticateParams, IAuthenticatorEndPoints, IJwtDto, TTokenRecoveryPromise } from './models';
 
 export interface IAuthenticator {
-  readonly waitForLogin: Promise<TAuthFailure>;
+  readonly waitForLogin: Promise<TTokenRecoveryPromise>;
   readonly jwt: IDeserializedToken;
   readonly token: string;
-  authenticate(params: IAuthenticateParams): Promise<TAuthFailure>;
-  authenticateWithJwt(jwt: IJwtDto): Promise<TAuthFailure>;
-  renewToken(): Promise<TAuthFailure>;
+  authenticate(params: IAuthenticateParams): Promise<void>;
+  tryAuthenticate(jwt: IJwtDto): Promise<void>;
+  renewToken(): Promise<void>;
   getAuthorizationHeader(): string;
   isLogged(): boolean;
   logout(): void;
@@ -39,17 +38,15 @@ export class Authenticator implements IAuthenticator {
   private _http: IHttp;
   private _jwt: IJwt;
   private _storage: ITokenStorage;
-  private _tokenInterceptorRemover: (() => void) | null | undefined;
-  private _checkPreviousLoginInterceptorRemover: (() => void) | null | undefined;
   private _endPoints: IAuthenticatorEndPoints;
-  private _waitForLogin: Promise<TAuthFailure>;
+  private _waitForLogin: Promise<TTokenRecoveryPromise>;
 
   constructor(http: IHttp, storage: ITokenStorage, jwt: IJwt, endPoints: IAuthenticatorEndPoints) {
     this._http = http;
     this._storage = storage;
     this._jwt = jwt;
     this._endPoints = endPoints;
-    this._waitForLogin = this._checkAutomaticLogin((token) => this._cacheToken(token));
+    this._waitForLogin = this._tryRetrievePreviousSession();
   }
 
   get waitForLogin() {
@@ -67,30 +64,40 @@ export class Authenticator implements IAuthenticator {
   /**
    * @description Authenticate for given credentials and set Jwt
    */
-  public authenticate(params: IAuthenticateParams) {
+  public authenticate(params: IAuthenticateParams): Promise<void> {
     const deviceName = (typeof navigator !== 'undefined' && navigator.userAgent)
       ? navigator.userAgent
       : 'no user agent';
 
     return this._login(() => this._http
       .post(this._endPoints.authenticateEndPoint, {
-        ...params,
         deviceName,
+        ...params,
       }));
   }
 
   /**
-   * @description Authenticate for given Jwt
+   * @description Try authenticate for recovered Jwt or for given Jwt
    */
-  public authenticateWithJwt(jwt: IJwtDto) {
-    return this._storeJwt(jwt)
-      .then(() => this._waitForLogin = this._checkAutomaticLogin((token) => this._cacheToken(token)));
+  public async tryAuthenticate(jwt?: IJwtDto): Promise<void> {
+    if (jwt) {
+      await this._storeJwt(jwt);
+    }
+    const promise = this._waitForLogin = this._tryRetrievePreviousSession();
+    try {
+      const resp = await promise;
+      if (resp) {
+        throw resp;
+      }
+    } catch (e) {
+      throw e;
+    }
   }
 
   /**
-   * @description force token renew (called automatically before token expires)
+   * @description Force token renew (called automatically before token expires)
    */
-  public renewToken() {
+  public renewToken(): Promise<void> {
     return this._login(() => this._http
       .get(this._endPoints.renewEndPoint));
   }
@@ -98,7 +105,7 @@ export class Authenticator implements IAuthenticator {
   /**
    * @description Returns the API Authorization Header
    */
-  public getAuthorizationHeader() {
+  public getAuthorizationHeader(): string {
     return 'Bearer '.concat(this.token);
   }
 
@@ -116,94 +123,51 @@ export class Authenticator implements IAuthenticator {
     this._storage.removeJwt();
     this._storage.removeDeviceToken();
     this._clearTokenRenewer();
-    this._clearTokenInterceptor();
-    this._clearCheckPreviousLoginInterceptor();
     this._token = '';
     Authenticator._logoutHooks.forEach((cb) => cb());
   }
 
-  private _checkAutomaticLogin(loggedCB?: (token: string) => void) {
-    return this._tryRetrieveJwt()
-      .then((token) => {
-        const expirationDate = this._jwt.getExpirationDate(token);
-        if (expirationDate && expirationDate > new Date()) {
-          return typeof loggedCB === 'function'
-            ? loggedCB(token)
-            : undefined;
-        }
-
-        throw new Error('token expired');
-      })
-      .catch(() => {
-        return this._tryRetrieveDeviceToken()
-          .then((userToken) => this._login(() => this._http
-            .post(this._endPoints.authenticateEndPoint, {
-              userToken,
-            }))
-            .catch((res: IStdResponse<any>) => {
-              this._token = '';
-              return res;
-            }))
-          .catch(() => {
-            this._token = '';
-          });
-      });
+  private async _login(request: () => Promise<IDeserializedResponse<IJwtDto>>): Promise<void> {
+    const { data: jwt } = await request();
+    await this._storeJwt(jwt);
+    return this._cacheToken(jwt.idToken);
   }
 
-  private _login(request: () => Promise<IStdResponse<IJwtDto>>) {
-    return request()
-      .catch((resp) => {
-        if (resp.message === 'Failed to fetch') {
-          throw new Error('no connection');
-        }
-        if (resp.status >= 500) {
-          throw new Error('internal server error');
-        }
-
-        if (resp.status === 401) {
-          const data = resp.data || {};
-          const error = data.error;
-          if (error === httpErrors.unauthorized || error === httpErrors.conflict) {
-            throw data;
-          }
-        }
-
-        throw new Error('invalid credentials');
-      })
-      .then((resp) => resp.data)
-      .then((jwt) => this._storeJwt(jwt))
-      .then((jwt) => this._cacheToken(jwt.idToken));
-  }
-
-  private _setJwtInterceptor() {
-    if (!this._tokenInterceptorRemover) {
-      const http = this._http;
-      this._tokenInterceptorRemover = http
-        .addRequestInterceptor((_, config) => {
-          const headers = config.headers = http.createHeaders(config.headers);
-          headers.append('Authorization', this.getAuthorizationHeader());
-          return Promise.resolve(config);
-        });
+  private async _tryRetrievePreviousSession(): Promise<TTokenRecoveryPromise> {
+    try {
+      const token = await this._tryRetrieveJwt();
+      const expirationDate = this._jwt.getExpirationDate(token);
+      if (!!expirationDate && expirationDate > new Date()) {
+        return this._cacheToken(token);
+      }
+      throw new Error('token expired');
+    } catch {
+      return this._tryCreateDeviceSession();
     }
   }
 
-  private _setCheckPreviousLoginInterceptor() {
-    if (!this._checkPreviousLoginInterceptorRemover) {
-      this._checkPreviousLoginInterceptorRemover = this._http
-        .addRequestInterceptor((url, config) => {
-          if (url.includes(this._endPoints.publicEndPoint)) {
-            return Promise.resolve(config);
-          }
-
-          const promise = this._waitForLogin = this
-            ._checkAutomaticLogin();
-
-          return promise.then(() => config);
-        });
+  private async _tryCreateDeviceSession(): Promise<TTokenRecoveryPromise> {
+    try {
+      const userToken = await this._tryRetrieveDeviceToken();
+      return this._renewUserToken(userToken);
+    } catch {
+      this._token = '';
     }
   }
 
-  private _tryRetrieveJwt() {
+  private async _renewUserToken(userToken: string) {
+    try {
+      await this._login(() => this._http
+        .post(this._endPoints.authenticateEndPoint, {
+          userToken,
+        }));
+    } catch (res) {
+      this._token = '';
+      return res;
+    }
+  }
+
+  private _tryRetrieveJwt(): Promise<string> {
     try {
       return Promise.resolve<string>(this._storage.getJwt());
     } catch (e) {
@@ -211,7 +175,7 @@ export class Authenticator implements IAuthenticator {
     }
   }
 
-  private _tryRetrieveDeviceToken() {
+  private _tryRetrieveDeviceToken(): Promise<string> {
     try {
       return Promise.resolve<string>(this._storage.getDeviceToken());
     } catch (e) {
@@ -235,8 +199,6 @@ export class Authenticator implements IAuthenticator {
 
   private _cacheToken(token: string) {
     this._token = token;
-    this._setCheckPreviousLoginInterceptor();
-    this._setJwtInterceptor();
     this._registerTokenRenewer();
   }
 
@@ -251,20 +213,6 @@ export class Authenticator implements IAuthenticator {
   private _clearTokenRenewer() {
     if (this._tokenRenewer) {
       this._tokenRenewer = clearTimeout(this._tokenRenewer);
-    }
-  }
-
-  private _clearTokenInterceptor() {
-    if (this._tokenInterceptorRemover) {
-      this._tokenInterceptorRemover();
-      this._tokenInterceptorRemover = null;
-    }
-  }
-
-  private _clearCheckPreviousLoginInterceptor() {
-    if (this._checkPreviousLoginInterceptorRemover) {
-      this._checkPreviousLoginInterceptorRemover();
-      this._checkPreviousLoginInterceptorRemover = null;
     }
   }
 }

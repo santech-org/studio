@@ -1,18 +1,18 @@
 // tslint:disable-next-line:no-implicit-dependencies
-import { Authenticator, HttpErrorInterceptor, IAuthenticateParams , Logger } from '@santech/common';
+import { Authenticator, HttpStatusInterceptor, IAuthenticateParams, Logger } from '@santech/common';
 import { createJestSpyObj, filterPrivate, SantechSpyObject } from '@santech/core/testing';
 
 export const authenticatorMethods = Object
   .getOwnPropertyNames(Authenticator.prototype).filter(filterPrivate);
 
-export const httpErrorInterceptorMethods = Object
-  .getOwnPropertyNames(HttpErrorInterceptor.prototype).filter(filterPrivate);
+export const httpStatusInterceptorMethods = Object
+  .getOwnPropertyNames(HttpStatusInterceptor.prototype).filter(filterPrivate);
 
 export const loggerMethods = Object
   .getOwnPropertyNames(Logger.prototype).filter(filterPrivate);
 
 let spyAuthenticator: SantechSpyObject<Authenticator>;
-let spyHttpErrorInterceptor: SantechSpyObject<HttpErrorInterceptor>;
+let spyHttpStatusInterceptor: SantechSpyObject<HttpStatusInterceptor>;
 let spyLogger: SantechSpyObject<Logger>;
 
 export const authenticateImplementation = (credentials: IAuthenticateParams) => {
@@ -29,9 +29,7 @@ if (typeof jasmine !== 'undefined' && typeof jasmine.createSpyObj === 'function'
   });
   spyAuthenticator.authenticate.and.callFake(authenticateImplementation);
 
-  spyHttpErrorInterceptor = jasmine
-    .createSpyObj('spyHttpErrorInterceptor', httpErrorInterceptorMethods);
-
+  spyHttpStatusInterceptor = jasmine.createSpyObj('spyHttpStatusInterceptor', httpStatusInterceptorMethods);
   spyLogger = jasmine.createSpyObj('spyLogger', loggerMethods);
 } else if (typeof jest !== 'undefined') {
   spyAuthenticator = createJestSpyObj(authenticatorMethods);
@@ -40,13 +38,12 @@ if (typeof jasmine !== 'undefined' && typeof jasmine.createSpyObj === 'function'
   });
   spyAuthenticator.authenticate.mockImplementation(authenticateImplementation);
 
-  spyHttpErrorInterceptor = createJestSpyObj(httpErrorInterceptorMethods);
-
+  spyHttpStatusInterceptor = createJestSpyObj(httpStatusInterceptorMethods);
   spyLogger = createJestSpyObj(loggerMethods);
 }
 
 export {
+  spyHttpStatusInterceptor,
   spyAuthenticator,
-  spyHttpErrorInterceptor,
   spyLogger,
 };

@@ -1,24 +1,17 @@
-import { IStdResponse } from '@santech/core';
-
-export interface IDtoAttributes {
-  [attribute: string]: string | number | boolean | string[] | IDtoAttributes | undefined | null;
-}
+import {
+  IDeserializedResponse,
+  IDtoAttributes,
+  IEndPoints,
+  IError,
+  IPrivateEndPoints,
+  IPublicEndPoints,
+} from '@santech/core';
 
 export interface IAuthenticateParams {
   login: string;
   password: string;
   rememberMe?: boolean;
   duration?: number;
-}
-
-export interface IHttpErrorsEnum {
-  unauthorized: 'error.unauthorized';
-  conflict: 'error.conflict';
-}
-
-export interface IHttpErrorMessagesEnum {
-  unauthorized: 'error.message.unauthorized';
-  conflict: 'error.message.conflict';
 }
 
 export interface IJwtDto {
@@ -28,26 +21,6 @@ export interface IJwtDto {
 
 export interface IPublicTokenDto {
   publicToken: string;
-}
-
-export interface IEndPoints {
-  [endpoint: string]: string;
-}
-
-export interface IPrivateEndPoints extends IEndPoints {
-  endPoint: string;
-}
-
-export interface IPublicEndPoints extends IEndPoints {
-  publicEndPoint: string;
-}
-
-export interface IWsEndPoints extends IEndPoints {
-  wsEndPoint: string;
-}
-
-export interface IZuulEndPoints extends IPrivateEndPoints {
-  zuulEndPoint: string;
 }
 
 export interface IAuthenticatorEndPoints extends IPublicEndPoints, IPrivateEndPoints {
@@ -66,6 +39,14 @@ export interface ILogDto {
   attributes?: IDtoAttributes | undefined | null;
 }
 
+export interface IHttpErrorDto {
+  error: string;
+  message: string;
+  fieldErrors?: any[];
+  path: string;
+  timestamp: string;
+}
+
 export type TLogLevel = 'INFO' | 'WARN' | 'ERROR' | 'DEBUG';
 
-export type TAuthFailure = void | IStdResponse<any>;
+export type TTokenRecoveryPromise = void | IDeserializedResponse<IError>;

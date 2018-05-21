@@ -35,6 +35,9 @@
   ],
   "author": "Paul Souche <psouche@santech.fr>",
   "license": "MIT",
+  "peerDependencies": {
+    "tslib": "^1.9.1"
+  },
   "dependencies": {
     "@santech/core": "^7.0.0-alpha.3"
   },
@@ -48,9 +51,9 @@
     "rollup": "*",
     "rollup-plugin-typescript2": "*",
     "sinon": "*",
-    "ts-helpers": "*",
     "ts-jest": "*",
     "ts-node": "*",
+    "tslib": "*",
     "tslint": "*",
     "typedoc": "*",
     "typescript": "*"
@@ -63,9 +66,6 @@
     "moduleFileExtensions": [
       "ts",
       "js"
-    ],
-    "setupFiles": [
-      "ts-helpers"
     ]
   }
 }
