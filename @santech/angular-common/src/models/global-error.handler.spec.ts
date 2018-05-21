@@ -47,6 +47,7 @@ describe('GlobalErrorHandler', () => {
 
     beforeEach(() => handler = TestBed.configureTestingModule({
       imports: [
+        SantechPlatformModule.forRoot(),
         SantechCommonModule.forRoot({
           errorHandlerProvider: {
             provide: ErrorHandler,

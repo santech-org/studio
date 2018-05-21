@@ -1,12 +1,19 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { SantechPlatformModule } from '@santech/angular-platform';
-import { Authenticator, IAuthenticatorEndPoints } from '@santech/common';
-import { Http, Jwt, TokenStorage } from '@santech/core';
+import {
+  Authenticator,
+  AuthorizationInterceptor,
+  HttpStatusInterceptor,
+  IAuthenticatorEndPoints,
+  SessionInterceptor,
+} from '@santech/common';
+import { Http, IHttpInterceptor, Jwt, TokenStorage } from '@santech/core';
 import { SantechCommonModule } from './';
 import { IAppInformation } from './interfaces/app-information';
 import { APP_INFORMATION } from './tokens/app-information.token';
 import { CONFIG_END_POINTS } from './tokens/config-end-points.token';
 import { END_POINTS } from './tokens/end-points.token';
+import { CUSTOM_INTERCEPTORS } from './tokens/interceptors.token';
 
 const endPoint = 'http://host:port';
 const wsEndPoint = 'ws://host:port';
@@ -56,6 +63,12 @@ describe('SantechCommonModule', () => {
         version: 'AppVersion',
       });
     }));
+
+    it('Should provide custom interceptors in certain order', inject(
+      [CUSTOM_INTERCEPTORS, AuthorizationInterceptor, SessionInterceptor, HttpStatusInterceptor],
+      (customInterceptors: IHttpInterceptor[], ...ctors: IHttpInterceptor[]) => {
+        customInterceptors.forEach((interceptor, i) => expect(interceptor).toBe(ctors[i]));
+      }));
   });
 
   describe('When imported in a child module', () => {

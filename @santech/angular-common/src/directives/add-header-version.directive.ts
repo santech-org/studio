@@ -20,10 +20,11 @@ export class AddHeaderVersionDirective implements OnInit, OnDestroy {
     const appInfos = this._infos;
     const http = this._http;
     const headerVersion = [appInfos.name, appInfos.version].join('-');
-    this._remover = http.addRequestInterceptor((_, config) => {
-      const headers = config.headers = http.createHeaders(config.headers);
-      headers.append('Version', headerVersion);
-      return Promise.resolve(config);
+    this._remover = http.addInterceptor({
+      request: (_, config) => {
+        config.headers.append('Version', headerVersion);
+        return Promise.resolve(config);
+      },
     });
   }
 
