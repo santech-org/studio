@@ -5,5 +5,5 @@
     "@santech/*"
   ],
   "useWorkspaces": true,
-  "version": "7.0.0-alpha.4"
+  "version": "7.0.0-alpha.5"
 }
