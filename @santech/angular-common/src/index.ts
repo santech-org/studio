@@ -90,8 +90,8 @@ export class SantechCommonModule {
         { provide: INTERCEPTORS, useClass: JsonRequestInterceptor, multi: true },
         { provide: INTERCEPTORS, useClass: FormDataRequestInterceptor, multi: true },
         { provide: INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true },
-        { provide: CUSTOM_INTERCEPTORS, useFactory: identity, deps: [AuthorizationInterceptor], multi: true },
         { provide: CUSTOM_INTERCEPTORS, useFactory: identity, deps: [SessionInterceptor], multi: true },
+        { provide: CUSTOM_INTERCEPTORS, useFactory: identity, deps: [AuthorizationInterceptor], multi: true },
         { provide: CUSTOM_INTERCEPTORS, useFactory: identity, deps: [HttpStatusInterceptor], multi: true },
         {
           deps: [PLATFORM_FETCH, DESERIALIZERS, PLATFORM_HEADERS, INTERCEPTORS],
