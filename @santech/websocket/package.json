@@ -49,9 +49,9 @@
     "rollup": "*",
     "rollup-plugin-typescript2": "*",
     "sinon": "*",
-    "ts-helpers": "*",
     "ts-jest": "*",
     "ts-node": "*",
+    "tslib": "*",
     "tslint": "*",
     "typedoc": "*",
     "typescript": "*"
@@ -64,9 +64,6 @@
     "moduleFileExtensions": [
       "ts",
       "js"
-    ],
-    "setupFiles": [
-      "ts-helpers"
     ]
   }
 }

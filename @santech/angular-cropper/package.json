@@ -49,7 +49,8 @@
     "ngx-img-cropper": "*",
     "rimraf": "*",
     "rxjs": "^5.0.0",
-    "ts-helpers": "*",
+    "tsickle": "*",
+    "tslib": "*",
     "tslint": "*",
     "typedoc": "*",
     "typescript": "*",
@@ -65,7 +66,6 @@
       "<rootDir>/src/"
     ],
     "setupFiles": [
-      "ts-helpers",
       "whatwg-fetch",
       "jest-localstorage-mock"
     ],

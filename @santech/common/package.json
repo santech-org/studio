@@ -36,7 +36,7 @@
   "author": "Paul Souche <psouche@santech.fr>",
   "license": "MIT",
   "peerDependencies": {
-    "tslib": "^1.9.1"
+    "tslib": "^1.0.0"
   },
   "dependencies": {
     "@santech/core": "^7.0.0-alpha.3"

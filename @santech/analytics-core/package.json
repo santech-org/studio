@@ -45,6 +45,7 @@
     "rollup-plugin-node-builtins": "*",
     "rollup-plugin-node-resolve": "3.0.0",
     "rollup-plugin-typescript2": "*",
+    "tslint": "*",
     "typescript": "*"
   }
 }

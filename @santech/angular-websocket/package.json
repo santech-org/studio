@@ -59,7 +59,6 @@
     "rimraf": "*",
     "rxjs": "^5.0.0",
     "sockjs-client": "*",
-    "ts-helpers": "*",
     "tsickle": "*",
     "tslib": "*",
     "typedoc": "*",
@@ -76,7 +75,6 @@
       "<rootDir>/src/"
     ],
     "setupFiles": [
-      "ts-helpers",
       "whatwg-fetch",
       "jest-localstorage-mock"
     ],
