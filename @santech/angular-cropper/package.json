@@ -1,6 +1,6 @@
 {
   "name": "@santech/angular-cropper",
-  "version": "7.0.0-alpha.3",
+  "version": "7.0.0-alpha.4",
   "description": "Angular cropper module for santech studio",
   "main": "dist/bundles/santech-angular-cropper.umd.js",
   "module": "dist/esm5/santech-angular-cropper.js",
@@ -39,7 +39,7 @@
     "@angular/core": "^5.0.0",
     "@angular/platform-browser": "^5.0.0",
     "@angular/platform-browser-dynamic": "^5.0.0",
-    "@santech/core": "^7.0.0-alpha.3",
+    "@santech/core": "^7.0.0-alpha.4",
     "@types/jest": "*",
     "cpx": "*",
     "jest": "*",

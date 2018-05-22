@@ -1,6 +1,6 @@
 {
   "name": "@santech/websocket",
-  "version": "7.0.0-alpha.3",
+  "version": "7.0.0-alpha.4",
   "description": "websocket connector for santech studio",
   "main": "dist/umd/index.js",
   "module": "dist/index.js",
@@ -34,8 +34,8 @@
   "author": "Paul Souche <psouche@santech.fr>",
   "license": "MIT",
   "dependencies": {
-    "@santech/common": "^7.0.0-alpha.3",
-    "@santech/core": "^7.0.0-alpha.3",
+    "@santech/common": "^7.0.0-alpha.4",
+    "@santech/core": "^7.0.0-alpha.4",
     "@stomp/stompjs": "*",
     "@types/sockjs-client": "*",
     "sockjs-client": "*"
