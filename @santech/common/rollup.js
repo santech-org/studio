@@ -24,7 +24,7 @@ const buildModule = async () => {
 
 const buildTestingModule = async () => {
   const testingBundle = await rollup.rollup({
-    external: ['@santech/common'],
+    external: ['@santech/common', '@santech/core/testing'],
     input: './index-testing.ts',
     plugins,
   });
@@ -34,6 +34,7 @@ const buildTestingModule = async () => {
     format: 'umd',
     globals: {
       '@santech/common': 'Santech.Common',
+      '@santech/core/testing': 'Santech.Core.Testing',
     },
     name: 'Santech.Common.Testing',
     sourcemap: true,

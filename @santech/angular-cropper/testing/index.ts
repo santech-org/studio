@@ -7,18 +7,18 @@ export const imageCropperMethods = ['getCroppedImageHelper'];
 export const santechImageServiceMethods = Object
   .getOwnPropertyNames(ImageService.prototype).filter(filterPrivate);
 
-let spySantechImageService: SantechSpyObject<ImageService>;
+let spyImageService: SantechSpyObject<ImageService>;
 let spyImageCropper: SantechSpyObject<ImageCropper>;
 
 if (typeof jasmine !== 'undefined' && typeof jasmine.createSpyObj === 'function') {
-  spySantechImageService = jasmine.createSpyObj('spySantechImageService', santechImageServiceMethods);
+  spyImageService = jasmine.createSpyObj('spyImageService', santechImageServiceMethods);
   spyImageCropper = jasmine.createSpyObj('spyImageCropper', imageCropperMethods);
 } else if (typeof jest !== 'undefined') {
-  spySantechImageService = createJestSpyObj(santechImageServiceMethods);
+  spyImageService = createJestSpyObj(santechImageServiceMethods);
   spyImageCropper = createJestSpyObj(imageCropperMethods);
 }
 
 export {
-  spySantechImageService,
+  spyImageService,
   spyImageCropper,
 };

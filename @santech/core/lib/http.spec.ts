@@ -1,88 +1,63 @@
 import sinon = require('sinon');
+import { Base64Deserializer } from './deserializers/base64-deserializer';
+import { ImageDeserializer } from './deserializers/image-deserializer';
+import { JsonDeserializer } from './deserializers/json-deserializer';
+import { TextPlainDeserializer } from './deserializers/text-plain-deserializer';
 import { Http } from './http';
-import { failure, internalServerError, success, unauthorized } from './testing/fetch';
+import { FormDataRequestInterceptor } from './interceptors/form-data-request.interceptor';
+import { JsonRequestInterceptor } from './interceptors/json-request.interceptor';
+import { failure, internalServerError, success } from './testing/fetch';
 
-const fetchStub = sinon.stub() as typeof fetch & sinon.SinonStub;
+const client = sinon.stub() as typeof fetch & sinon.SinonStub;
 
 // No typings for fetch-headers...
-// tslint:disable-next-line:no-var-requires
-const headersPolyfill: typeof Headers = require('fetch-headers');
+// tslint:disable-next-line:variable-name no-var-requires
+const headers: typeof Headers = require('fetch-headers');
 
 const url = 'http://host:port/path';
 
 describe('Http', () => {
-  let http: Http;
-
   beforeEach(() => {
-    fetchStub.reset();
-    fetchStub.resetBehavior();
-    http = new Http(fetchStub, headersPolyfill);
+    client.reset();
+    client.resetBehavior();
   });
 
   describe('When I call original fetch', () => {
-    beforeEach(() => fetchStub
-      .withArgs(url, { method: 'LOL', headers: new headersPolyfill() })
+    beforeEach(() => client
+      .withArgs(url, { headers: new headers() })
       .returns(Promise.resolve(success({}))));
 
-    beforeEach(() => http.fetch(url, { method: 'LOL' }));
-
-    it('Should pass the params', () => {
-      expect(fetchStub.calledWith(url, { method: 'LOL', headers: new headersPolyfill() })).toBe(true);
+    it('Should make the call', async () => {
+      const res = await new Http({ client, headers })
+        .fetch(url);
+      expect(await res.json()).toEqual({});
     });
   });
 
-  describe('When I want to POST with fetch', () => {
-    const frontendData = { foo: 'bar' };
-    const backendData = { baz: 'quux' };
-
-    beforeEach(() => fetchStub
-      .withArgs(url, {
-        body: JSON.stringify(frontendData),
-        headers: new headersPolyfill([
-          ['Content-Type', 'my/application/json'],
-        ]),
-        method: 'POST',
-      })
-      .returns(Promise.resolve(success(backendData))));
-
-    it('Should call wrapped fetch', () => {
-      return http.fetch<typeof backendData>(url, {
-        body: JSON.stringify(frontendData),
-        headers: [
-          ['Content-Type', 'my/application/json'],
-        ],
-        method: 'POST',
-      })
-        .then((resp) => {
-          expect(resp.data).toEqual(backendData);
-        });
-    });
-  });
-
-  describe('When I want to make a basic request', () => {
+  describe('When I want to GET a json resource', () => {
     const backendData = { foo: 'bar' };
+    const deserializers = [
+      new JsonDeserializer(),
+    ];
 
-    beforeEach(() => fetchStub
-      .withArgs(url, { headers: new headersPolyfill() })
+    beforeEach(() => client
+      .withArgs(url, { headers: new headers() })
       .returns(Promise.resolve(success(backendData))));
 
-    it('Should call wrapped fetch', () => {
-      return http.get<typeof backendData>(url)
-        .then((resp) => {
-          expect(resp.data).toEqual(backendData);
-        });
+    it('Should call wrapped fetch', async () => {
+      const res = await new Http({ client, headers, deserializers }).get(url);
+      expect(res.data).toEqual(backendData);
     });
 
-    describe('And I want to pass custom headers', () => {
-      beforeEach(() => fetchStub
-        .withArgs(url, { headers: new headersPolyfill([['FOO', 'bar']]) })
+    describe('And I need to pass custom headers', () => {
+      beforeEach(() => client
+        .withArgs(url, { headers: new headers({ foo: 'bar' }) })
         .returns(Promise.resolve(success(backendData))));
 
-      it('Should pass custom headers', () => {
-        return http.get<typeof backendData>(url, { headers: [['FOO', 'bar']] })
-          .then((resp) => {
-            expect(resp.data).toEqual(backendData);
-          });
+      it('Should pass custom headers', async () => {
+        const res = await new Http({ client, headers, deserializers })
+          .get(url, { headers: { foo: 'bar' } });
+        expect(res.data).toEqual(backendData);
       });
     });
 
@@ -95,246 +70,296 @@ describe('Http', () => {
       };
 
       beforeEach(() => {
-        fetchStub
+        client
           .withArgs(url.concat('?baz=quux&baz=42&foo=bar&zip=true'), {
-            headers: new headersPolyfill(),
+            headers: new headers(),
             params,
           })
           .returns(Promise.resolve(success(backendData)));
       });
 
-      it('Should pass params', () => {
-        return http.get<typeof backendData>(url, { params })
-          .then((resp) => {
-            expect(resp.data).toEqual(backendData);
-          });
+      it('Should pass params', async () => {
+        const res = await new Http({ client, headers, deserializers }).get(url, { params });
+        expect(res.data).toEqual(backendData);
       });
 
-      describe('When parameters require encoding', () => {
+      describe('And parameters require encoding', () => {
         const encodableParam = 'endika+1@mail.com';
-        const paramsWithEncodableParam: any = { encodableParam, ...params };
+        const paramsWithEncodableParam = { encodableParam, ...params };
 
         beforeEach(() => {
-          fetchStub
+          client
             .withArgs([url,
               '?encodableParam=',
               encodeURIComponent(encodableParam),
               '&baz=quux&baz=42&foo=bar&zip=true',
             ].join(''), {
-              headers: new headersPolyfill(),
-              params: paramsWithEncodableParam,
-            })
+                headers: new headers(),
+                params: paramsWithEncodableParam,
+              })
             .returns(Promise.resolve(success(backendData)));
         });
 
-        it('Should encode parameters', () => {
-          return http.get<typeof backendData>(url, { params: paramsWithEncodableParam })
-            .then((resp) => {
-              expect(resp.data).toEqual(backendData);
-            });
+        it('Should encode parameters', async () => {
+          const res = await new Http({ client, headers, deserializers }).get(url, { params });
+          expect(res.data).toEqual(backendData);
         });
       });
     });
   });
 
-  describe('When I want to POST data', () => {
+  describe('When I want to POST Json data', () => {
     const frontendData = { foo: 'bar' };
     const backendData = { baz: 'quux' };
+    const deserializers = [
+      new JsonDeserializer(),
+    ];
+    const interceptors = [
+      new JsonRequestInterceptor(),
+    ];
 
-    beforeEach(() => fetchStub
+    beforeEach(() => client
       .withArgs(url, {
         body: JSON.stringify(frontendData),
-        headers: new headersPolyfill([
-          ['content-type', 'application/json'],
-        ]),
+        headers: new headers({
+          'content-type': 'application/json',
+        }),
         method: 'POST',
       })
       .returns(Promise.resolve(success(backendData))));
 
-    it('Should prepare a default JSON request and call wrapped fetch', () => {
-      return http.post<typeof backendData>(url, frontendData)
-        .then((resp) => {
-          expect(resp.data).toEqual(backendData);
-        });
+    it('Should prepare a default JSON request and call wrapped fetch', async () => {
+      const res = await new Http({ client, headers, deserializers, interceptors })
+        .post(url, frontendData);
+      expect(res.data).toEqual(backendData);
     });
   });
 
-  describe('When I want to PUT data', () => {
+  describe('When I want to PUT Json data', () => {
     const frontendData = { foo: 'bar' };
     const backendData = { baz: 'quux' };
+    const deserializers = [
+      new JsonDeserializer(),
+    ];
+    const interceptors = [
+      new JsonRequestInterceptor(),
+    ];
 
-    beforeEach(() => fetchStub
+    beforeEach(() => client
       .withArgs(url, {
         body: JSON.stringify(frontendData),
-        headers: new headersPolyfill([
+        headers: new headers([
           ['content-type', 'application/json'],
         ]),
         method: 'PUT',
       })
       .returns(Promise.resolve(success(backendData))));
 
-    it('Should prepare a default JSON request and call wrapped fetch', () => {
-      return http.put<typeof backendData>(url, frontendData)
-        .then((resp) => {
-          expect(resp.data).toEqual(backendData);
-        });
+    it('Should prepare a default JSON request and call wrapped fetch', async () => {
+      const res = await new Http({ client, headers, deserializers, interceptors })
+        .put(url, frontendData);
+      expect(res.data).toEqual(backendData);
     });
   });
 
-  describe('When I want to PATCH data', () => {
+  describe('When I want to PATCH Json data', () => {
     const frontendData = { foo: 'bar' };
     const backendData = { baz: 'quux' };
+    const deserializers = [
+      new JsonDeserializer(),
+    ];
+    const interceptors = [
+      new JsonRequestInterceptor(),
+    ];
 
-    beforeEach(() => fetchStub
+    beforeEach(() => client
       .withArgs(url, {
         body: JSON.stringify(frontendData),
-        headers: new headersPolyfill([
+        headers: new headers([
           ['content-type', 'application/json'],
         ]),
         method: 'PATCH',
       })
       .returns(Promise.resolve(success(backendData))));
 
-    it('Should prepare a default JSON request and call wrapped fetch', () => {
-      return http.patch<typeof backendData>(url, frontendData)
-        .then((resp) => {
-          expect(resp.data).toEqual(backendData);
-        });
+    it('Should prepare a default JSON request and call wrapped fetch', async () => {
+      const res = await new Http({ client, headers, deserializers, interceptors })
+        .patch(url, frontendData);
+      expect(res.data).toEqual(backendData);
     });
   });
 
   describe('When I want to DELETE data', () => {
-    beforeEach(() => fetchStub
+    beforeEach(() => client
       .withArgs(url, {
-        headers: new headersPolyfill(),
+        headers: new headers(),
         method: 'DELETE',
       })
       .returns(Promise.resolve(success('', { contentType: 'No Content' }))));
 
-    it('Should prepare a default JSON request and call wrapped fetch', () => {
-      return http.delete(url)
-        .then((resp: Response) => {
-          expect(resp.ok).toBe(true);
-        });
+    it('Should prepare a default JSON request and call wrapped fetch', async () => {
+      const res = await new Http({ client, headers })
+        .delete(url);
+      expect(res.ok).toBe(true);
     });
   });
 
   describe('When I want to POST FormData', () => {
-    const frontendData = new Date(); // Date is used here as FormData is not native
+    const frontendData = new Date(); // Date is used here: FormData is not native
     const backendData = { baz: 'quux' };
+    const deserializers = [
+      new JsonDeserializer(),
+    ];
+    const interceptors = [
+      new JsonRequestInterceptor(),
+      new FormDataRequestInterceptor(),
+    ];
 
-    beforeEach(() => fetchStub
+    beforeEach(() => client
       .withArgs(url, {
         body: frontendData,
-        headers: new headersPolyfill(),
+        headers: new headers(),
         method: 'POST',
       })
       .returns(Promise.resolve(success(backendData))));
 
-    it('Should not set any header and call wrapped fetch', () => {
-      return http.post<typeof backendData>(url, frontendData, {
-        headers: [
-          ['Content-Type', 'multipart/form-data'],
-        ],
-      })
-        .then((resp) => {
-          expect(resp.data).toEqual(backendData);
-        });
+    it('Should not set any header and call wrapped fetch', async () => {
+      const res = await new Http({ client, headers, deserializers, interceptors })
+        .post(url, frontendData, { headers: { 'Content-Type': 'multipart/form-data' } });
+      expect(res.data).toEqual(backendData);
     });
   });
 
   describe('When I download an image', () => {
     const backendData = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
+    const deserializers = [
+      new JsonDeserializer(),
+      new ImageDeserializer(),
+    ];
+    const interceptors = [
+      new JsonRequestInterceptor(),
+      new FormDataRequestInterceptor(),
+    ];
 
-    beforeEach(() => fetchStub
-      .withArgs(url, { headers: new headersPolyfill() })
+    beforeEach(() => client
+      .withArgs(url, { headers: new headers() })
       .returns(Promise.resolve(success(backendData, { contentType: 'image/png' }))));
 
-    it('Should return my image as a blob', () => {
-      return http.get<typeof backendData>(url)
-        .then((resp) => {
-          expect(resp.data).toEqual(backendData);
-        });
+    it('Should return a blob of my image', async () => {
+      const res = await new Http({ client, headers, deserializers, interceptors }).get(url);
+      expect(res.data).toEqual(backendData);
     });
   });
 
   describe('When I download a base64 image', () => {
     const backendData = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
+    const deserializers = [
+      new JsonDeserializer(),
+      new ImageDeserializer(),
+      new Base64Deserializer(),
+    ];
+    const interceptors = [
+      new JsonRequestInterceptor(),
+      new FormDataRequestInterceptor(),
+    ];
 
-    beforeEach(() => fetchStub
-      .withArgs(url, { headers: new headersPolyfill() })
+    beforeEach(() => client
+      .withArgs(url, { headers: new headers() })
       .returns(Promise.resolve(success(backendData, { contentType: 'application/base64' }))));
 
-    it('Should return my image as a string', () => {
-      return http.get<typeof backendData>(url)
-        .then((resp) => {
-          expect(resp.data).toEqual(backendData);
-        });
+    it('Should return a string of my image', async () => {
+      const res = await new Http({ client, headers, deserializers, interceptors }).get(url);
+      expect(res.data).toEqual(backendData);
     });
   });
 
   describe('When I download plain text', () => {
     const backendData = 'plain text';
+    const deserializers = [
+      new JsonDeserializer(),
+      new ImageDeserializer(),
+      new Base64Deserializer(),
+      new TextPlainDeserializer(),
+    ];
+    const interceptors = [
+      new JsonRequestInterceptor(),
+      new FormDataRequestInterceptor(),
+    ];
 
-    beforeEach(() => fetchStub
-      .withArgs(url, { headers: new headersPolyfill() })
+    beforeEach(() => client
+      .withArgs(url, { headers: new headers() })
       .returns(Promise.resolve(success(backendData, { contentType: 'text/plain' }))));
 
-    it('Should return my text', () => {
-      return http.get<typeof backendData>(url)
-        .then((resp) => {
-          expect(resp.data).toEqual(backendData);
-        });
+    it('Should return my text', async () => {
+      const res = await new Http({ client, headers, deserializers, interceptors }).get(url);
+      expect(res.data).toEqual(backendData);
     });
   });
 
   describe('When my request fail', () => {
-    beforeEach(() => fetchStub
-      .withArgs(url, { headers: new headersPolyfill() })
+    const deserializers = [
+      new TextPlainDeserializer(),
+      new JsonDeserializer(),
+      new ImageDeserializer(),
+      new Base64Deserializer(),
+    ];
+    const interceptors = [
+      new JsonRequestInterceptor(),
+      new FormDataRequestInterceptor(),
+    ];
+
+    beforeEach(() => client
+      .withArgs(url, { headers: new headers() })
       .returns(Promise.resolve(failure(internalServerError))));
 
-    it('Should call wrapped fetch', () => {
-      return http.get(url)
-        .catch((resp: Response) => {
-          expect(resp.ok).toBe(false);
-          expect(resp.status).toEqual(500);
-          return resp.json() as Promise<typeof internalServerError>;
-        })
-        .then((error) => {
-          expect(error).toEqual(internalServerError);
-        });
+    it('Should throw the response', async () => {
+      try {
+        await new Http({ client, headers, deserializers, interceptors }).get(url);
+        throw new Error('not a response');
+      } catch (res) {
+        expect(res.ok).toBe(false);
+        expect(res.status).toEqual(500);
+        expect(res.data).toEqual(internalServerError);
+      }
     });
   });
 
-  describe('When I provide a request interceptor', () => {
+  describe('When I provide an interceptor', () => {
     const headerKey = 'Authorization';
+    const http = new Http({ client, headers });
     let remover: () => void;
-    let requestUrl: string;
+    let interceptorInfo: RequestInfo;
 
     beforeEach(() => remover = http
-      .addRequestInterceptor((interceptorUrl, config) =>
-        new Promise((res) => {
-          requestUrl = interceptorUrl;
-          const headers = config.headers = http.createHeaders(config.headers);
-          headers.append(headerKey, 'Bearer Token');
+      .addInterceptor({
+        request: (requestInfo, config) => new Promise((res) => {
+          interceptorInfo = requestInfo;
+          config.headers.append(headerKey, 'Bearer Token');
           res(config);
-        })));
+        }),
+        response: (res) => {
+          return {
+            ...res,
+            data: { foo: 'bar' },
+          };
+        },
+      }));
+
+    afterEach(() => remover());
 
     describe('And I perform a request', () => {
-      beforeEach(() => fetchStub
+      beforeEach(() => client
         .withArgs(url, {
-          headers: new headersPolyfill([
-            [headerKey, 'Bearer Token'],
-          ]),
+          headers: new headers({
+            [headerKey]: 'Bearer Token',
+          }),
         })
         .returns(Promise.resolve(success({}))));
 
-      it('Should call interceptor and wrapped fetch', () => {
-        return http.fetch(url)
-          .then((resp) => {
-            expect(resp.data).toEqual({});
-            expect(requestUrl).toEqual(url);
-          });
+      it('Should play request interceptor, make the call and play response interceptor', async () => {
+        const res = await http.get(url);
+        expect(res.data).toEqual({ foo: 'bar' });
+        expect(interceptorInfo).toEqual(url);
       });
     });
 
@@ -342,113 +367,66 @@ describe('Http', () => {
       beforeEach(() => remover());
 
       it('Should not throw if called more than once', () => {
-        expect((http as any)._requestInterceptors.length).toEqual(2);
-        remover();
-        expect((http as any)._requestInterceptors.length).toEqual(2);
+        expect(() => remover()).not.toThrow();
       });
 
       describe('And I perform a request', () => {
-        beforeEach(() => fetchStub
-          .withArgs(url, { headers: new headersPolyfill() })
+        beforeEach(() => client
+          .withArgs(url, { headers: new headers() })
           .returns(Promise.resolve(success({}))));
 
-        it('Should call wrapped fetch and my interceptor no more', () => {
-          http.fetch(url)
-            .then((resp) => {
-              expect(resp.data).toEqual({});
-            });
+        it('Should call wrapped fetch and my interceptor no more', async () => {
+          const res = await http.get(url);
+          expect(res.data).toEqual({});
         });
       });
     });
 
-    describe('And it fails', () => {
+    describe('And the interceptor fails', () => {
       beforeEach(() => remover = http
-        .addRequestInterceptor(() => { throw new Error('LOL'); }));
+        .addInterceptor({
+          response: () => { throw new Error('LOL'); },
+        }));
 
       describe('And I perform a request', () => {
-        it('Should reject my call with the error', () => {
-          http.fetch(url)
-            .catch((err: Error) => {
-              expect(err.message).toEqual('LOL');
-            });
-        });
-      });
-    });
-  });
-
-  describe('When I provide a response interceptor', () => {
-    let remover: () => void;
-
-    beforeEach(() => remover = http
-      .addResponseInterceptor((response: Response) => {
-        if (response.status === 403) {
-          throw new Error('Not authorized');
-        }
-      }));
-
-    beforeEach(() => fetchStub
-      .withArgs(url, { headers: new headersPolyfill() })
-      .returns(Promise.resolve(failure(unauthorized, {
-        status: 403,
-      }))));
-
-    describe('And I perform a request', () => {
-      it('Should call interceptor and wrapped fetch', () => {
-        return http.fetch(url)
-          .catch((err: Error) => {
-            expect(err.message).toEqual('Not authorized');
-          });
-      });
-    });
-
-    describe('And I remove it', () => {
-      beforeEach(() => remover());
-
-      it('Should not throw if called more than once', () => {
-        expect((http as any)._responseInterceptors.length).toEqual(0);
-        remover();
-        expect((http as any)._responseInterceptors.length).toEqual(0);
-      });
-
-      describe('And I perform a request', () => {
-        it('Should call wrapped fetch and my interceptor no more', () => {
-          return http.fetch(url)
-            .catch((resp: Response) => {
-              expect(resp.ok).toBe(false);
-              expect(resp.status).toEqual(403);
-              return resp.json() as Promise<typeof unauthorized>;
-            })
-            .then((error) => {
-              expect(error).toEqual(unauthorized);
-            });
+        it('Should reject my call with the error', async () => {
+          try {
+            await http.get(url);
+            throw new Error('not my Error');
+          } catch (e) {
+            expect(e.message).toBe('LOL');
+          }
         });
       });
     });
   });
 
   describe('When I provide a response deserializer', () => {
-    const fooBar: any = { foo: 'bar' };
+    const fooBar = { foo: 'bar' };
+    const http = new Http({ client, headers });
     let remover: () => void;
 
     beforeEach(() => remover = http
-      .addResponseDeserializer((response: Response) => {
-        const contentType = response.headers.get('Content-Type');
-        if (contentType === 'myContentType') {
-          return Promise.resolve(fooBar);
-        }
-        return response;
+      .addDeserializer({
+        deserialize: (response: Response) => {
+          const contentType = response.headers.get('Content-Type');
+          if (contentType === 'myContentType') {
+            return Promise.resolve(fooBar);
+          }
+          return response;
+        },
       }));
 
-    beforeEach(() => fetchStub
-      .withArgs(url, { headers: new headersPolyfill() })
+    afterEach(() => remover());
+
+    beforeEach(() => client
+      .withArgs(url, { headers: new headers() })
       .returns(Promise.resolve(success({}, { contentType: 'myContentType' }))));
 
     describe('And I perform a request', () => {
-      it('Should wrapped fetch and deserializer', () => {
-        http.fetch(url)
-          .then((resp) => {
-            expect(resp.data).toEqual({ foo: 'bar' });
-          });
+      it('Should make the call and deserialize', async () => {
+        const res = await http.get(url);
+        expect(res.data).toEqual({ foo: 'bar' });
       });
     });
 
@@ -456,18 +434,35 @@ describe('Http', () => {
       beforeEach(() => remover());
 
       it('Should not throw if called more than once', () => {
-        expect((http as any)._responseDeserializers.length).toEqual(4);
-        remover();
-        expect((http as any)._responseDeserializers.length).toEqual(4);
+        expect(() => remover()).not.toThrow();
       });
 
       describe('And I perform a request', () => {
-        it('Should call wrapped fetch and my deserializer no more', () => {
-          http.fetch(url)
-            .then((resp: Response) => resp.json())
-            .then((data) => {
-              expect(data).toEqual({});
-            });
+        it('Should call wrapped fetch and my deserializer no more', async () => {
+          const res = await http.get(url);
+          expect(res.data).toEqual({});
+        });
+      });
+    });
+
+    describe('And the deserializer fails', () => {
+      beforeEach(() => client
+        .withArgs(url, { headers: new headers() })
+        .returns(Promise.resolve(success({}))));
+
+      beforeEach(() => remover = http
+        .addDeserializer({
+          deserialize: () => { throw new Error('LOL'); },
+        }));
+
+      describe('And I perform a request', () => {
+        it('Should reject my call with the error', async () => {
+          try {
+            await http.get(url);
+            throw new Error('not my Error');
+          } catch (e) {
+            expect(e.message).toBe('LOL');
+          }
         });
       });
     });

@@ -1,4 +1,5 @@
-import { Authenticator, IWsEndPoints } from '@santech/common';
+import { Authenticator } from '@santech/common';
+import { IWsEndPoints } from '@santech/core';
 import { WebSocketClient, webSocketClientFactory as factory } from '@santech/websocket';
 import * as StompJs from '@stomp/stompjs';
 import * as SockJs from 'sockjs-client';

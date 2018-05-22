@@ -1,6 +1,6 @@
 {
   "name": "@santech/core",
-  "version": "7.0.0-alpha.3",
+  "version": "7.0.0-alpha.4",
   "description": "Core module for santech studio",
   "main": "dist/umd/index.js",
   "module": "dist/index.js",
@@ -37,6 +37,9 @@
   ],
   "author": "Paul Souche <psouche@santech.fr>",
   "license": "MIT",
+  "peerDependencies": {
+    "tslib": "^1.0.0"
+  },
   "devDependencies": {
     "@types/jest": "*",
     "@types/sinon": "*",
@@ -47,7 +50,6 @@
     "rollup": "*",
     "rollup-plugin-typescript2": "*",
     "sinon": "*",
-    "ts-helpers": "*",
     "ts-jest": "*",
     "ts-node": "*",
     "tslint": "*",
@@ -62,9 +64,6 @@
     "moduleFileExtensions": [
       "ts",
       "js"
-    ],
-    "setupFiles": [
-      "ts-helpers"
     ]
   }
 }

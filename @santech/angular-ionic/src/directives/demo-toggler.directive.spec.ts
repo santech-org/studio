@@ -64,7 +64,7 @@ describe('Demo toggler directive', () => {
 
           it('Should do nothing', () => {
             expect(() => mockTimeoutService.tick()).toThrow();
-            expect(spyLocalstorage.getItem).not.toHaveBeenCalled();
+            expect(spyLocalstorage.getItem).not.toHaveBeenCalledWith('std-demo');
           });
         });
 
@@ -110,7 +110,7 @@ describe('Demo toggler directive', () => {
 
             it('Should do nothing', () => {
               expect(() => mockTimeoutService.tick()).toThrow();
-              expect(spyLocalstorage.getItem).not.toHaveBeenCalled();
+              expect(spyLocalstorage.getItem).not.toHaveBeenCalledWith('std-demo');
             });
           });
         });

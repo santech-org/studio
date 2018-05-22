@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "declaration": false,
+    "importHelpers": true,
     "module": "commonjs",
     "moduleResolution": "node",
     "noEmitHelpers": true,

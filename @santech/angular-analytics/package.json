@@ -1,6 +1,6 @@
 {
   "name": "@santech/angular-analytics",
-  "version": "7.0.0-alpha.3",
+  "version": "7.0.0-alpha.4",
   "description": "santech angular analytics module",
   "main": "dist/bundles/santech-angular-analytics.umd.js",
   "module": "dist/esm5/santech-angular-analytics.js",
@@ -41,17 +41,16 @@
     "@angular/core": "^5.0.0",
     "@angular/platform-browser": "^5.0.0",
     "@angular/platform-browser-dynamic": "^5.0.0",
-    "@santech/analytics-core": "^7.0.0-alpha.3",
-    "@santech/analytics-integration": "^7.0.0-alpha.3",
-    "@santech/angular-common": "^7.0.0-alpha.3",
-    "@santech/core": "^7.0.0-alpha.3",
+    "@santech/analytics-core": "^7.0.0-alpha.4",
+    "@santech/analytics-integration": "^7.0.0-alpha.4",
+    "@santech/angular-common": "^7.0.0-alpha.4",
+    "@santech/core": "^7.0.0-alpha.4",
     "jest": "*",
     "jest-localstorage-mock": "*",
     "jest-preset-angular": "*",
     "ng-packagr": "*",
     "rimraf": "*",
     "rxjs": "^5.0.0",
-    "ts-helpers": "*",
     "tsickle": "*",
     "tslib": "*",
     "typedoc": "*",
@@ -68,7 +67,6 @@
       "<rootDir>/src/"
     ],
     "setupFiles": [
-      "ts-helpers",
       "whatwg-fetch",
       "jest-localstorage-mock"
     ],

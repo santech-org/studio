@@ -1,6 +1,6 @@
 {
   "name": "@santech/angular-i18n",
-  "version": "7.0.0-alpha.3",
+  "version": "7.0.0-alpha.4",
   "description": "santech angular i18n module",
   "main": "dist/bundles/santech-angular-i18n.umd.js",
   "module": "dist/esm5/santech-angular-i18n.js",
@@ -42,14 +42,13 @@
     "@angular/platform-browser": "^5.0.0",
     "@angular/platform-browser-dynamic": "^5.0.0",
     "@ngx-translate/core": "^9.0.0",
-    "@santech/angular-platform": "^7.0.0-alpha.3",
+    "@santech/angular-platform": "^7.0.0-alpha.4",
     "jest": "*",
     "jest-localstorage-mock": "*",
     "jest-preset-angular": "*",
     "ng-packagr": "*",
     "rimraf": "*",
     "rxjs": "^5.0.0",
-    "ts-helpers": "*",
     "tsickle": "*",
     "tslib": "*",
     "typedoc": "*",
@@ -66,7 +65,6 @@
       "<rootDir>/src/"
     ],
     "setupFiles": [
-      "ts-helpers",
       "whatwg-fetch",
       "jest-localstorage-mock"
     ],

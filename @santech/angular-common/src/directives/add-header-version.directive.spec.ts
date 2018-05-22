@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { SantechPlatformModule } from '@santech/angular-platform';
-import { Http, THttpRequestInterceptor } from '@santech/core';
+import { Http, IHttpInterceptor } from '@santech/core';
 import { spyHttp } from '@santech/core/testing';
 import { SantechCommonModule } from '..';
 import { APP_INFORMATION } from '../tokens/app-information.token';
@@ -17,11 +17,11 @@ class TestAddHeaderVersionComponent { }
 describe('AddHeaderVersionDirective', () => {
   const spyRemover = jest.fn();
   const headers = new Headers();
-  let interceptor: THttpRequestInterceptor;
+  let interceptor: IHttpInterceptor;
   let fixture: ComponentFixture<TestAddHeaderVersionComponent>;
 
   beforeEach(async(() => {
-    spyHttp.addRequestInterceptor.mockImplementation((func: THttpRequestInterceptor) => {
+    spyHttp.addInterceptor.mockImplementation((func: IHttpInterceptor) => {
       interceptor = func;
       return spyRemover;
     });
@@ -52,7 +52,11 @@ describe('AddHeaderVersionDirective', () => {
   }));
 
   it('Should set header version request interceptor', () => {
-    interceptor('', { headers });
+    const { request } = interceptor;
+    if (!request) {
+      throw new Error('Bad interceptor');
+    }
+    request('', { headers });
     expect(headers.get('Version')).toBe('name-version');
     fixture.destroy();
     expect(spyRemover).toHaveBeenCalled();

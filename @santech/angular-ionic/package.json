@@ -1,6 +1,6 @@
 {
   "name": "@santech/angular-ionic",
-  "version": "7.0.0-alpha.3",
+  "version": "7.0.0-alpha.4",
   "description": "Ionic module for santech studio",
   "main": "dist/bundles/santech-angular-ionic.umd.js",
   "module": "dist/esm5/santech-angular-ionic.js",
@@ -62,11 +62,11 @@
     "@ionic-native/network": "*",
     "@ionic-native/splash-screen": "*",
     "@ionic/storage": "*",
-    "@santech/angular-common": "^7.0.0-alpha.3",
-    "@santech/angular-cropper": "^7.0.0-alpha.3",
-    "@santech/angular-platform": "^7.0.0-alpha.3",
-    "@santech/common": "^7.0.0-alpha.3",
-    "@santech/core": "^7.0.0-alpha.3",
+    "@santech/angular-common": "^7.0.0-alpha.4",
+    "@santech/angular-cropper": "^7.0.0-alpha.4",
+    "@santech/angular-platform": "^7.0.0-alpha.4",
+    "@santech/common": "^7.0.0-alpha.4",
+    "@santech/core": "^7.0.0-alpha.4",
     "@types/jest": "*",
     "cpx": "*",
     "ionic-angular": "*",
@@ -78,7 +78,8 @@
     "ngx-img-cropper": "*",
     "rimraf": "*",
     "rxjs": "^5.0.0",
-    "ts-helpers": "*",
+    "tsickle": "*",
+    "tslib": "*",
     "tslint": "*",
     "typedoc": "*",
     "typescript": "*",
@@ -94,7 +95,6 @@
       "<rootDir>/src/"
     ],
     "setupFiles": [
-      "ts-helpers",
       "whatwg-fetch",
       "jest-localstorage-mock"
     ],
