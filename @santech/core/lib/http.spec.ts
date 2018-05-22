@@ -385,7 +385,7 @@ describe('Http', () => {
     describe('And the interceptor fails', () => {
       beforeEach(() => remover = http
         .addInterceptor({
-          response: () => { throw new Error('LOL'); },
+          request: () => { throw new Error('LOL'); },
         }));
 
       describe('And I perform a request', () => {

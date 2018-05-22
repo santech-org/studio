@@ -144,16 +144,12 @@ export class Http implements IHttp {
     for (const deserializer of this._deserializers) {
       const data = await deserializer.deserialize.call(deserializer, resp);
       if (data !== resp) {
-        return {
-          ...resp,
-          data,
-        };
+        Object.assign(resp, { data });
+        return resp as IDeserializedResponse<any>;
       }
     }
-    return Promise.resolve({
-      ...resp,
-      data: {},
-    });
+    Object.assign(resp, { data: {} });
+    return resp as IDeserializedResponse<any>;
   }
 
   private _remover<T>(func: T, funcs: T[]) {
