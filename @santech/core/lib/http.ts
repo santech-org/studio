@@ -24,24 +24,24 @@ export interface IHttp {
 export class Http implements IHttp {
   public createHeaders: (headers?: HeadersInit | undefined) => Headers;
 
-  private _interceptors: IHttpInterceptor[];
-  private _deserializers: Array<IHttpDeserializer<any>>;
+  private _interceptors: Map<IHttpInterceptor, IHttpInterceptor> = new Map();
+  private _deserializers: Map<IHttpDeserializer<any>, IHttpDeserializer<any>> = new Map();
   private _doRequest: <T>(input: RequestInfo, init: RequestInit) => Promise<IResponse<T>>;
 
   constructor(params: IHttpParams) {
-    this._interceptors = params.interceptors || [];
-    this._deserializers = params.deserializers || [];
+    (params.interceptors || []).forEach((i) => this._interceptors.set(i, i));
+    (params.deserializers || []).forEach((d) => this._deserializers.set(d, d));
     this._doRequest = this._setHttpClient(params.client);
     this.createHeaders = this._setHeadersConstructor(params.headers);
   }
 
   public addInterceptor(interceptor: IHttpInterceptor) {
-    this._interceptors.push(interceptor);
+    this._interceptors.set(interceptor, interceptor);
     return this._remover(interceptor, this._interceptors);
   }
 
   public addDeserializer<T>(deserializer: IHttpDeserializer<T>) {
-    this._deserializers.push(deserializer);
+    this._deserializers.set(deserializer, deserializer);
     return this._remover(deserializer, this._deserializers);
   }
 
@@ -54,13 +54,14 @@ export class Http implements IHttp {
       headers: this.createHeaders(requestInit.headers),
     };
 
-    const config = await this._interceptors
+    const interceptors = Array.from(this._interceptors.values());
+    const config = await interceptors
       .reduce(async (p, i) => i.request ? i.request.call(i, requestInfo, await p) : p, Promise.resolve(baseConfig));
 
     const res = await this._doRequest<T>(requestInfo, config);
     const des = this._deserialize(res);
 
-    const end = await this._interceptors
+    const end = await interceptors
       .reduce(async (p, i) => i.response ? i.response.call(i, await p) : p, des);
 
     if (end.ok) {
@@ -141,7 +142,8 @@ export class Http implements IHttp {
   }
 
   private async _deserialize(resp: IResponse<any>): Promise<IDeserializedResponse<any>> {
-    for (const deserializer of this._deserializers) {
+    const deserializers = Array.from(this._deserializers.values());
+    for (const deserializer of deserializers) {
       const data = await deserializer.deserialize.call(deserializer, resp);
       if (data !== resp) {
         Object.assign(resp, { data });
@@ -152,12 +154,7 @@ export class Http implements IHttp {
     return resp as IDeserializedResponse<any>;
   }
 
-  private _remover<T>(func: T, funcs: T[]) {
-    return () => {
-      const index = funcs.indexOf(func);
-      if (index >= 0) {
-        funcs.splice(index, 1);
-      }
-    };
+  private _remover<T>(func: T, funcs: Map<T, T>) {
+    return () => funcs.delete(func);
   }
 }
