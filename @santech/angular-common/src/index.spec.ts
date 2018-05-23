@@ -65,7 +65,7 @@ describe('SantechCommonModule', () => {
     }));
 
     it('Should provide custom interceptors in certain order', inject(
-      [CUSTOM_INTERCEPTORS, AuthorizationInterceptor, SessionInterceptor, HttpStatusInterceptor],
+      [CUSTOM_INTERCEPTORS, SessionInterceptor, AuthorizationInterceptor, HttpStatusInterceptor],
       (customInterceptors: IHttpInterceptor[], ...ctors: IHttpInterceptor[]) => {
         customInterceptors.forEach((interceptor, i) => expect(interceptor).toBe(ctors[i]));
       }));
