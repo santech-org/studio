@@ -467,4 +467,25 @@ describe('Http', () => {
       });
     });
   });
+
+  describe('When interceptors or deserializers instances are added multiple times', () => {
+    const interceptor = { request: jest.fn(), response: jest.fn() };
+    interceptor.request.mockImplementation((_, c) => c);
+    interceptor.response.mockImplementation((r) => r);
+    const deserializer = { deserialize: jest.fn() };
+    deserializer.deserialize.mockImplementation((r) => r);
+    const interceptors = [interceptor, interceptor];
+    const deserializers = [deserializer, deserializer];
+
+    beforeEach(() => client
+      .withArgs(url, { headers: new headers() })
+      .returns(Promise.resolve(success({}))));
+
+    it('Should call them once', async () => {
+      await new Http({ client, headers, deserializers, interceptors }).get(url);
+      expect(interceptor.request.mock.calls.length).toBe(1);
+      expect(interceptor.response.mock.calls.length).toBe(1);
+      expect(deserializer.deserialize.mock.calls.length).toBe(1);
+    });
+  });
 });
