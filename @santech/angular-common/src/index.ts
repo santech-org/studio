@@ -124,7 +124,7 @@ export class SantechCommonModule {
           useFactory: endpointsFactory,
         },
         {
-          deps: [Authenticator, END_POINTS],
+          deps: [END_POINTS],
           provide: HttpStatusInterceptor,
           useClass: HttpStatusInterceptor,
         },

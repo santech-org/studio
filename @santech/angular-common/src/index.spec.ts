@@ -5,6 +5,7 @@ import {
   AuthorizationInterceptor,
   HttpStatusInterceptor,
   IAuthenticatorEndPoints,
+  ILogggerEndPoints,
   SessionInterceptor,
 } from '@santech/common';
 import { Http, IHttpInterceptor, Jwt, TokenStorage } from '@santech/core';
@@ -48,8 +49,9 @@ describe('SantechCommonModule', () => {
         expect(auth instanceof Authenticator).toBeTruthy();
       }));
 
-    it('Should provide endpoints', inject([END_POINTS], (endPoints: IAuthenticatorEndPoints) => {
+    it('Should provide endpoints', inject([END_POINTS], (endPoints: IAuthenticatorEndPoints & ILogggerEndPoints) => {
       expect(endPoints.authenticateEndPoint).toBe(`${endPoint}/publicapi/authenticate`);
+      expect(endPoints.logEndPoint).toBe(`${endPoint}/api/logs`);
       expect(endPoints.endPoint).toBe(`${endPoint}/api`);
       expect(endPoints.publicEndPoint).toBe(`${endPoint}/publicapi`);
       expect(endPoints.renewEndPoint).toBe(`${endPoint}/api/renew`);
