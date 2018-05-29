@@ -32,7 +32,10 @@ export class AppAnalyticsDirective implements OnInit, OnDestroy {
 
         const attributes = dataKeys
           .reduce((res: { [key: string]: any }, k) => {
-            res[k] = data[k].id;
+            const dataKey = data[k];
+            if (dataKey) {
+              res[k] = dataKey.id;
+            }
             return res;
           }, {});
 

@@ -85,6 +85,14 @@ describe('App Analytics directive', () => {
       });
     });
 
+    describe('And detail data is undefined', () => {
+      beforeEach(() => navigation.emit(new ViewController(TestPage, { foobar: undefined })));
+
+      it('Should post page analytics', () => {
+        expect(spyAnalytics.page).toHaveBeenCalledWith('Application-Test', 'Detail', { attributes: {} });
+      });
+    });
+
     describe('And detail contains data', () => {
       beforeEach(() => navigation.emit(new ViewController(TestPage, { foobar: { id: 'foo' } })));
 
