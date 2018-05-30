@@ -18,7 +18,7 @@ export class CameraDirective {
   public input: HTMLInputElement;
 
   private _cameraService: CameraService;
-  private _picturePromise: Promise<void> | undefined;
+  private _picturePromise: Promise<ICameraImage> | undefined;
 
   constructor(cameraService: CameraService, el: ElementRef) {
     this._cameraService = cameraService;
@@ -32,12 +32,19 @@ export class CameraDirective {
   }
 
   @HostListener('click')
-  public onClick() {
-    return this._picturePromise
-      ? this._picturePromise
-      : this._picturePromise = this._cameraService.takePicture(this.options, this.input)
-        .then((picture) => this.pictureSuccess.emit(picture))
-        .catch((err) => this.pictureError.emit(new Error(err.message)))
-        .then(() => this._picturePromise = undefined);
+  public async onClick() {
+    let promise = this._picturePromise;
+    if (promise) {
+      return promise;
+    }
+
+    try {
+      promise = this._picturePromise = this._cameraService.takePicture(this.options, this.input);
+      this.pictureSuccess.emit(await promise);
+    } catch (e) {
+      this.pictureError.emit(new Error(e.message));
+    } finally {
+      delete this._picturePromise;
+    }
   }
 }

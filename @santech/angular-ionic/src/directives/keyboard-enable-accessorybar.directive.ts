@@ -16,10 +16,10 @@ export class KeyboardEnableAccessoryBarDirective implements OnInit {
     this._platform = platform;
   }
 
-  public ngOnInit() {
-    this._platform.ready()
-      .then((source) => source === cordovaPlatform
-        ? this._keyboard.hideKeyboardAccessoryBar(false)
-        : null);
+  public async ngOnInit() {
+    const pt = await this._platform.ready();
+    if (pt === cordovaPlatform) {
+      this._keyboard.hideKeyboardAccessoryBar(false);
+    }
   }
 }
