@@ -29,10 +29,9 @@ describe('Logger', () => {
       return;
     });
 
-    it('Should post the log', () => {
-      return service.log(log).then((ok) => {
-        expect(ok).toBe(true);
-      });
+    it('Should post the log', async () => {
+      const ok = await service.log(log);
+      expect(ok).toBe(true);
     });
   });
 });
