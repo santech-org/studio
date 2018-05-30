@@ -5,7 +5,6 @@ import { WebSocketClient } from '@santech/websocket';
 import { spyWebSocketClient, spyWebSocketUnsubscriber } from '@santech/websocket/testing';
 import '@stomp/stompjs';
 import { SantechWebSocketModule } from '..';
-import { ISubscribedTopic } from '../interfaces/websocket';
 import { SOCKJS_CLIENT } from '../tokens/sockjs-clients.token';
 import { STOMPJS } from '../tokens/stompjs.token';
 import { WS_TOPICS } from '../tokens/ws-topics.token';
@@ -62,21 +61,21 @@ describe('WebSocketService', () => {
   });
 
   describe('When I subscribe to topics', () => {
-    it('Should resolve provided topics and open ws subscriptions', async(() => {
-      service.subscribeToTopics()
-        .then((unsubscribers) => expect(unsubscribers).toEqual([
-          {
-            cb: firstTopicSpy,
-            path: 'first/topic/path',
-            unsubscribe: spyWebSocketUnsubscriber.unsubscribe,
-          },
-          {
-            cb: secondTopicSpy,
-            path: 'second/topic/path',
-            unsubscribe: spyWebSocketUnsubscriber.unsubscribe,
-          },
-        ] as ISubscribedTopic[]));
-    }));
+    it('Should resolve provided topics and open ws subscriptions', async () => {
+      const unsubscribers = await service.subscribeToTopics();
+      expect(unsubscribers).toEqual([
+        {
+          cb: firstTopicSpy,
+          path: 'first/topic/path',
+          unsubscribe: spyWebSocketUnsubscriber.unsubscribe,
+        },
+        {
+          cb: secondTopicSpy,
+          path: 'second/topic/path',
+          unsubscribe: spyWebSocketUnsubscriber.unsubscribe,
+        },
+      ]);
+    });
   });
 
   describe('When I unsubscribe to topics', () => {
