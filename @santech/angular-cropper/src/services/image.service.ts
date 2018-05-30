@@ -28,18 +28,18 @@ export class ImageService {
     return this._settingsFactory(image);
   }
 
-  public getCropperImageFromFile(file: File) {
-    return this._fileService.readFile(file)
-      .then((result: string) => this.getCropperImage(result));
+  public async getCropperImageFromFile(file: File) {
+    const result = await this._fileService.readFile(file);
+    return this.getCropperImage(result);
   }
 
   public getCropperImage(src: string) {
     const image = new Image();
     return new Promise<ICropperImage>((res, rej) => {
-          image.onload = () => res(image);
-          image.onerror = (err) => rej(err);
-          image.src = src;
-        });
+      image.onload = () => res(image);
+      image.onerror = (err) => rej(err);
+      image.src = src;
+    });
   }
 
   public cropImage(cropperCpt: ImageCropperComponent) {

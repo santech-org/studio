@@ -16,10 +16,10 @@ export class KeyboardDisableScrollDirective implements OnInit {
     this._platform = platform;
   }
 
-  public ngOnInit() {
-    this._platform.ready()
-      .then((source) => source === cordovaPlatform
-        ? this._keyboard.disableScroll(true)
-        : null);
+  public async ngOnInit() {
+    const pt = await this._platform.ready();
+    if (pt === cordovaPlatform) {
+      this._keyboard.disableScroll(true);
+    }
   }
 }

@@ -170,11 +170,12 @@ describe('WebSocketClient', () => {
       return client.connect();
     });
 
-    it('Should not throw', () => {
-      return client.waitForConnection
-        .catch(() => {
-          throw new Error('Connection Failed');
-        });
+    it('Should not throw', async () => {
+      try {
+        await client.waitForConnection;
+      } catch {
+        throw new Error('Connection Failed');
+      }
     });
   });
 
@@ -185,24 +186,25 @@ describe('WebSocketClient', () => {
         .create(auth, stompStub, sockJsStub, wsConfig);
     });
 
-    it('Should not throw', () => {
-      return client.connect()
-        .then(() => {
-          throw new Error('Connection Succeed');
-        })
-        .catch(() => {
-          expect(clientStompStub.connect.calledOnce).toBe(true);
-        });
+    it('Should not throw', async () => {
+      try {
+        await client.connect();
+        throw new Error('Connection Succeed');
+      } catch (e) {
+        expect(clientStompStub.connect.calledOnce).toBe(true);
+      }
     });
   });
 
   describe('When disconnecting', () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       clientStompStub.disconnect.callsArg(0);
       client = webSocketClientFactory
         .create(auth, stompStub, sockJsStub, wsConfig);
 
-      return client.connect().then(() => client.disconnect());
+      await client.connect();
+
+      return client.disconnect();
     });
 
     it('Should disconnect client', () => {
@@ -218,9 +220,12 @@ describe('WebSocketClient', () => {
       return client.connect();
     });
 
-    it('Should pass the error', () => {
-      return client.disconnect()
-        .catch((e) => expect(e.message).toEqual('LOL'));
+    it('Should pass the error', async () => {
+      try {
+        await client.disconnect();
+      } catch (e) {
+        expect(e.message).toEqual('LOL');
+      }
     });
   });
 
@@ -229,7 +234,7 @@ describe('WebSocketClient', () => {
     const unSubscriptionSpy = sinon.spy();
     let subscription: { unsubscribe(): void };
 
-    beforeEach(() => {
+    beforeEach(async () => {
       clientStompStub.subscribe
         .callsArgWithAsync(1, { body: 'message' })
         .returns({
@@ -239,10 +244,11 @@ describe('WebSocketClient', () => {
       client = webSocketClientFactory
         .create(auth, stompStub, sockJsStub, wsConfig);
 
-      return client.connect()
-        .then(() => subscription = client
-          .setTopic(topicEndpoint)
-          .subscribe(subscriptionSpy));
+      await client.connect();
+
+      subscription = client
+        .setTopic(topicEndpoint)
+        .subscribe(subscriptionSpy);
     });
 
     it('Should callback with each message', (done) => {
@@ -274,42 +280,40 @@ describe('WebSocketClient', () => {
         });
     });
 
-    it('Should let the client call ack', (done) => {
+    it('Should let the client call ack', async (done) => {
       subscriptionStub
         .callsArgWith(2, 'ACK');
 
       client = webSocketClientFactory
         .create(auth, stompStub, sockJsStub, wsConfig);
 
-      client.connect()
-        .then(() => {
-          client
-            .setTopic(topicEndpoint)
-            .subscribe(subscriptionStub, { ack: 'client', nack: 'client' });
-          setTimeout(() => {
-            expect(ackSpy.calledWith('ACK')).toBe(true);
-            done();
-          });
-        });
+      await client.connect();
+
+      client
+        .setTopic(topicEndpoint)
+        .subscribe(subscriptionStub, { ack: 'client', nack: 'client' });
+      setTimeout(() => {
+        expect(ackSpy.calledWith('ACK')).toBe(true);
+        done();
+      });
     });
 
-    it('Should let the client call nack', (done) => {
+    it('Should let the client call nack', async (done) => {
       subscriptionStub
         .callsArgWith(3, 'NACK');
 
       client = webSocketClientFactory
         .create(auth, stompStub, sockJsStub, wsConfig);
 
-      client.connect()
-        .then(() => {
-          client
-            .setTopic(topicEndpoint)
-            .subscribe(subscriptionStub, { ack: 'client', nack: 'client' });
-          setTimeout(() => {
-            expect(nackSpy.calledWith('NACK')).toBe(true);
-            done();
-          });
-        });
+      await client.connect();
+
+      client
+        .setTopic(topicEndpoint)
+        .subscribe(subscriptionStub, { ack: 'client', nack: 'client' });
+      setTimeout(() => {
+        expect(nackSpy.calledWith('NACK')).toBe(true);
+        done();
+      });
     });
   });
 });

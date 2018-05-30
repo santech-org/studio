@@ -34,21 +34,24 @@ describe('Logger Service', () => {
   });
 
   describe('And log error', () => {
-    it('Should call the backend', () => {
+    it('Should call the backend', async () => {
       const error = new Error('Houston, We Have a Problem!');
-      service.error(error).then((ok) => expect(ok).toBe(true));
+      const ok = await service.error(error);
+      expect(ok).toBe(true);
     });
   });
 
   describe('And warn', () => {
-    it('Should call the backend', () => {
-      service.warning('warning').then((ok) => expect(ok).toBe(true));
+    it('Should call the backend', async () => {
+      const ok = await service.warning('warning');
+      expect(ok).toBe(true);
     });
   });
 
   describe('And info', () => {
-    it('Should call the backend', () => {
-      service.info('info').then((ok) => expect(ok).toBe(true));
+    it('Should call the backend', async () => {
+      const ok = await service.info('info');
+      expect(ok).toBe(true);
     });
   });
 });

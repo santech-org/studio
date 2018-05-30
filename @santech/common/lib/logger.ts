@@ -16,7 +16,8 @@ export class Logger {
   /**
    * @description Report log to back
    */
-  public log(log: ILogDto): Promise<boolean> {
-    return this._http.post(this._endPoint, log).then((resp) => resp.ok);
+  public async log(log: ILogDto): Promise<boolean> {
+    const resp = await this._http.post(this._endPoint, log);
+    return resp.ok;
   }
 }

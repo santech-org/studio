@@ -20,20 +20,18 @@ export class CameraService {
     this._fileService = fileService;
   }
 
-  public takePicture(options: ICameraOptions, input: HTMLInputElement): Promise<ICameraImage> {
-    return this._platform.ready()
-      .then((p) => {
-        switch (p) {
-          case cordovaPlatform:
-            return this._getCameraPicture(options);
-          default:
-            return this._getInputPicture(input);
-        }
-      });
+  public async takePicture(options: ICameraOptions, input: HTMLInputElement): Promise<ICameraImage> {
+    const p = await this._platform.ready();
+    switch (p) {
+      case cordovaPlatform:
+        return this._getCameraPicture(options);
+      default:
+        return this._getInputPicture(input);
+    }
   }
 
-  private _getCameraPicture(options: ICameraOptions): Promise<ICameraImage> {
-    return this._camera.getPicture({
+  private async _getCameraPicture(options: ICameraOptions): Promise<ICameraImage> {
+    const fullPath = await this._camera.getPicture({
       allowEdit: true,
       correctOrientation: true,
       destinationType: DestinationType.FILE_URL,
@@ -43,33 +41,44 @@ export class CameraService {
       saveToPhotoAlbum: false,
       sourceType: PictureSourceType.PHOTOLIBRARY,
       ...options,
-    })
-    .then((fullPath: string) => {
-      const path = fullPath.slice(0, fullPath.lastIndexOf('/') + 1);
-      const name = fullPath
-        .replace(path, '')
-        .replace(/\?\d+$/, '');
-      return this._file.readAsDataURL(path, name)
-        .then((base64) => ({ base64, name }));
     });
+
+    const path = fullPath.slice(0, fullPath.lastIndexOf('/') + 1);
+    const name = fullPath
+      .replace(path, '')
+      .replace(/\?\d+$/, '');
+
+    const base64 = await this._file.readAsDataURL(path, name);
+
+    return {
+      base64,
+      name,
+    };
   }
 
   private _getInputPicture(input: HTMLInputElement): Promise<ICameraImage> {
     return new Promise<ICameraImage>((res, rej) => {
-      input.addEventListener('change', (event: Event) => {
-        this._fileSelected(event)
-          .then((image) => res(image))
-          .catch((error) => rej(error));
+      input.addEventListener('change', async (event: Event) => {
+        try {
+          const image = await this._fileSelected(event);
+          res(image);
+        } catch (e) {
+          rej(e);
+        }
       });
       input.click();
     });
   }
 
-  private _fileSelected(event: Event) {
+  private async _fileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length) {
       const file = input.files[0];
-      return this._fileService.readFile(file).then((base64) => ({base64, name: file.name}));
+      const base64 = await this._fileService.readFile(file);
+      return {
+        base64,
+        name: file.name,
+      };
     }
 
     throw new Error('CameraService(_fileSelected): no file selected');

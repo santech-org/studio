@@ -183,18 +183,16 @@ export class Authenticator implements IAuthenticator {
     }
   }
 
-  private _storeJwt(jwt: IJwtDto) {
-    return new Promise<IJwtDto>((resolve) => {
-      const storePromises = [
-        Promise.resolve((this._storage.setJwt(jwt.idToken)) as PromiseLike<void>),
-      ];
-      if (jwt.userToken) {
-        storePromises
-          .push(Promise.resolve((this._storage.setDeviceToken((jwt.userToken as string)) as PromiseLike<void>)));
-      }
-      return Promise.all(storePromises)
-        .then(() => resolve(jwt));
-    });
+  private async _storeJwt(jwt: IJwtDto) {
+    const storePromises = [
+      Promise.resolve((this._storage.setJwt(jwt.idToken))),
+    ];
+    if (jwt.userToken) {
+      storePromises
+        .push(Promise.resolve((this._storage.setDeviceToken((jwt.userToken)))));
+    }
+    await Promise.all(storePromises);
+    return jwt;
   }
 
   private _cacheToken(token: string) {

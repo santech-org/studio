@@ -25,23 +25,21 @@ export class BackButtonConfirmDirective implements OnInit {
     this._confirmFunction = confirmFunc;
   }
 
-  public ngOnInit() {
+  public async ngOnInit() {
     const platform = this._platform;
-    platform.ready()
-      .then((pt) => {
-        if (pt !== cordovaPlatform) {
-          return;
-        }
-        platform.registerBackButtonAction(() => {
-          if (this._alert) {
-            return;
-          }
-          const popPromise = this._app.navPop();
-          return popPromise
-            ? popPromise
-            : this.showAlert();
-        });
-      });
+    const pt = await platform.ready();
+    if (pt !== cordovaPlatform) {
+      return;
+    }
+    platform.registerBackButtonAction(() => {
+      if (this._alert) {
+        return;
+      }
+      const popPromise = this._app.navPop();
+      return popPromise
+        ? popPromise
+        : this.showAlert();
+    });
   }
 
   public showAlert() {

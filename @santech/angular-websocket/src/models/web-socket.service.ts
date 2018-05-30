@@ -13,20 +13,19 @@ export class WebSocketService {
     this._topics = topics;
   }
 
-  public subscribeToTopics(): Promise<ISubscribedTopic[]> {
+  public async subscribeToTopics(): Promise<ISubscribedTopic[]> {
     const client = this._client;
-    const resolvedTopics = this._topics
-      .map((topicOrProm) => Promise.resolve(topicOrProm()));
-    return client.waitForConnection
-      .then(() => Promise.all(resolvedTopics))
-      .then((topics) => topics
-        .map((topic) => ({
-          ...topic,
-          unsubscribe: client
-            .setTopic(topic.path)
-            .subscribe(topic.cb, topic.ackHeaders)
-            .unsubscribe,
-        })));
+    await client.waitForConnection;
+    const topics = await Promise.all(this._topics
+      .map((topicOrProm) => Promise.resolve(topicOrProm())));
+    return topics
+      .map((topic) => ({
+        ...topic,
+        unsubscribe: client
+          .setTopic(topic.path)
+          .subscribe(topic.cb, topic.ackHeaders)
+          .unsubscribe,
+      }));
   }
 
   public unsubscribeTopics(): Promise<void> {
