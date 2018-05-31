@@ -17,7 +17,7 @@ describe('Logger', () => {
 
   describe('When log', () => {
     const log: ILogDto = {
-      logLevel: 'ERROR',
+      level: 'ERROR',
       message: 'The service log failed',
       timestamp: (new Date()).toISOString(),
     };

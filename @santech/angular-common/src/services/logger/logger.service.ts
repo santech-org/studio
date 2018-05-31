@@ -23,7 +23,7 @@ export class LoggerService {
   public error(error: Error): Promise<boolean> {
     return this._logger.log({
       ... this._commonLog(),
-      logLevel: 'ERROR',
+      level: 'ERROR',
       message: error.message,
     });
   }
@@ -31,7 +31,7 @@ export class LoggerService {
   public warning(message: string): Promise<boolean> {
     return this._logger.log({
       ... this._commonLog(),
-      logLevel: 'WARN',
+      level: 'WARN',
       message,
     });
   }
@@ -39,7 +39,7 @@ export class LoggerService {
   public info(message: string): Promise<boolean> {
     return this._logger.log({
       ... this._commonLog(),
-      logLevel: 'INFO',
+      level: 'INFO',
       message,
     });
   }

@@ -32,7 +32,7 @@ describe('GlobalErrorHandler', () => {
       } catch {
         expect(spyLogger.log).toHaveBeenCalledWith({
           attributes: jasmine.any(Object),
-          logLevel: 'ERROR',
+          level: 'ERROR',
           message: 'OMFG',
           timestamp: jasmine.any(String),
         });
