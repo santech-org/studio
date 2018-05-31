@@ -34,7 +34,7 @@ export interface ILogggerEndPoints extends IEndPoints {
 
 export interface ILogDto {
   timestamp: string;
-  logLevel: TLogLevel;
+  level: TLogLevel;
   message: string;
   attributes?: IDtoAttributes | undefined | null;
 }
