@@ -1,4 +1,4 @@
-import { IDeserializedResponse, IDeserializedToken, IHttp, IJwt, ITokenStorage } from '@santech/core';
+import { IDeserializedResponse, IDeserializedToken, IHttp, IJwt, ITokenStorage, noop } from '@santech/core';
 import { IAuthenticateParams, IAuthenticatorEndPoints, IJwtDto, TTokenRecoveryPromise } from './models';
 
 export interface IAuthenticator {
@@ -46,7 +46,7 @@ export class Authenticator implements IAuthenticator {
     this._storage = storage;
     this._jwt = jwt;
     this._endPoints = endPoints;
-    this._waitForLogin = this._tryRetrievePreviousSession();
+    this._waitForLogin = this._tryRetrievePreviousSession((token) => this._cacheToken(token));
   }
 
   get waitForLogin() {
@@ -83,7 +83,8 @@ export class Authenticator implements IAuthenticator {
     if (jwt) {
       await this._storeJwt(jwt);
     }
-    const promise = this._waitForLogin = this._tryRetrievePreviousSession();
+    const promise = this._waitForLogin = this
+      ._tryRetrievePreviousSession(jwt ? (token) => this._cacheToken(token) : noop);
     try {
       const resp = await promise;
       if (resp) {
@@ -133,12 +134,12 @@ export class Authenticator implements IAuthenticator {
     return this._cacheToken(jwt.idToken);
   }
 
-  private async _tryRetrievePreviousSession(): Promise<TTokenRecoveryPromise> {
+  private async _tryRetrievePreviousSession(cb?: (token: string) => void): Promise<TTokenRecoveryPromise> {
     try {
       const token = await this._tryRetrieveJwt();
       const expirationDate = this._jwt.getExpirationDate(token);
       if (!!expirationDate && expirationDate > new Date()) {
-        return this._cacheToken(token);
+        return (cb || noop)(token);
       }
       throw new Error('token expired');
     } catch {

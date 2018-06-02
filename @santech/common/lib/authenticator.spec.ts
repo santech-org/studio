@@ -663,6 +663,30 @@ describe('Authenticator', () => {
         }
       });
     });
+
+    describe('And logged in', () => {
+      let stub: jest.SpyInstance;
+
+      beforeEach(() => {
+        stub = jest.spyOn(window, 'setTimeout');
+        storageStub.getJwt.returns(idToken);
+        service = new Authenticator(http, storageStub, jwtStub, {
+          authenticateEndPoint,
+          endPoint,
+          publicEndPoint,
+          renewEndPoint,
+        });
+      });
+
+      afterEach(() => stub.mockRestore());
+
+      it('Should not register token renewer', async () => {
+        expect(window.setTimeout).toHaveBeenCalledTimes(1);
+        stub.mockReset();
+        await service.tryAuthenticate();
+        expect(window.setTimeout).not.toHaveBeenCalled();
+      });
+    });
   });
 
   describe('When logout', () => {
