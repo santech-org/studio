@@ -88,6 +88,10 @@ export class WebSocketClient implements IWebSocketClient {
       return Promise.reject(new Error(`WebSocketClient(disconnect): not connected`));
     }
 
+    if (!client.connected) {
+      return Promise.resolve();
+    }
+
     return new Promise((res) => client.disconnect(() => {
       delete this._connectionPromise;
       res();

@@ -15,6 +15,7 @@ interface IStompStub {
 }
 
 interface IStompClientStub {
+  connected: boolean;
   connect: sinon.SinonStub;
   disconnect: sinon.SinonStub;
   subscribe: sinon.SinonStub;
@@ -59,7 +60,9 @@ describe('WebSocketClient', () => {
       disconnect: sinon.stub(),
       subscribe: sinon.stub(),
     });
-    clientStompStub.connect.callsArgAsync(1);
+    clientStompStub.connect
+      .callsFake(() => clientStompStub.connected = true)
+      .callsArgAsync(1);
 
     sockJsStub = sinon.stub() as sinon.SinonStub & typeof SockJs;
 
@@ -209,6 +212,21 @@ describe('WebSocketClient', () => {
 
     it('Should disconnect client', () => {
       expect(clientStompStub.disconnect.calledOnce).toBe(true);
+    });
+  });
+
+  describe('When client is already disconnected', () => {
+    beforeEach(async () => {
+      client = webSocketClientFactory
+        .create(auth, stompStub, sockJsStub, wsConfig);
+      await client.connect();
+      // This simulates loss of connection
+      clientStompStub.connected = false;
+    });
+
+    it('Should not call the disconnect as the callback will never fire', async () => {
+      await client.disconnect();
+      expect(clientStompStub.disconnect.called).toBe(false);
     });
   });
 
