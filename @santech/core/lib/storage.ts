@@ -1,6 +1,3 @@
-const authKey = 'std-authenticationToken';
-const deviceKey = 'std-deviceToken';
-
 export interface ITokenStorage {
   setJwt(jwt: string): void | Promise<void>;
   setItem(key: string, item: string): void | Promise<void>;
@@ -13,12 +10,20 @@ export interface ITokenStorage {
   removeDeviceToken(): void | Promise<void>;
 }
 
+export interface IAuthKeys {
+  authKey: string;
+  deviceKey: string;
+}
+
 export class TokenStorage implements ITokenStorage {
   private _storage: Storage;
   private _authKey: string;
   private _deviceKey: string;
+  private _keys: IAuthKeys;
 
-  constructor(storage: Storage) {
+  constructor(storage: Storage, keys: IAuthKeys) {
+    const { authKey, deviceKey } = keys;
+    this._keys = keys;
     this._storage = storage;
     this._authKey = authKey;
     this._deviceKey = deviceKey;
@@ -30,6 +35,7 @@ export class TokenStorage implements ITokenStorage {
   }
 
   public resetKeys() {
+    const { authKey, deviceKey } = this._keys;
     this._authKey = authKey;
     this._deviceKey = deviceKey;
   }

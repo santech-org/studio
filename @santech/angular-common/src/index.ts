@@ -37,6 +37,7 @@ import { httpFactory } from './models/http.factory';
 import { LoggerService } from './services/logger/logger.service';
 import { TimeoutService } from './services/timeout/timeout.service';
 import { APP_INFORMATION } from './tokens/app-information.token';
+import { AUTH_KEYS } from './tokens/auth-keys.token';
 import { CONFIG_END_POINTS } from './tokens/config-end-points.token';
 import { DESERIALIZERS } from './tokens/deserializers.token';
 import { END_POINTS } from './tokens/end-points.token';
@@ -104,7 +105,7 @@ export class SantechCommonModule {
           useClass: Jwt,
         },
         {
-          deps: [PLATFORM_STORAGE],
+          deps: [PLATFORM_STORAGE, AUTH_KEYS],
           provide: TokenStorage,
           useClass: TokenStorage,
         },
@@ -163,6 +164,15 @@ export class SantechCommonModule {
           : {
             provide: ErrorHandler,
             useClass: GlobalErrorHandler,
+          },
+        config.authKeysProvider
+          ? config.authKeysProvider
+          : {
+            provide: AUTH_KEYS,
+            useValue: {
+              authKey: 'std-authenticationToken',
+              deviceKey: 'std-deviceToken',
+            },
           },
       ],
     };

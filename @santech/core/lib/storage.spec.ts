@@ -3,7 +3,7 @@ import { TokenStorage } from './storage';
 
 export const token = 'clmqsdkjflsdkhfoqjidsgfvpçGH';
 
-export const tokenKey = 'std-authenticationToken';
+export const authKey = 'std-authenticationToken';
 
 export const deviceKey = 'std-deviceToken';
 
@@ -25,7 +25,7 @@ describe('TokenStorage', () => {
     localStorageStub.removeItem.reset();
     localStorageStub.clear.reset();
     localStorageStub.key.reset();
-    storage = new TokenStorage(localStorageStub);
+    storage = new TokenStorage(localStorageStub, { authKey, deviceKey });
   });
 
   describe('When I get the token without being logged', () => {
@@ -60,7 +60,7 @@ describe('TokenStorage', () => {
     beforeEach(() => storage.setJwt(token));
 
     it('Should set it in the localStorage', () => {
-      expect(localStorageStub.setItem.calledWith(tokenKey, token)).toBe(true);
+      expect(localStorageStub.setItem.calledWith(authKey, token)).toBe(true);
     });
   });
 
@@ -76,7 +76,7 @@ describe('TokenStorage', () => {
     beforeEach(() => storage.removeJwt());
 
     it('Should set it in the localStorage', () => {
-      expect(localStorageStub.removeItem.calledWith(tokenKey)).toBe(true);
+      expect(localStorageStub.removeItem.calledWith(authKey)).toBe(true);
     });
   });
 
