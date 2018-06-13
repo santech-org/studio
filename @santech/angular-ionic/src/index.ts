@@ -15,6 +15,7 @@ import { HideSplashScreenDirective } from './directives/hide-splash-screen.direc
 import { KeyboardDisableScrollDirective } from './directives/keyboard-disable-scroll.directive';
 import { KeyboardEnableAccessoryBarDirective } from './directives/keyboard-enable-accessorybar.directive';
 import { NoNetworkDirective } from './directives/no-network.directive';
+import { ReloadDirective } from './directives/reload.directive';
 import { CacheService } from './services/cache.service';
 import { CameraService } from './services/camera.service';
 import { DemoTogglerService } from './services/demo-toggler.service';
@@ -22,6 +23,7 @@ import { BACK_BUTTON_CONFIRMATION_FUNC } from './tokens/back-button-confirmation
 import { CACHE_TTL } from './tokens/cache-ttl.token';
 import { DEMO_TOGGLER_DURATION } from './tokens/demo-toggler-duration.token';
 import { NETWORK_CONNECTION_DELAY } from './tokens/network-connection-delay.token';
+import { TIME_TO_RELOAD } from './tokens/time-to-reload.token';
 
 export * from './directives/back-button-confirm.directive';
 export * from './directives/camera.directive';
@@ -29,6 +31,7 @@ export * from './directives/hide-splash-screen.directive';
 export * from './directives/keyboard-disable-scroll.directive';
 export * from './directives/keyboard-enable-accessorybar.directive';
 export * from './directives/no-network.directive';
+export * from './directives/reload.directive';
 export * from './interfaces/camera';
 export * from './interfaces/confirmation';
 export * from './models/cordova';
@@ -39,12 +42,14 @@ export * from './tokens/back-button-confirmation.token';
 export * from './tokens/cache-ttl.token';
 export * from './tokens/demo-toggler-duration.token';
 export * from './tokens/network-connection-delay.token';
+export * from './tokens/time-to-reload.token';
 
 export interface ISantechIonicProviders {
   backBtndefaultProvider?: Provider;
   cacheTTL?: Provider;
   networkConnectionDelayProvider?: Provider;
   demoTogglerDurationProvider?: Provider;
+  timeToReloadProvider?: Provider;
 }
 
 @NgModule({
@@ -57,6 +62,7 @@ export interface ISantechIonicProviders {
     KeyboardDisableScrollDirective,
     KeyboardEnableAccessoryBarDirective,
     NoNetworkDirective,
+    ReloadDirective,
   ],
   exports: [
     IonicModule,
@@ -68,6 +74,7 @@ export interface ISantechIonicProviders {
     KeyboardDisableScrollDirective,
     KeyboardEnableAccessoryBarDirective,
     NoNetworkDirective,
+    ReloadDirective,
   ],
   imports: [
     SantechAnalyticsModule.forChild(),
@@ -113,6 +120,12 @@ export class SantechIonicModule {
           : {
             provide: DEMO_TOGGLER_DURATION,
             useValue: 3000,
+          },
+        ionicProviders.timeToReloadProvider
+          ? ionicProviders.timeToReloadProvider
+          : {
+            provide: TIME_TO_RELOAD,
+            useValue: 5000,
           },
       ],
     };

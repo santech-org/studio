@@ -1,3 +1,4 @@
+import { EventEmitter } from '@angular/core';
 import { Camera } from '@ionic-native/camera';
 import { Keyboard } from '@ionic-native/keyboard';
 import { Network } from '@ionic-native/network';
@@ -71,7 +72,7 @@ let spyModalController: SantechSpyObject<ModalController>;
 let spyNavController: SantechSpyObject<NavController>;
 let spyNavParams: SantechSpyObject<NavParams>;
 let spyNetwork: SantechSpyObject<Network>;
-let spyPlatform: SantechSpyObject<Platform>;
+let spyPlatform!: SantechSpyObject<Platform>;
 let spySplashScreen: SantechSpyObject<SplashScreen>;
 let spyViewController: SantechSpyObject<ViewController>;
 
@@ -91,6 +92,7 @@ if (typeof jasmine !== 'undefined' && typeof jasmine.createSpyObj === 'function'
   spyNavParams = jasmine.createSpyObj('spyNavParams', navParamsMethods);
   spyNetwork = jasmine.createSpyObj('spyNetwork', networkMethods);
   spyPlatform = jasmine.createSpyObj('spyPlatform', platformMethods);
+
   spySplashScreen = jasmine.createSpyObj('spySplashScreen', splashScreenMethods);
   spyViewController = jasmine.createSpyObj('spyViewController', viewControllerMethods);
 
@@ -121,6 +123,7 @@ if (typeof jasmine !== 'undefined' && typeof jasmine.createSpyObj === 'function'
   spyNavParams = createJestSpyObj(navParamsMethods);
   spyNetwork = createJestSpyObj(networkMethods);
   spyPlatform = createJestSpyObj(platformMethods);
+
   spySplashScreen = createJestSpyObj(splashScreenMethods);
   spyViewController = createJestSpyObj(viewControllerMethods);
 
@@ -134,6 +137,19 @@ if (typeof jasmine !== 'undefined' && typeof jasmine.createSpyObj === 'function'
 
   spyModal.onDidDismiss.mockImplementation((cb: any) => spyModal.cb = cb);
   spyModalController.create.mockReturnValue(spyModal);
+}
+
+if (spyPlatform) {
+  const pause = new EventEmitter<Event>();
+  const resume = new EventEmitter<Event>();
+  Object.defineProperty(spyPlatform, 'pause', {
+    enumerable: true,
+    get: () => pause,
+  });
+  Object.defineProperty(spyPlatform, 'resume', {
+    enumerable: true,
+    get: () => resume,
+  });
 }
 
 export {
