@@ -15,6 +15,7 @@
     }
   },
   "peerDependencies": {
+    "@angular/core": "*",
     "@santech/angular-ionic": "*",
     "@ionic-native/camera": "*",
     "@ionic-native/keyboard": "*",
