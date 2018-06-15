@@ -87,6 +87,10 @@
   version "4.7.0"
   resolved "https://r.cnpmjs.org/@ionic-native/network/download/@ionic-native/network-4.7.0.tgz#f6f3e53d7dbff111dd6b689e38d6470fcc35a717"
 
+"@ionic-native/onesignal@*", "@ionic-native/onesignal@^4.0.0":
+  version "4.7.0"
+  resolved "https://registry.yarnpkg.com/@ionic-native/onesignal/-/onesignal-4.7.0.tgz#20e0126c904d3bd7a732e19299a59dc640fee3c7"
+
 "@ionic-native/splash-screen@*", "@ionic-native/splash-screen@^4.0.0":
   version "4.7.0"
   resolved "https://r.cnpmjs.org/@ionic-native/splash-screen/download/@ionic-native/splash-screen-4.7.0.tgz#e22c41e986cfc5e8ff12db7fc464c2daf9206037"
@@ -379,6 +383,10 @@
 "@types/node@*":
   version "10.1.2"
   resolved "https://r.cnpmjs.org/@types/node/download/@types/node-10.1.2.tgz#1b928a0baa408fc8ae3ac012cc81375addc147c6"
+
+"@types/onesignal-cordova-plugin@*":
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/@types/onesignal-cordova-plugin/-/onesignal-cordova-plugin-2.2.0.tgz#7a9bc0bc6cec8f4c7ec7baaa59ef6bc5d7198539"
 
 "@types/segment-analytics@*":
   version "0.0.28"

@@ -13,9 +13,10 @@
       "@ionic-native/file": "",
       "@ionic-native/keyboard": "",
       "@ionic-native/network": "",
+      "@ionic-native/onesignal": "",
       "@ionic-native/splash-screen": "",
-      "@santech/angular-common": "Dantech.AngularComon",
-      "@santech/angular-platform": "Dantech.AngularPlatform",
+      "@santech/angular-common": "Santech.AngularComon",
+      "@santech/angular-platform": "Santech.AngularPlatform",
       "ionic-angular": "ionicBundle",
       "rxjs/Subscription": "Rx.Subscription"
     }
