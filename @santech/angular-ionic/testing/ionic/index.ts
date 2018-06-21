@@ -2,6 +2,7 @@ import { EventEmitter } from '@angular/core';
 import { Camera } from '@ionic-native/camera';
 import { Keyboard } from '@ionic-native/keyboard';
 import { Network } from '@ionic-native/network';
+import { OneSignal } from '@ionic-native/onesignal';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { createJestSpyObj, SantechSpyObject } from '@santech/core/testing';
 import {
@@ -48,6 +49,18 @@ export const navParamsMethods = ['get'];
 export const platformMethods = ['ready', 'registerBackButtonAction', 'exitApp'];
 export const splashScreenMethods = ['hide'];
 export const viewControllerMethods = ['dismiss'];
+export const oneSignalMethods = [
+  'startInit',
+  'setSubscription',
+  'inFocusDisplaying',
+  'endInit',
+  'sendTags',
+  'deleteTags',
+  'getIds',
+  'handleNotificationReceived',
+  'handleNotificationOpened',
+  'addSubscriptionObserver',
+];
 
 export interface ISpyModal extends Modal {
   cb: (confirm: boolean) => void;
@@ -75,6 +88,7 @@ let spyNetwork: SantechSpyObject<Network>;
 let spyPlatform!: SantechSpyObject<Platform>;
 let spySplashScreen: SantechSpyObject<SplashScreen>;
 let spyViewController: SantechSpyObject<ViewController>;
+let spyOneSignal!: SantechSpyObject<OneSignal>;
 
 if (typeof jasmine !== 'undefined' && typeof jasmine.createSpyObj === 'function') {
   spyActionSheet = jasmine.createSpyObj('spyActionSheet', actionSheetMethods);
@@ -92,6 +106,7 @@ if (typeof jasmine !== 'undefined' && typeof jasmine.createSpyObj === 'function'
   spyNavParams = jasmine.createSpyObj('spyNavParams', navParamsMethods);
   spyNetwork = jasmine.createSpyObj('spyNetwork', networkMethods);
   spyPlatform = jasmine.createSpyObj('spyPlatform', platformMethods);
+  spyOneSignal = jasmine.createSpyObj('spyOneSignal', oneSignalMethods);
 
   spySplashScreen = jasmine.createSpyObj('spySplashScreen', splashScreenMethods);
   spyViewController = jasmine.createSpyObj('spyViewController', viewControllerMethods);
@@ -123,6 +138,7 @@ if (typeof jasmine !== 'undefined' && typeof jasmine.createSpyObj === 'function'
   spyNavParams = createJestSpyObj(navParamsMethods);
   spyNetwork = createJestSpyObj(networkMethods);
   spyPlatform = createJestSpyObj(platformMethods);
+  spyOneSignal = createJestSpyObj(oneSignalMethods);
 
   spySplashScreen = createJestSpyObj(splashScreenMethods);
   spyViewController = createJestSpyObj(viewControllerMethods);
@@ -152,6 +168,17 @@ if (spyPlatform) {
   });
 }
 
+if (spyOneSignal) {
+  Object.defineProperty(spyOneSignal, 'OSInFocusDisplayOption', {
+    enumerable: true,
+    get: () => ({
+      InAppAlert: 1,
+      None: 0,
+      Notification: 2,
+    }),
+  });
+}
+
 export {
   spyActionSheet,
   spyActionSheetController,
@@ -170,4 +197,5 @@ export {
   spyPlatform,
   spySplashScreen,
   spyViewController,
+  spyOneSignal,
 };

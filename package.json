@@ -36,6 +36,7 @@
     "@ionic-native/file": "^4.0.0",
     "@ionic-native/keyboard": "^4.0.0",
     "@ionic-native/network": "^4.0.0",
+    "@ionic-native/onesignal": "^4.0.0",
     "@ionic-native/splash-screen": "^4.0.0",
     "@ionic/storage": "^2.0.0",
     "@ngx-translate/core": "^9.0.0",

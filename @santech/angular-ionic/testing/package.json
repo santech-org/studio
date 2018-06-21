@@ -8,9 +8,11 @@
         "@ionic-native/camera": "",
         "@ionic-native/keyboard": "",
         "@ionic-native/network": "",
+        "@ionic-native/onesignal": "",
         "@ionic-native/splash-screen": "",
         "@santech/core/testing": "Santech.Core.Testing",
-        "ionic-angular": "ionicBundle"
+        "ionic-angular": "ionicBundle",
+        "rxjs": "Rx"
       }
     }
   },
@@ -20,8 +22,10 @@
     "@ionic-native/camera": "*",
     "@ionic-native/keyboard": "*",
     "@ionic-native/network": "*",
+    "@ionic-native/onesignal": "*",
     "@ionic-native/splash-screen": "*",
     "@santech/core": "*",
-    "ionic-angular": "*"
+    "ionic-angular": "*",
+    "rxjs": "*"
   }
 }
