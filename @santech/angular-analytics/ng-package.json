@@ -9,7 +9,8 @@
       "@santech/analytics-core": "Santech.AnalyticsCore",
       "@santech/analytics-integration": "Santech.AnalyticsIntegration",
       "@santech/angular-common": "Santech.AngularCommon",
-      "@santech/core": "Santech.Core"
+      "@santech/core": "Santech.Core",
+      "rxjs": "Rx"
     }
   }
 }
