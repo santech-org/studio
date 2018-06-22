@@ -32,7 +32,8 @@
     "@santech/analytics-core": "^7.0.0-alpha.0",
     "@santech/analytics-integration": "^7.0.0-alpha.0",
     "@santech/angular-common": "^7.0.0-alpha.0",
-    "@santech/core": "^7.0.0-alpha.0"
+    "@santech/core": "^7.0.0-alpha.0",
+    "rxjs": "^5.0.0"
   },
   "devDependencies": {
     "@angular/common": "^5.0.0",
