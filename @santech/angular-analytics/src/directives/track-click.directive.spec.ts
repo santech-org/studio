@@ -1,12 +1,9 @@
 // tslint:disable:max-classes-per-file
 import { Component, Injectable } from '@angular/core';
-import {  ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { spyAnalytics } from '@santech/analytics-core/testing';
 import { APP_INFORMATION, CONFIG_END_POINTS, SantechCommonModule } from '@santech/angular-common';
-// tslint:disable-next-line:no-implicit-dependencies
 import { SantechPlatformModule } from '@santech/angular-platform';
-import { Http } from '@santech/core';
-import { spyHttp } from '@santech/core/testing';
 import { ANALYTICS, ANALYTICS_RESOLVERS, IAnalyticsResolver, IAnalyticsService, SantechAnalyticsModule } from '..';
 
 const endPoint = 'http://host:port';
@@ -25,7 +22,7 @@ class UserIdAnalyticsService implements IAnalyticsService<{ userId: string }, { 
 }
 
 @Injectable()
-class RolesAnalyticsService implements IAnalyticsService<{ isProfessional: boolean}, undefined> {
+class RolesAnalyticsService implements IAnalyticsService<{ isProfessional: boolean }, undefined> {
   public resolveAnalyticsKey() {
     return Promise.resolve({ isProfessional: false });
   }
@@ -65,7 +62,7 @@ class TrackClickTestComponent {
 describe('Track click directive', () => {
   let fixture: ComponentFixture<TrackClickTestComponent>;
 
-  beforeEach(async () => {
+  beforeEach(async(() => {
     jest.resetAllMocks();
 
     fixture = TestBed
@@ -90,7 +87,6 @@ describe('Track click directive', () => {
         providers: [
           UserIdAnalyticsService,
           RolesAnalyticsService,
-          { provide: Http, useValue: spyHttp },
           { provide: ANALYTICS, useValue: spyAnalytics },
           {
             deps: [UserIdAnalyticsService],
@@ -109,7 +105,7 @@ describe('Track click directive', () => {
       .createComponent(TrackClickTestComponent);
 
     fixture.autoDetectChanges();
-  });
+  }));
 
   afterEach(() => fixture.destroy());
 

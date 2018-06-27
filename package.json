@@ -31,6 +31,8 @@
     "@angular/core": "^5.0.0",
     "@angular/common": "^5.0.0",
     "@angular/compiler": "^5.0.0",
+    "@angular/platform-browser": "^5.0.0",
+    "@angular/router": "^5.0.0",
     "@ionic-native/camera": "^4.0.0",
     "@ionic-native/core": "^4.0.0",
     "@ionic-native/file": "^4.0.0",
