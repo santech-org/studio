@@ -34,6 +34,7 @@ import { ISantechCommonModuleConfiguration } from './interfaces/configuration';
 import { endpointsFactory } from './models/end-points.factory';
 import { GlobalErrorHandler } from './models/global-error.handler';
 import { httpFactory } from './models/http.factory';
+import { FileService } from './services/file/file.service';
 import { LoggerService } from './services/logger/logger.service';
 import { TimeoutService } from './services/timeout/timeout.service';
 import { APP_INFORMATION } from './tokens/app-information.token';
@@ -52,6 +53,7 @@ export * from './interfaces/end-points';
 export * from './models/global-error.handler';
 export * from './services/timeout/timeout.service';
 export * from './services/logger/logger.service';
+export * from './services/file/file.service';
 export * from './tokens/app-information.token';
 export * from './tokens/config-end-points.token';
 export * from './tokens/deserializers.token';
@@ -141,6 +143,7 @@ export class SantechCommonModule {
         },
         LoggerService,
         TimeoutService,
+        FileService,
         config.appInformationProvider
           ? config.appInformationProvider
           : {

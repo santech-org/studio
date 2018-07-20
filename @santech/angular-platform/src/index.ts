@@ -6,6 +6,7 @@ import { platformClearTimeoutFactory } from './models/platform-clear-timeout.fac
 import { platformDocumentFactory } from './models/platform-document.factory';
 import { platformFetchFactory } from './models/platform-fetch.factory';
 import { platformFileReaderFactory } from './models/platform-file-reader.factory';
+import { platformFileFactory } from './models/platform-file.factory';
 import { platformFormDataFactory } from './models/platform-form-data.factory';
 import { platformGlobalContextFactory } from './models/platform-global-context.factory';
 import { platformHeadersFactory } from './models/platform-headers.factory';
@@ -20,6 +21,7 @@ import { PLATFORM_CLEAR_TIMEOUT } from './tokens/platform-clear-timeout.token';
 import { PLATFORM_DOCUMENT } from './tokens/platform-document.token';
 import { PLATFORM_FETCH } from './tokens/platform-fetch.token';
 import { PLATFORM_FILE_READER } from './tokens/platform-file-reader.token';
+import { PLATFORM_FILE } from './tokens/platform-file.token';
 import { PLATFORM_FORM_DATA } from './tokens/platform-form-data.token';
 import { PLATFORM_GLOBAL_CONTEXT } from './tokens/platform-global-context.token';
 import { PLATFORM_HEADERS } from './tokens/platform-headers.token';
@@ -37,6 +39,7 @@ export * from './tokens/platform-clear-timeout.token';
 export * from './tokens/platform-document.token';
 export * from './tokens/platform-fetch.token';
 export * from './tokens/platform-file-reader.token';
+export * from './tokens/platform-file.token';
 export * from './tokens/platform-form-data.token';
 export * from './tokens/platform-global-context.token';
 export * from './tokens/platform-headers.token';
@@ -123,6 +126,12 @@ export class SantechPlatformModule {
             useFactory: platformStorageFactory,
           },
         // globals
+        config.fileProvider
+          ? config.fileProvider
+          : {
+            provide: PLATFORM_FILE,
+            useFactory: platformFileFactory,
+          },
         config.fileReaderProvider
           ? config.fileReaderProvider
           : {

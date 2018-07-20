@@ -1,36 +1,36 @@
 import { Injectable } from '@angular/core';
 import { Camera, DestinationType, EncodingType, MediaType, PictureSourceType } from '@ionic-native/camera';
-import { File } from '@ionic-native/file';
-import { FileService } from '@santech/angular-cropper';
+import { File as IonicFile } from '@ionic-native/file';
+import { FileService } from '@santech/angular-common';
 import { Platform } from 'ionic-angular';
-import { ICameraImage, ICameraOptions } from '../interfaces/camera';
+import { ICameraOptions } from '../interfaces/camera';
 import { cordovaPlatform } from '../models/cordova';
 
 @Injectable()
 export class CameraService {
   private _camera: Camera;
   private _platform: Platform;
-  private _file: File;
+  private _file: IonicFile;
   private _fileService: FileService;
 
-  constructor(camera: Camera, platform: Platform, file: File, fileService: FileService) {
+  constructor(camera: Camera, platform: Platform, file: IonicFile, fileService: FileService) {
     this._camera = camera;
     this._platform = platform;
     this._file = file;
     this._fileService = fileService;
   }
 
-  public async takePicture(options: ICameraOptions, input: HTMLInputElement): Promise<ICameraImage> {
+  public async takePicture(options: ICameraOptions, input: HTMLInputElement): Promise<File> {
     const p = await this._platform.ready();
     switch (p) {
       case cordovaPlatform:
-        return this._getCameraPicture(options);
+        return this._getCameraFile(options);
       default:
-        return this._getInputPicture(input);
+        return this._getInputFile(input);
     }
   }
 
-  private async _getCameraPicture(options: ICameraOptions): Promise<ICameraImage> {
+  private async _getCameraFile(options: ICameraOptions): Promise<File> {
     const fullPath = await this._camera.getPicture({
       allowEdit: true,
       correctOrientation: true,
@@ -48,39 +48,22 @@ export class CameraService {
       .replace(path, '')
       .replace(/\?\d+$/, '');
 
-    const base64 = await this._file.readAsDataURL(path, name);
-
-    return {
-      base64,
-      name,
-    };
+    const file = await this._file.readAsArrayBuffer(path, name);
+    return this._fileService.createFile([file], name);
   }
 
-  private _getInputPicture(input: HTMLInputElement): Promise<ICameraImage> {
-    return new Promise<ICameraImage>((res, rej) => {
-      input.addEventListener('change', async (event: Event) => {
-        try {
-          const image = await this._fileSelected(event);
-          res(image);
-        } catch (e) {
-          rej(e);
+  private _getInputFile(input: HTMLInputElement): Promise<File> {
+    return new Promise<File>((res, rej) => {
+      input.addEventListener('change', (event: Event) => {
+        const { files } = event.target as HTMLInputElement;
+        if (files && files.length) {
+          return res(files[0]);
         }
+
+        return rej(new Error('CameraService(_getInputFile): no file selected'));
       });
+
       input.click();
     });
-  }
-
-  private async _fileSelected(event: Event) {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files.length) {
-      const file = input.files[0];
-      const base64 = await this._fileService.readFile(file);
-      return {
-        base64,
-        name: file.name,
-      };
-    }
-
-    throw new Error('CameraService(_fileSelected): no file selected');
   }
 }

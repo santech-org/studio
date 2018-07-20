@@ -48,14 +48,11 @@ npm i @santech/angular-cropper -S
 Import module
 
 ```javascript
-import { SantechCropperModule, CROPPER_SETTINGS_FACTORY, pictureCropperSettingsFactory } from '@santech/angular-cropper';
+import { SantechCropperModule } from '@santech/angular-cropper';
 
 @NgModule({
   imports: [
-    SantechCropperModule.forRoot({
-      provide: CROPPER_SETTINGS_FACTORY,
-      useValue: pictureCropperSettingsFactory,
-    }),
+    SantechCropperModule.forRoot(),
   ],
 })
 export class AppModule { }

@@ -46,6 +46,7 @@
     "@santech/core": "^7.0.0-alpha.0",
     "ionic-angular": "^3.0.0",
     "ionic-cache": "^3.0.0",
+    "ngx-pica": "^1.0.0",
     "rxjs": "^5.0.0"
   },
   "devDependencies": {
@@ -79,7 +80,7 @@
     "jest-localstorage-mock": "*",
     "jest-preset-angular": "*",
     "ng-packagr": "*",
-    "ngx-img-cropper": "*",
+    "ngx-pica": "*",
     "rimraf": "*",
     "rxjs": "^5.0.0",
     "tsickle": "*",
@@ -104,7 +105,7 @@
     ],
     "setupTestFrameworkScriptFile": "<rootDir>/setup-jest.ts",
     "transformIgnorePatterns": [
-      "node_modules/(?!@ionic|ngx-img-cropper|ionic)"
+      "node_modules/(?!@ionic|ngx-pica|ionic)"
     ],
     "snapshotSerializers": [
       "<rootDir>../../node_modules/jest-preset-angular/AngularSnapshotSerializer.js",

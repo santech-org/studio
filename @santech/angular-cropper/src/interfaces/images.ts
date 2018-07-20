@@ -1,4 +1,4 @@
-export interface IFileProcess {
-  reader: FileReader;
-  promise: Promise<string>;
+export interface IResizeParams {
+  height: number;
+  width: number;
 }
