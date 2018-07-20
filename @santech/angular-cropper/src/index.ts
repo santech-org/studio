@@ -13,14 +13,6 @@ export function imgRegExFactory() {
   return new RegExp('\.(png|jpe?g|gif)$', 'i');
 }
 
-export function imgMaxHeightFactory() {
-  return 1920;
-}
-
-export function imgMaxWidthFactory() {
-  return 1920;
-}
-
 export interface ISantechCropperModuleConfiguration {
   imgRegEx?: Provider;
   imgMaxHeigth?: Provider;
@@ -33,6 +25,12 @@ export interface ISantechCropperModuleConfiguration {
   ],
 })
 export class SantechCropperModule {
+  public static forChild(): ModuleWithProviders {
+    return {
+      ngModule: SantechCropperModule,
+    };
+  }
+
   public static forRoot({
       imgRegEx,
       imgMaxHeigth,
@@ -53,13 +51,13 @@ export class SantechCropperModule {
           ? imgMaxHeigth
           : {
             provide: IMG_MAX_HEIGHT,
-            useFactory: imgMaxHeightFactory,
+            useValue: 1920,
           },
         imgMaxWidth
           ? imgMaxWidth
           : {
             provide: IMG_MAX_WIDTH,
-            useFactory: imgMaxWidthFactory,
+            useValue: 1920,
           },
       ],
     };

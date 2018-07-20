@@ -150,8 +150,8 @@ describe('SantechPlatformModule', () => {
         }));
       });
 
-      describe('And I inject provided FileReader', () => {
-        it('Should return FileReader', inject([PLATFORM_FILE], (fileCtor: typeof File) => {
+      describe('And I inject provided File', () => {
+        it('Should return File', inject([PLATFORM_FILE], (fileCtor: typeof File) => {
           expect(fileCtor).toBe(File);
         }));
       });

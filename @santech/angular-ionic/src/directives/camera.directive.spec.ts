@@ -8,7 +8,7 @@ import {
   MediaType,
   PictureSourceType,
 } from '@ionic-native/camera';
-import { File } from '@ionic-native/file';
+import { File as IonicFile } from '@ionic-native/file';
 import { SantechAnalyticsModule } from '@santech/angular-analytics';
 import { SantechCommonModule } from '@santech/angular-common';
 import { SantechPlatformModule } from '@santech/angular-platform';
@@ -17,10 +17,8 @@ import { CameraDirective, cordovaPlatform, ICameraOptions, SantechIonicModule } 
 import { spyCamera, spyPlatform } from '../../testing/ionic';
 
 const galleryUrl = 'file:///storage/emulated/0/Android/data/com.ionicframework.amemobile282255/cache/1500394666871.png';
-const galleryBase64 = 'data:image/jpeg;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
 
 const cameraUrl = 'file:///storage/emulated/0/Android/data/com.ionicframework.amemobile282255/cache/54415641.png?15366';
-const cameraBase64 = 'data:image/jpeg;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
 
 @Component({
   selector: 'test-camera',
@@ -28,7 +26,8 @@ const cameraBase64 = 'data:image/jpeg;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAA
     <div camera (pictureSuccess)="treatPicture($event)"
                 (pictureError)="treatError($event)"
                 [options]="options">
-    </div>`,
+    </div>
+  `,
 })
 class CameraTestComponent {
   @ViewChild(CameraDirective)
@@ -56,13 +55,13 @@ describe('Camera directive', () => {
       }
     });
 
-    const file = new File();
-    jest.spyOn(file, 'readAsDataURL').mockImplementation((path: string, fileName: string) => {
+    const file = new IonicFile();
+    jest.spyOn(file, 'readAsArrayBuffer').mockImplementation((path: string, fileName: string) => {
       switch (true) {
         case galleryUrl.startsWith(path.concat(fileName)):
-          return Promise.resolve(galleryBase64);
+          return Promise.resolve(new ArrayBuffer(12));
         case cameraUrl.startsWith(path.concat(fileName)):
-          return Promise.resolve(cameraBase64);
+          return Promise.resolve(new ArrayBuffer(12));
         default:
           throw new Error(`Unknown path ${path.concat(fileName)}`);
       }
@@ -82,7 +81,7 @@ describe('Camera directive', () => {
         providers: [
           { provide: Platform, useValue: spyPlatform },
           { provide: Camera, useValue: spyCamera },
-          { provide: File, useValue: file },
+          { provide: IonicFile, useValue: file },
         ],
       });
 
@@ -91,18 +90,13 @@ describe('Camera directive', () => {
   });
 
   describe('On mobile', () => {
-    beforeEach(async(() => {
-      spyPlatform.ready.mockResolvedValue(cordovaPlatform);
-    }));
+    beforeEach(() => spyPlatform.ready.mockResolvedValue(cordovaPlatform));
 
     describe('When user clicks on element', () => {
-      beforeEach(async(() => fixture.componentInstance.camera.onClick()));
+      beforeEach(() => fixture.componentInstance.camera.onClick());
 
       it('Should take a picture of the gallery', () => {
-        expect(fixture.componentInstance.treatPicture).toHaveBeenCalledWith({
-          base64: galleryBase64,
-          name: '1500394666871.png',
-        });
+        expect(fixture.componentInstance.treatPicture).toHaveBeenCalled();
       });
 
       it('Should use the default options', () => {
@@ -120,13 +114,13 @@ describe('Camera directive', () => {
     });
 
     describe('When options is defined', () => {
-      beforeEach(async(() => {
+      beforeEach(() => {
         fixture.componentInstance.options = {
           sourceType: PictureSourceType.CAMERA,
         };
         fixture.autoDetectChanges();
         return fixture.componentInstance.camera.onClick();
-      }));
+      });
 
       it('Should use the default options updated with current ones', () => {
         expect(spyCamera.getPicture).toHaveBeenCalledWith({
