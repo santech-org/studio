@@ -1,7 +1,7 @@
 import { async, TestBed } from '@angular/core/testing';
-import { CropperSettings } from 'ngx-img-cropper';
+import { FileService } from '@santech/angular-common';
+import { spyFileService } from '@santech/angular-common/testing';
 import { SantechCropperModule } from '..';
-import { CROPPER_SETTINGS_FACTORY } from '../tokens/cropper-settings-factory';
 import { ImageService } from './image.service';
 
 describe('Images service', () => {
@@ -10,10 +10,13 @@ describe('Images service', () => {
   beforeEach(async(() => {
     service = TestBed.configureTestingModule({
       imports: [
-        SantechCropperModule.forRoot({
-          provide: CROPPER_SETTINGS_FACTORY,
-          useValue: () => new CropperSettings(),
-        }),
+        SantechCropperModule.forRoot(),
+      ],
+      providers: [
+        {
+          provide: FileService,
+          use: spyFileService,
+        },
       ],
     }).get(ImageService);
   }));

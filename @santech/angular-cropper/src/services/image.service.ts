@@ -1,50 +1,63 @@
 import { Inject, Injectable } from '@angular/core';
-import { CropperSettings, ImageCropperComponent } from 'ngx-img-cropper';
-import { ICropperImage, TCropperSettingsFactory } from '../interfaces/cropper';
-import { CROPPER_SETTINGS_FACTORY } from '../tokens/cropper-settings-factory';
+import { FileService } from '@santech/angular-common';
+import { NgxPicaService } from 'ngx-pica';
+import { IResizeParams } from '../interfaces/images';
+import { IMG_MAX_HEIGHT, IMG_MAX_WIDTH } from '../tokens/image-options';
 import { IMG_REGEX } from '../tokens/image-regex';
-import { FileService } from './file.service';
 
 @Injectable()
 export class ImageService {
   private _fileService: FileService;
-  private _settingsFactory: TCropperSettingsFactory;
+  private _picaService: NgxPicaService;
   private _imgReg: RegExp;
+  private _imgMaxHeight: number;
+  private _imgMaxWidth: number;
 
   constructor(
     fileService: FileService,
+    picaService: NgxPicaService,
     @Inject(IMG_REGEX) imgReg: RegExp,
-    @Inject(CROPPER_SETTINGS_FACTORY) settingsFactory: any) {
+    @Inject(IMG_MAX_HEIGHT) imgMaxHeight: number,
+    @Inject(IMG_MAX_WIDTH) imgMaxWidth: number,
+  ) {
     this._fileService = fileService;
-    this._settingsFactory = settingsFactory;
+    this._picaService = picaService;
     this._imgReg = imgReg;
+    this._imgMaxHeight = imgMaxHeight;
+    this._imgMaxWidth = imgMaxWidth;
   }
 
   public hasWrongExtension(file: File) {
     return !this._imgReg.test(file.name);
   }
 
-  public getCropperSettings(image?: ICropperImage): CropperSettings {
-    return this._settingsFactory(image);
-  }
-
-  public async getCropperImageFromFile(file: File) {
-    const result = await this._fileService.readFile(file);
-    return this.getCropperImage(result);
-  }
-
-  public getCropperImage(src: string) {
-    const image = new Image();
-    return new Promise<ICropperImage>((res, rej) => {
-      image.onload = () => res(image);
-      image.onerror = (err) => rej(err);
-      image.src = src;
+  public resizeImage(
+    file: File,
+    {height, width}: IResizeParams = { height: this._imgMaxHeight, width: this._imgMaxWidth },
+  ) {
+    return new Promise<File>((res, rej) => {
+      const subscription = this._picaService.resizeImage(
+        file, width, height,
+        {
+          aspectRatio: {
+            keepAspectRatio: true,
+          },
+        },
+      ).subscribe(
+        (resizedImg) => {
+          subscription.unsubscribe();
+          res(resizedImg);
+        },
+        () => rej(new Error('ImageService(resizeImage): unable to resize image')),
+      );
     });
   }
 
-  public cropImage(cropperCpt: ImageCropperComponent) {
-    const cropper = cropperCpt.cropper;
-    cropper.setImage(cropperCpt.image);
-    return cropper.getCroppedImageHelper().src;
+  public async resizeImageToBase64(
+    file: File,
+    params?: IResizeParams,
+  ) {
+    const resizedFile = await this.resizeImage(file, params);
+    return this._fileService.readFile(resizedFile);
   }
 }

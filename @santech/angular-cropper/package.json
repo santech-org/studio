@@ -29,8 +29,9 @@
   "author": "Endika Esteban <eesteban@santech.fr>",
   "peerDependencies": {
     "@angular/core": "^5.0.0",
+    "@santech/angular-common": "^7.0.0-alpha.0",
     "@santech/core": "^7.0.0-alpha.0",
-    "ngx-img-cropper": "^0.10.0"
+    "ngx-pica": "^1.0.0"
   },
   "devDependencies": {
     "@angular/common": "^5.0.0",
@@ -39,6 +40,7 @@
     "@angular/core": "^5.0.0",
     "@angular/platform-browser": "^5.0.0",
     "@angular/platform-browser-dynamic": "^5.0.0",
+    "@santech/angular-common": "^7.0.0-alpha.10",
     "@santech/core": "^7.0.0-alpha.10",
     "@types/jest": "*",
     "cpx": "*",
@@ -46,7 +48,7 @@
     "jest-localstorage-mock": "*",
     "jest-preset-angular": "*",
     "ng-packagr": "*",
-    "ngx-img-cropper": "*",
+    "ngx-pica": "*",
     "rimraf": "*",
     "rxjs": "^5.0.0",
     "tsickle": "*",
@@ -71,7 +73,7 @@
     ],
     "setupTestFrameworkScriptFile": "<rootDir>/setup-jest.ts",
     "transformIgnorePatterns": [
-      "node_modules/(?!ngx-img-cropper)"
+      "node_modules/(?!ngx-pica)"
     ],
     "snapshotSerializers": [
       "<rootDir>../../node_modules/jest-preset-angular/AngularSnapshotSerializer.js",
