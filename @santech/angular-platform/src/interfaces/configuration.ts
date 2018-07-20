@@ -6,6 +6,7 @@ export interface ISantechPlatformModuleConfiguration {
   fetchProvider?: Provider | null | undefined;
   storageProvider?: Provider | null | undefined;
   fileReaderProvider?: Provider | null | undefined;
+  fileProvider?: Provider | null | undefined;
   formDataProvider?: Provider | null | undefined;
   headersProvider?: Provider | null | undefined;
 }

@@ -5,6 +5,7 @@ import {
   PLATFORM_CLEAR_TIMEOUT,
   PLATFORM_DOCUMENT,
   PLATFORM_FETCH,
+  PLATFORM_FILE,
   PLATFORM_FILE_READER,
   PLATFORM_FORM_DATA,
   PLATFORM_GLOBAL_CONTEXT,
@@ -88,6 +89,12 @@ describe('SantechPlatformModule', () => {
       }));
     });
 
+    describe('When I inject platform global File', () => {
+      it('Should return File', inject([PLATFORM_FILE], (fileCtor: typeof File) => {
+        expect(fileCtor).toBe(File);
+      }));
+    });
+
     describe('When I inject platform global FormData', () => {
       it('Should return FileReader', inject([PLATFORM_FORM_DATA], (formDataCtor: typeof FormData) => {
         expect(formDataCtor).toBe(FormData);
@@ -108,6 +115,7 @@ describe('SantechPlatformModule', () => {
           atobProvider: { provide: PLATFORM_ATOB, useValue: window.atob },
           blobProvider: { provide: PLATFORM_BLOB, useValue: window.Blob },
           fetchProvider: { provide: PLATFORM_FETCH, useValue: window.fetch },
+          fileProvider: { provide: PLATFORM_FILE, useValue: File },
           fileReaderProvider: { provide: PLATFORM_FILE_READER, useValue: FileReader },
           formDataProvider: { provide: PLATFORM_FORM_DATA, useValue: FormData },
           headersProvider: { provide: PLATFORM_HEADERS, useValue: Headers },
@@ -143,6 +151,12 @@ describe('SantechPlatformModule', () => {
       });
 
       describe('And I inject provided FileReader', () => {
+        it('Should return FileReader', inject([PLATFORM_FILE], (fileCtor: typeof File) => {
+          expect(fileCtor).toBe(File);
+        }));
+      });
+
+      describe('And I inject provided FileReader', () => {
         it('Should return FileReader', inject([PLATFORM_FILE_READER], (fileReaderCtor: typeof FileReader) => {
           expect(fileReaderCtor).toBe(FileReader);
         }));
@@ -167,6 +181,7 @@ describe('SantechPlatformModule', () => {
       // Never do this in real life !!
       (window as any).Headers = undefined;
       (window as any).FormData = undefined;
+      (window as any).File = undefined;
       (window as any).FileReader = undefined;
     });
 
@@ -235,6 +250,13 @@ describe('SantechPlatformModule', () => {
       it('Should throw', () => {
         expect(() => TestBed.get(PLATFORM_STORAGE))
           .toThrow('platformStorageFactory: cannot find global localStorage ! Please provide one or polyfill it');
+      });
+    });
+
+    describe('When I inject platform global File', () => {
+      it('Should throw', () => {
+        expect(() => TestBed.get(PLATFORM_FILE))
+          .toThrow('platformFileFactory: cannot find global File ! Please provide one or polyfill it');
       });
     });
 
