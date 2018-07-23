@@ -1,6 +1,6 @@
 {
   "name": "@santech/common",
-  "version": "7.0.0-alpha.11",
+  "version": "7.0.0-alpha.12",
   "description": "Common module for santech studio",
   "main": "dist/umd/index.js",
   "module": "dist/index.js",
@@ -39,7 +39,7 @@
     "tslib": "^1.0.0"
   },
   "dependencies": {
-    "@santech/core": "^7.0.0-alpha.11"
+    "@santech/core": "^7.0.0-alpha.12"
   },
   "devDependencies": {
     "@types/jest": "*",
