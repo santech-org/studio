@@ -1,7 +1,7 @@
 import { ModuleWithProviders, NgModule, Provider } from '@angular/core';
 import { NgxPicaModule } from 'ngx-pica';
-import { IMG_MAX_HEIGHT, IMG_MAX_WIDTH } from '.';
 import { ImageService } from './services/image.service';
+import { IMG_MAX_HEIGHT, IMG_MAX_WIDTH } from './tokens/image-options';
 import { IMG_REGEX } from './tokens/image-regex';
 
 export * from './services/image.service';
@@ -31,30 +31,25 @@ export class SantechCropperModule {
     };
   }
 
-  public static forRoot({
-      imgRegEx,
-      imgMaxHeigth,
-      imgMaxWidth,
-    }: ISantechCropperModuleConfiguration = {},
-  ): ModuleWithProviders {
+  public static forRoot(config: ISantechCropperModuleConfiguration = {}): ModuleWithProviders {
     return {
       ngModule: SantechCropperModule,
       providers: [
         ImageService,
-        imgRegEx
-          ? imgRegEx
+        config.imgRegEx
+          ? config.imgRegEx
           : {
             provide: IMG_REGEX,
             useFactory: imgRegExFactory,
           },
-        imgMaxHeigth
-          ? imgMaxHeigth
+        config.imgMaxHeigth
+          ? config.imgMaxHeigth
           : {
             provide: IMG_MAX_HEIGHT,
             useValue: 1920,
           },
-        imgMaxWidth
-          ? imgMaxWidth
+        config.imgMaxWidth
+          ? config.imgMaxWidth
           : {
             provide: IMG_MAX_WIDTH,
             useValue: 1920,
