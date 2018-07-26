@@ -18,7 +18,7 @@ export class FileService {
     this._newFileReader = this._setFileReaderCtor(fileReaderCtor || FileReader);
   }
 
-  public readFile(file: File) {
+  public readImageFile(file: File) {
     const reader = this._newFileReader();
     return new Promise<string>((res, rej) => {
       reader.onloadend = () => res(reader.result);

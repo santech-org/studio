@@ -58,6 +58,6 @@ export class ImageService {
     params?: IResizeParams,
   ) {
     const resizedFile = await this.resizeImage(file, params);
-    return this._fileService.readFile(resizedFile);
+    return this._fileService.readImageFile(resizedFile);
   }
 }
