@@ -10,6 +10,7 @@ import {
   PLATFORM_FORM_DATA,
   PLATFORM_GLOBAL_CONTEXT,
   PLATFORM_HEADERS,
+  PLATFORM_IMAGE,
   PLATFORM_LOCATION,
   PLATFORM_NAVIGATOR,
   PLATFORM_SET_TIMEOUT,
@@ -106,6 +107,12 @@ describe('SantechPlatformModule', () => {
         expect(headersCtor).toBe(Headers);
       }));
     });
+
+    describe('When I inject platform global Image', () => {
+      it('Should return Headers', inject([PLATFORM_IMAGE], (imageCtor: typeof Image) => {
+        expect(imageCtor).toBe(Image);
+      }));
+    });
   });
 
   describe('In a server', () => {
@@ -119,6 +126,7 @@ describe('SantechPlatformModule', () => {
           fileReaderProvider: { provide: PLATFORM_FILE_READER, useValue: FileReader },
           formDataProvider: { provide: PLATFORM_FORM_DATA, useValue: FormData },
           headersProvider: { provide: PLATFORM_HEADERS, useValue: Headers },
+          imageProvider: { provide: PLATFORM_IMAGE, useValue: Image },
           storageProvider: { provide: PLATFORM_STORAGE, useValue: window.localStorage },
         })],
         providers: [
@@ -173,6 +181,12 @@ describe('SantechPlatformModule', () => {
           expect(headersCtor).toBe(Headers);
         }));
       });
+
+      describe('And I inject provided Image', () => {
+        it('Should return Headers', inject([PLATFORM_IMAGE], (imageCtor: typeof Image) => {
+          expect(imageCtor).toBe(Image);
+        }));
+      });
     });
   });
 
@@ -183,6 +197,7 @@ describe('SantechPlatformModule', () => {
       (window as any).FormData = undefined;
       (window as any).File = undefined;
       (window as any).FileReader = undefined;
+      (window as any).Image = undefined;
     });
 
     beforeEach(() => TestBed.configureTestingModule({
@@ -278,6 +293,13 @@ describe('SantechPlatformModule', () => {
       it('Should throw', () => {
         expect(() => TestBed.get(PLATFORM_HEADERS))
           .toThrow('platformHeadersFactory: cannot find global Headers ! Please provide one or polyfill it');
+      });
+    });
+
+    describe('When I inject platform global Image', () => {
+      it('Should throw', () => {
+        expect(() => TestBed.get(PLATFORM_IMAGE))
+          .toThrow('platformImageFactory: cannot find global Image ! Please provide one or polyfill it');
       });
     });
   });
