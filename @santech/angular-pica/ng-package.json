@@ -1,0 +1,15 @@
+{
+  "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
+  "dest": "dist",
+  "workingDirectory": ".ng_build",
+  "lib": {
+    "entryFile": "src/index.ts",
+    "umdId": "Santech.AngularPica",
+    "umdModuleIds": {
+      "@santech/angular-common": "Santech.AngularCommon",
+      "@santech/angular-platform": "Santech.AngularPlatform",
+      "exif-js": "EXIF",
+      "pica": "pica"
+    }
+  }
+}

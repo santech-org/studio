@@ -1,0 +1,80 @@
+{
+  "name": "@santech/angular-pica",
+  "version": "7.0.0-alpha.12",
+  "description": "santech angular pica module",
+  "main": "dist/bundles/santech-angular-pica.umd.js",
+  "module": "dist/esm5/santech-angular-pica.js",
+  "es2015": "dist/esm2015/santech-angular-pica.js",
+  "types": "dist/index.d.ts",
+  "typings": "dist/santech-angular-pica.d.ts",
+  "scripts": {
+    "build": "npm run clean && ng-packagr -p ng-package.json && npm run docs",
+    "clean": "rimraf dist docs coverage dist.tgz",
+    "docs": "typedoc src/index.ts",
+    "lint": "tslint \"**/*.ts\" \"**/*.js\"",
+    "test": "jest --coverage",
+    "test-watch": "jest --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/santech-org/studio"
+  },
+  "keywords": [
+    "santech",
+    "studio",
+    "angular",
+    "pica"
+  ],
+  "author": "Paul Souche <psouche@santech.fr>",
+  "license": "MIT",
+  "peerDependencies": {
+    "@angular/core": "^5.0.0",
+    "@santech/angular-common": "^7.0.0-alpha.12",
+    "@santech/angular-platform": "^7.0.0-alpha.12",
+    "exif-js": "^2.0.0",
+    "pica": "^4.0.0",
+    "rxjs": "^5.0.0"
+  },
+  "devDependencies": {
+    "@angular/common": "^5.0.0",
+    "@angular/compiler": "^5.0.0",
+    "@angular/compiler-cli": "^5.0.0",
+    "@angular/core": "^5.0.0",
+    "@angular/platform-browser": "^5.0.0",
+    "@angular/platform-browser-dynamic": "^5.0.0",
+    "@santech/angular-common": "^7.0.0-alpha.12",
+    "@santech/angular-platform": "^7.0.0-alpha.12",
+    "@types/jest": "*",
+    "@types/node": "*",
+    "jest": "*",
+    "jest-localstorage-mock": "*",
+    "jest-preset-angular": "*",
+    "ng-packagr": "*",
+    "rimraf": "*",
+    "rxjs": "^5.0.0",
+    "tsickle": "*",
+    "tslib": "*",
+    "typedoc": "*",
+    "typescript": "*",
+    "whatwg-fetch": "*",
+    "zone.js": "*"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.(ts|js|html)$": "<rootDir>../../node_modules/jest-preset-angular/preprocessor.js"
+    },
+    "preset": "jest-preset-angular",
+    "roots": [
+      "<rootDir>/src/"
+    ],
+    "setupFiles": [
+      "whatwg-fetch",
+      "jest-localstorage-mock"
+    ],
+    "setupTestFrameworkScriptFile": "<rootDir>/setup-jest.ts",
+    "snapshotSerializers": [
+      "<rootDir>../../node_modules/jest-preset-angular/AngularSnapshotSerializer.js",
+      "<rootDir>../../node_modules/jest-preset-angular/HTMLCommentSerializer.js"
+    ]
+  }
+}
