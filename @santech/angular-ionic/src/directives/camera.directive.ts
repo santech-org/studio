@@ -1,5 +1,5 @@
 import { Directive, ElementRef, EventEmitter, HostListener, Input, Output } from '@angular/core';
-import { ICameraOptions } from '../interfaces/camera';
+import { ICameraImage, ICameraOptions } from '../interfaces/camera';
 import { CameraService } from '../services/camera.service';
 
 @Directive({
@@ -7,7 +7,7 @@ import { CameraService } from '../services/camera.service';
 })
 export class CameraDirective {
   @Output()
-  public pictureSuccess = new EventEmitter<File>();
+  public pictureSuccess = new EventEmitter<ICameraImage>();
 
   @Output()
   public pictureError = new EventEmitter<Error>();
@@ -18,7 +18,7 @@ export class CameraDirective {
   public input: HTMLInputElement;
 
   private _cameraService: CameraService;
-  private _picturePromise: Promise<File> | undefined;
+  private _picturePromise: Promise<ICameraImage> | undefined;
 
   constructor(cameraService: CameraService, el: ElementRef) {
     this._cameraService = cameraService;

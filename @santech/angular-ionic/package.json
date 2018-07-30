@@ -42,11 +42,11 @@
     "@santech/angular-analytics": "^7.0.0-alpha.0",
     "@santech/angular-common": "^7.0.0-alpha.0",
     "@santech/angular-cropper": "^7.0.0-alpha.0",
+    "@santech/angular-pica": "^7.0.0-alpha.0",
     "@santech/angular-platform": "^7.0.0-alpha.0",
     "@santech/core": "^7.0.0-alpha.0",
     "ionic-angular": "^3.0.0",
     "ionic-cache": "^3.0.0",
-    "ngx-pica": "^1.0.0",
     "rxjs": "^5.0.0"
   },
   "devDependencies": {
@@ -68,6 +68,7 @@
     "@santech/angular-analytics": "^7.0.0-alpha.12",
     "@santech/angular-common": "^7.0.0-alpha.12",
     "@santech/angular-cropper": "^7.0.0-alpha.12",
+    "@santech/angular-pica": "^7.0.0-alpha.12",
     "@santech/angular-platform": "^7.0.0-alpha.12",
     "@santech/common": "^7.0.0-alpha.12",
     "@santech/core": "^7.0.0-alpha.12",
@@ -80,7 +81,6 @@
     "jest-localstorage-mock": "*",
     "jest-preset-angular": "*",
     "ng-packagr": "*",
-    "ngx-pica": "*",
     "rimraf": "*",
     "rxjs": "^5.0.0",
     "tsickle": "*",
