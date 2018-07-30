@@ -58,12 +58,13 @@ export class PicaService {
     const pica = this._pica;
     return new Promise<TPicaInput>(async (res, rej) => {
       try {
-        const canvas: HTMLCanvasElement = pica.resize(from, to, options);
+        const canvas: HTMLCanvasElement = await pica.resize(from, to, options);
         if (typeof data === 'string') {
           return res(canvas.toDataURL());
         }
-        const blob = await pica.toBlob(canvas, data.type);
-        return res(this._imageService.blobToFile(blob, data.name));
+        const {name, type} = data;
+        const blob = await pica.toBlob(canvas, type);
+        return res(this._imageService.blobToFile(blob, name, type));
       } catch (e) {
         return rej(e);
       }

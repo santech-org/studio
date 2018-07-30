@@ -21,14 +21,14 @@ export class PicaExifService {
       const { width, height } = image;
 
       try {
+        canvas.width = width;
+        canvas.height = height;
+
         const orientation = await this._getImageOrientation(image);
 
         if (PicaExifService.swapOrientations.indexOf(orientation) > -1) {
           canvas.width = height;
           canvas.height = width;
-        } else {
-          canvas.width = width;
-          canvas.height = height;
         }
 
         switch (orientation) {

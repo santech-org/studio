@@ -32,8 +32,8 @@ export class PicaImageService {
     });
   }
 
-  public blobToFile(blob: Blob, name: string) {
-    return this._fileService.createFile([blob], name);
+  public blobToFile(blob: Blob, name: string, type: string) {
+    return this._fileService.createFile([blob], name, {type});
   }
 
   private _setImageConstructor(imageConstructor: typeof Image) {
