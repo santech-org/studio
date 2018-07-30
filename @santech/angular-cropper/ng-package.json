@@ -6,7 +6,8 @@
     "entryFile": "src/index.ts",
     "umdId": "Santech.AngularCropper",
     "umdModuleIds": {
-      "ngx-pica": "ngx-pica"
+      "@santech/angular-common": "Santech.AngularCommon",
+      "@santech/angular-pica": "Santech.AngularPica"
     }
   }
 }

@@ -21,6 +21,8 @@
       "@angular/core/testing",
       "@santech/analytics-core/testing",
       "@santech/angular-common/testing",
+      "@santech/angular-cropper/testing",
+      "@santech/angular-pica/testing",
       "@santech/angular-platform/testing",
       "@santech/common/testing",
       "@santech/core/testing",

@@ -30,8 +30,8 @@
   "peerDependencies": {
     "@angular/core": "^5.0.0",
     "@santech/angular-common": "^7.0.0-alpha.0",
-    "@santech/core": "^7.0.0-alpha.0",
-    "ngx-pica": "^1.0.0"
+    "@santech/angular-pica": "^7.0.0-alpha.0",
+    "@santech/core": "^7.0.0-alpha.0"
   },
   "devDependencies": {
     "@angular/common": "^5.0.0",
@@ -41,6 +41,7 @@
     "@angular/platform-browser": "^5.0.0",
     "@angular/platform-browser-dynamic": "^5.0.0",
     "@santech/angular-common": "^7.0.0-alpha.12",
+    "@santech/angular-pica": "^7.0.0-alpha.12",
     "@santech/core": "^7.0.0-alpha.12",
     "@types/jest": "*",
     "cpx": "*",
@@ -48,7 +49,6 @@
     "jest-localstorage-mock": "*",
     "jest-preset-angular": "*",
     "ng-packagr": "*",
-    "ngx-pica": "*",
     "rimraf": "*",
     "rxjs": "^5.0.0",
     "tsickle": "*",

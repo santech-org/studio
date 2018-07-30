@@ -1,11 +1,13 @@
 import { async, TestBed } from '@angular/core/testing';
 import { FileService } from '@santech/angular-common';
 import { spyFileService } from '@santech/angular-common/testing';
+import { PicaService } from '@santech/angular-pica';
+import { spyPicaService } from '@santech/angular-pica/testing';
 import { SantechCropperModule } from '..';
-import { ImageService } from './image.service';
+import { ResizeService } from './resize.service';
 
-describe('Images service', () => {
-  let service: ImageService;
+describe('Resize service', () => {
+  let service: ResizeService;
 
   beforeEach(async(() => {
     service = TestBed.configureTestingModule({
@@ -17,8 +19,12 @@ describe('Images service', () => {
           provide: FileService,
           use: spyFileService,
         },
+        {
+          provide: PicaService,
+          use: spyPicaService,
+        },
       ],
-    }).get(ImageService);
+    }).get(ResizeService);
   }));
 
   describe('When I test if file has wrong extensions', () => {

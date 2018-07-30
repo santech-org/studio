@@ -1,11 +1,10 @@
 import { ModuleWithProviders, NgModule, Provider } from '@angular/core';
-import { NgxPicaModule } from 'ngx-pica';
-import { ImageService } from './services/image.service';
+import { SantechPicaModule } from '@santech/angular-pica';
+import { ResizeService } from './services/resize.service';
 import { IMG_MAX_HEIGHT, IMG_MAX_WIDTH } from './tokens/image-options';
 import { IMG_REGEX } from './tokens/image-regex';
 
-export * from './services/image.service';
-export * from './interfaces/images';
+export * from './services/resize.service';
 export * from './tokens/image-options';
 export * from './tokens/image-regex';
 
@@ -21,7 +20,7 @@ export interface ISantechCropperModuleConfiguration {
 
 @NgModule({
   imports: [
-    NgxPicaModule,
+    SantechPicaModule.forChild(),
   ],
 })
 export class SantechCropperModule {
@@ -35,7 +34,7 @@ export class SantechCropperModule {
     return {
       ngModule: SantechCropperModule,
       providers: [
-        ImageService,
+        ResizeService,
         config.imgRegEx
           ? config.imgRegEx
           : {
