@@ -9,4 +9,5 @@ export interface ISantechPlatformModuleConfiguration {
   fileProvider?: Provider | null | undefined;
   formDataProvider?: Provider | null | undefined;
   headersProvider?: Provider | null | undefined;
+  imageProvider?: Provider | null | undefined;
 }

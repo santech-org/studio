@@ -11,6 +11,8 @@ import {
 import { File as IonicFile } from '@ionic-native/file';
 import { SantechAnalyticsModule } from '@santech/angular-analytics';
 import { SantechCommonModule } from '@santech/angular-common';
+import { ResizeService } from '@santech/angular-cropper';
+import { spyResizeService } from '@santech/angular-cropper/testing';
 import { SantechPlatformModule } from '@santech/angular-platform';
 import { Platform } from 'ionic-angular';
 import { CameraDirective, cordovaPlatform, ICameraOptions, SantechIonicModule } from '..';
@@ -19,6 +21,8 @@ import { spyCamera, spyPlatform } from '../../testing/ionic';
 const galleryUrl = 'file:///storage/emulated/0/Android/data/com.ionicframework.amemobile282255/cache/1500394666871.png';
 
 const cameraUrl = 'file:///storage/emulated/0/Android/data/com.ionicframework.amemobile282255/cache/54415641.png?15366';
+
+const base64 = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
 
 @Component({
   selector: 'test-camera',
@@ -44,6 +48,8 @@ describe('Camera directive', () => {
   beforeEach(() => {
     jest.resetAllMocks();
 
+    spyResizeService.resizeImage.mockResolvedValue(base64);
+
     spyCamera.getPicture.mockImplementation((config: CameraOptions) => {
       switch (config.sourceType) {
         case 0:
@@ -56,12 +62,12 @@ describe('Camera directive', () => {
     });
 
     const file = new IonicFile();
-    jest.spyOn(file, 'readAsArrayBuffer').mockImplementation((path: string, fileName: string) => {
+    jest.spyOn(file, 'readAsDataURL').mockImplementation((path: string, fileName: string) => {
       switch (true) {
         case galleryUrl.startsWith(path.concat(fileName)):
-          return Promise.resolve(new ArrayBuffer(12));
+          return Promise.resolve(base64);
         case cameraUrl.startsWith(path.concat(fileName)):
-          return Promise.resolve(new ArrayBuffer(12));
+          return Promise.resolve(base64);
         default:
           throw new Error(`Unknown path ${path.concat(fileName)}`);
       }
@@ -82,6 +88,7 @@ describe('Camera directive', () => {
           { provide: Platform, useValue: spyPlatform },
           { provide: Camera, useValue: spyCamera },
           { provide: IonicFile, useValue: file },
+          { provide: ResizeService, useValue: spyResizeService },
         ],
       });
 

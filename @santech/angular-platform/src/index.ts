@@ -10,6 +10,7 @@ import { platformFileFactory } from './models/platform-file.factory';
 import { platformFormDataFactory } from './models/platform-form-data.factory';
 import { platformGlobalContextFactory } from './models/platform-global-context.factory';
 import { platformHeadersFactory } from './models/platform-headers.factory';
+import { platformImageFactory } from './models/platform-image.factory';
 import { platformLocationFactory } from './models/platform-location.factory';
 import { platformNavigatorFactory } from './models/platform-navigator.factory';
 import { platformSetTimeoutFactory } from './models/platform-set-timeout.factory';
@@ -25,6 +26,7 @@ import { PLATFORM_FILE } from './tokens/platform-file.token';
 import { PLATFORM_FORM_DATA } from './tokens/platform-form-data.token';
 import { PLATFORM_GLOBAL_CONTEXT } from './tokens/platform-global-context.token';
 import { PLATFORM_HEADERS } from './tokens/platform-headers.token';
+import { PLATFORM_IMAGE } from './tokens/platform-image.token';
 import { PLATFORM_LOCATION } from './tokens/platform-location.token';
 import { PLATFORM_NAVIGATOR } from './tokens/platform-navigator.token';
 import { PLATFORM_SET_TIMEOUT } from './tokens/platform-set-timeout.token';
@@ -43,6 +45,7 @@ export * from './tokens/platform-file.token';
 export * from './tokens/platform-form-data.token';
 export * from './tokens/platform-global-context.token';
 export * from './tokens/platform-headers.token';
+export * from './tokens/platform-image.token';
 export * from './tokens/platform-location.token';
 export * from './tokens/platform-navigator.token';
 export * from './tokens/platform-set-timeout.token';
@@ -149,6 +152,12 @@ export class SantechPlatformModule {
           : {
             provide: PLATFORM_HEADERS,
             useFactory: platformHeadersFactory,
+          },
+        config.imageProvider
+          ? config.imageProvider
+          : {
+            provide: PLATFORM_IMAGE,
+            useFactory: platformImageFactory,
           },
       ],
     };

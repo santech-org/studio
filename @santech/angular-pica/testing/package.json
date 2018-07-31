@@ -1,0 +1,16 @@
+{
+  "ngPackage": {
+    "lib": {
+      "entryFile": "index.ts",
+      "umdId": "Santech.AngularPica.Testing",
+      "umdModuleIds": {
+        "@santech/angular-pica": "Santech.AngularPica",
+        "@santech/core/testing": "Santech.Core.Testing"
+      }
+    }
+  },
+  "peerDependencies": {
+    "@santech/angular-pica": "*",
+    "@santech/core": "*"
+  }
+}

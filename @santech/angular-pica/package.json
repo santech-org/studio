@@ -1,15 +1,15 @@
 {
-  "name": "@santech/angular-cropper",
+  "name": "@santech/angular-pica",
   "version": "7.0.0-alpha.12",
-  "description": "Angular cropper module for santech studio",
-  "main": "dist/bundles/santech-angular-cropper.umd.js",
-  "module": "dist/esm5/santech-angular-cropper.js",
-  "es2015": "dist/esm2015/santech-angular-cropper.js",
+  "description": "santech angular pica module",
+  "main": "dist/bundles/santech-angular-pica.umd.js",
+  "module": "dist/esm5/santech-angular-pica.js",
+  "es2015": "dist/esm2015/santech-angular-pica.js",
   "types": "dist/index.d.ts",
-  "typings": "dist/santech-angular-cropper.d.ts",
+  "typings": "dist/santech-angular-pica.d.ts",
   "scripts": {
     "build": "npm run clean && ng-packagr -p ng-package.json && npm run docs",
-    "clean": "rimraf dist coverage .ng-build",
+    "clean": "rimraf dist docs coverage dist.tgz",
     "docs": "typedoc src/index.ts",
     "lint": "tslint \"**/*.ts\" \"**/*.js\"",
     "test": "jest --coverage",
@@ -23,15 +23,17 @@
     "santech",
     "studio",
     "angular",
-    "cropper"
+    "pica"
   ],
+  "author": "Paul Souche <psouche@santech.fr>",
   "license": "MIT",
-  "author": "Endika Esteban <eesteban@santech.fr>",
   "peerDependencies": {
     "@angular/core": "^5.0.0",
-    "@santech/angular-common": "^7.0.0-alpha.0",
-    "@santech/angular-pica": "^7.0.0-alpha.0",
-    "@santech/core": "^7.0.0-alpha.0"
+    "@santech/angular-common": "^7.0.0-alpha.12",
+    "@santech/angular-platform": "^7.0.0-alpha.12",
+    "exif-js": "^2.0.0",
+    "pica": "^4.0.0",
+    "rxjs": "^5.0.0"
   },
   "devDependencies": {
     "@angular/common": "^5.0.0",
@@ -41,10 +43,9 @@
     "@angular/platform-browser": "^5.0.0",
     "@angular/platform-browser-dynamic": "^5.0.0",
     "@santech/angular-common": "^7.0.0-alpha.12",
-    "@santech/angular-pica": "^7.0.0-alpha.12",
-    "@santech/core": "^7.0.0-alpha.12",
+    "@santech/angular-platform": "^7.0.0-alpha.12",
     "@types/jest": "*",
-    "cpx": "*",
+    "@types/node": "*",
     "jest": "*",
     "jest-localstorage-mock": "*",
     "jest-preset-angular": "*",
@@ -53,7 +54,6 @@
     "rxjs": "^5.0.0",
     "tsickle": "*",
     "tslib": "*",
-    "tslint": "*",
     "typedoc": "*",
     "typescript": "*",
     "whatwg-fetch": "*",
@@ -72,9 +72,6 @@
       "jest-localstorage-mock"
     ],
     "setupTestFrameworkScriptFile": "<rootDir>/setup-jest.ts",
-    "transformIgnorePatterns": [
-      "node_modules/(?!ngx-pica)"
-    ],
     "snapshotSerializers": [
       "<rootDir>../../node_modules/jest-preset-angular/AngularSnapshotSerializer.js",
       "<rootDir>../../node_modules/jest-preset-angular/HTMLCommentSerializer.js"

@@ -1,19 +1,17 @@
-import { ImageService } from '@santech/angular-cropper';
+import { ResizeService } from '@santech/angular-cropper';
 import { createJestSpyObj, filterPrivate, SantechSpyObject } from '@santech/core/testing';
 
-export const imageCropperMethods = ['getCroppedImageHelper'];
+export const resizeServiceMethods = Object
+  .getOwnPropertyNames(ResizeService.prototype).filter(filterPrivate);
 
-export const santechImageServiceMethods = Object
-  .getOwnPropertyNames(ImageService.prototype).filter(filterPrivate);
-
-let spyImageService: SantechSpyObject<ImageService>;
+let spyResizeService: SantechSpyObject<ResizeService>;
 
 if (typeof jasmine !== 'undefined' && typeof jasmine.createSpyObj === 'function') {
-  spyImageService = jasmine.createSpyObj('spyImageService', santechImageServiceMethods);
+  spyResizeService = jasmine.createSpyObj('spyResizeService', resizeServiceMethods);
 } else if (typeof jest !== 'undefined') {
-  spyImageService = createJestSpyObj(santechImageServiceMethods);
+  spyResizeService = createJestSpyObj(resizeServiceMethods);
 }
 
 export {
-  spyImageService,
+  spyResizeService,
 };
