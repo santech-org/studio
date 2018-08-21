@@ -7,14 +7,14 @@ import {
   EncodingType,
   MediaType,
   PictureSourceType,
-} from '@ionic-native/camera';
-import { File as IonicFile } from '@ionic-native/file';
+} from '@ionic-native/camera/ngx';
+import { File as IonicFile } from '@ionic-native/file/ngx';
+import { Platform } from '@ionic/angular';
 import { SantechAnalyticsModule } from '@santech/angular-analytics';
 import { SantechCommonModule } from '@santech/angular-common';
-import { ResizeService } from '@santech/angular-cropper';
+import { ResizeService, SantechCropperModule } from '@santech/angular-cropper';
 import { spyResizeService } from '@santech/angular-cropper/testing';
 import { SantechPlatformModule } from '@santech/angular-platform';
-import { Platform } from 'ionic-angular';
 import { CameraDirective, cordovaPlatform, ICameraOptions, SantechIonicModule } from '..';
 import { spyCamera, spyPlatform } from '../../testing/ionic';
 
@@ -82,6 +82,7 @@ describe('Camera directive', () => {
           SantechIonicModule.forRoot(),
           SantechAnalyticsModule.forRoot(),
           SantechCommonModule.forRoot(),
+          SantechCropperModule.forRoot(),
           SantechPlatformModule.forRoot(),
         ],
         providers: [

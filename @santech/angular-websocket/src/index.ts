@@ -1,5 +1,5 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
-import { END_POINTS, SantechCommonModule } from '@santech/angular-common';
+import { END_POINTS } from '@santech/angular-common';
 import { Authenticator } from '@santech/common';
 import { WebSocketClient } from '@santech/websocket';
 import { ISantechWebSocketModuleConfiguration } from './interfaces/configuration';
@@ -16,18 +16,8 @@ export * from './tokens/sockjs-clients.token';
 export * from './tokens/stompjs.token';
 export * from './tokens/ws-topics.token';
 
-@NgModule({
-  imports: [
-    SantechCommonModule.forChild(),
-  ],
-})
+@NgModule()
 export class SantechWebSocketModule {
-  public static forChild(): ModuleWithProviders {
-    return {
-      ngModule: SantechWebSocketModule,
-    };
-  }
-
   public static forRoot(config: ISantechWebSocketModuleConfiguration): ModuleWithProviders {
     return {
       ngModule: SantechWebSocketModule,

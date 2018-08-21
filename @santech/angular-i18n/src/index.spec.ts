@@ -50,7 +50,7 @@ describe('SantechI18nModule', () => {
   describe('When imported in a child module', () => {
     beforeEach(() => TestBed.configureTestingModule({
       imports: [
-        SantechI18nModule.forChild(),
+        SantechI18nModule,
         TranslateModule.forRoot(),
         SantechPlatformModule.forRoot(),
       ],

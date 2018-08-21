@@ -1,5 +1,6 @@
 import * as exifJs from 'exif-js';
 
-export function exifFactory() {
+// EXIFStatic not exported
+export function exifFactory(): any {
   return exifJs;
 }

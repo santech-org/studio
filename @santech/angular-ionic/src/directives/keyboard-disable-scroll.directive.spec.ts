@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
-import { Keyboard } from '@ionic-native/keyboard';
+import { Keyboard } from '@ionic-native/keyboard/ngx';
+import { Platform } from '@ionic/angular';
 import { SantechAnalyticsModule } from '@santech/angular-analytics';
 import { SantechCommonModule } from '@santech/angular-common';
 import { SantechPlatformModule } from '@santech/angular-platform';
-import { Platform } from 'ionic-angular';
 import { cordovaPlatform, KeyboardDisableScrollDirective, SantechIonicModule } from '..';
 import { spyKeyboard, spyPlatform } from '../../testing/ionic';
 

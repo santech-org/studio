@@ -1,5 +1,5 @@
-import { OSNotification, OSNotificationOpenedResult, OSSubscriptionState } from '@ionic-native/onesignal';
-import { Observable } from 'rxjs/Observable';
+import { OSNotification, OSNotificationOpenedResult, OSSubscriptionState } from '@ionic-native/onesignal/ngx';
+import { Observable } from 'rxjs';
 
 export interface IOneSignalConfig {
   appId: string;

@@ -54,12 +54,6 @@ export * from './tokens/platform-typeguard.token';
 
 @NgModule()
 export class SantechPlatformModule {
-  public static forChild(): ModuleWithProviders {
-    return {
-      ngModule: SantechPlatformModule,
-    };
-  }
-
   public static forRoot(config: ISantechPlatformModuleConfiguration = {}): ModuleWithProviders {
     return {
       ngModule: SantechPlatformModule,

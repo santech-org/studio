@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { async, ComponentFixture, TestBed  } from '@angular/core/testing';
-import { OneSignal } from '@ionic-native/onesignal';
+import { OneSignal } from '@ionic-native/onesignal/ngx';
+import { Platform } from '@ionic/angular';
 import { SantechAnalyticsModule } from '@santech/angular-analytics';
 import { SantechCommonModule } from '@santech/angular-common';
 import { SantechPlatformModule } from '@santech/angular-platform';
-import { Platform } from 'ionic-angular';
 import { cordovaPlatform, IOneSignalIds, ONE_SIGNAL_CONFIG, OneSignalService, SantechIonicModule } from '..';
 import { spyOneSignal, spyPlatform } from '../../testing/ionic';
 

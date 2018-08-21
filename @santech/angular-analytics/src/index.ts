@@ -1,7 +1,7 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { analytics, IAnalyticsJS } from '@santech/analytics-core';
 import { SantechIntegration } from '@santech/analytics-integration';
-import { END_POINTS, SantechCommonModule } from '@santech/angular-common';
+import { END_POINTS } from '@santech/angular-common';
 import { Http } from '@santech/core';
 import { RoutingAnalyticsDirective } from './directives/routing-analytics.directive';
 import { TrackClickDirective } from './directives/track-click.directive';
@@ -31,17 +31,8 @@ export function analyticsFactory(): IAnalyticsJS {
     RoutingAnalyticsDirective,
     TrackClickDirective,
   ],
-  imports: [
-    SantechCommonModule.forChild(),
-  ],
 })
 export class SantechAnalyticsModule {
-  public static forChild(): ModuleWithProviders {
-    return {
-      ngModule: SantechAnalyticsModule,
-    };
-  }
-
   public static forRoot(config: ISantechAnalyticsModuleConfiguration = {}): ModuleWithProviders {
     return {
       ngModule: SantechAnalyticsModule,

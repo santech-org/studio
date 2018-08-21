@@ -13,7 +13,8 @@
     "./testing/index.ts"
   ],
   "include": [
-    "src/**/*.spec.ts"
+    "src/**/*.spec.ts",
+    "./build.ts",
   ],
   "typedocOptions": {
     "mode": "modules",

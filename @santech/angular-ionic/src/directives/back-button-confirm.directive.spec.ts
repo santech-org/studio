@@ -1,17 +1,16 @@
+import { Location } from '@angular/common';
 import { Component } from '@angular/core';
-import { async, TestBed } from '@angular/core/testing';
-import { SantechAnalyticsModule } from '@santech/angular-analytics';
-import { SantechCommonModule } from '@santech/angular-common';
-import { SantechPlatformModule } from '@santech/angular-platform';
-import { AlertController, App, Platform } from 'ionic-angular';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { AlertController, Platform } from '@ionic/angular';
+import { spyLocation } from '@santech/angular-common/testing';
+import { PLATFORM_GLOBAL_CONTEXT } from '@santech/angular-platform';
 import {
   BACK_BUTTON_CONFIRMATION_FUNC,
   confirmFunction,
   cordovaPlatform,
-  NETWORK_CONNECTION_DELAY,
   SantechIonicModule,
 } from '..';
-import { spyAlert, spyAlertController, spyApp, spyPlatform } from '../../testing/ionic';
+import { spyAlert, spyAlertController, spyPlatform } from '../../testing/ionic';
 
 @Component({
   selector: 'test-back-button-confirm',
@@ -20,15 +19,28 @@ import { spyAlert, spyAlertController, spyApp, spyPlatform } from '../../testing
 class BackButtonConfirmTestComponent { }
 
 describe('Back button confirm directive', () => {
+  let fixture: ComponentFixture<BackButtonConfirmTestComponent>;
+  let history: string[];
+  let app: any;
+
   beforeEach(() => {
     jest.resetAllMocks();
-    spyApp.navPop.mockReturnValue(undefined);
-    spyPlatform.registerBackButtonAction.mockImplementation((cb: () => void) => cb());
     spyAlertController.create.mockReturnValue(spyAlert);
   });
 
+  afterEach(() => fixture.destroy());
+
   describe('When no confirmation function is provided', () => {
     beforeEach(() => {
+      const mockWindow = {
+        history: [],
+        navigator: {
+          app: {
+            exitApp: jest.fn(),
+          },
+        },
+      };
+
       TestBed
         .configureTestingModule({
           declarations: [
@@ -36,26 +48,30 @@ describe('Back button confirm directive', () => {
           ],
           imports: [
             SantechIonicModule.forRoot(),
-            SantechAnalyticsModule.forRoot(),
-            SantechCommonModule.forRoot(),
-            SantechPlatformModule.forRoot(),
           ],
           providers: [
+            { provide: Location, useValue: spyLocation },
             { provide: Platform, useValue: spyPlatform },
-            { provide: App, useValue: spyApp },
             { provide: AlertController, useValue: spyAlertController },
+            { provide: PLATFORM_GLOBAL_CONTEXT, useValue: mockWindow },
           ],
         });
+
+      history = TestBed.get(PLATFORM_GLOBAL_CONTEXT).history;
+      app = TestBed.get(PLATFORM_GLOBAL_CONTEXT).navigator.app;
     });
 
     describe('On desktop', () => {
       beforeEach(async(() => {
         spyPlatform.ready.mockResolvedValue('desktop');
-        TestBed.createComponent(BackButtonConfirmTestComponent).autoDetectChanges();
+        fixture = TestBed.createComponent(BackButtonConfirmTestComponent);
+        fixture.autoDetectChanges();
       }));
 
       it('Should not register back button action when platform\'s ready', () => {
-        expect(spyPlatform.registerBackButtonAction).not.toHaveBeenCalled();
+        spyPlatform.backButton.emit();
+        expect(spyLocation.back).not.toHaveBeenCalled();
+        expect(app.exitApp).not.toHaveBeenCalled();
       });
     });
 
@@ -64,40 +80,32 @@ describe('Back button confirm directive', () => {
         spyPlatform.ready.mockResolvedValue(cordovaPlatform);
       });
 
-      describe('When navigation cannot pop', () => {
+      describe('When no navigation history', () => {
         beforeEach(async(() => {
-          TestBed.createComponent(BackButtonConfirmTestComponent).autoDetectChanges();
+          fixture = TestBed.createComponent(BackButtonConfirmTestComponent);
+          fixture.autoDetectChanges();
         }));
 
-        it('Should register back button action when platform\'s ready', () => {
-          expect(spyPlatform.registerBackButtonAction).toHaveBeenCalled();
-        });
-
-        it('Should try to pop navigation', () => {
-          expect(spyApp.navPop).toHaveBeenCalled();
-        });
-
-        it('Should exit app', () => {
-          expect(spyPlatform.exitApp).toHaveBeenCalled();
+        describe('When user press back button', () => {
+          it('Should exit app', () => {
+            spyPlatform.backButton.emit();
+            expect(spyLocation.back).not.toHaveBeenCalled();
+            expect(app.exitApp).toHaveBeenCalled();
+          });
         });
       });
 
-      describe('When navigation can pop', () => {
+      describe('When navigation history', () => {
         beforeEach(async(() => {
-          spyApp.navPop.mockReturnValue(Promise.resolve());
-          TestBed.createComponent(BackButtonConfirmTestComponent).autoDetectChanges();
+          fixture = TestBed.createComponent(BackButtonConfirmTestComponent);
+          fixture.autoDetectChanges();
         }));
 
-        it('Should register back button action when platform\'s ready', () => {
-          expect(spyPlatform.registerBackButtonAction).toHaveBeenCalled();
-        });
-
-        it('Should try to pop navigation', () => {
-          expect(spyApp.navPop).toHaveBeenCalled();
-        });
-
-        it('Should not exit app as navigation can be popped', () => {
-          expect(spyPlatform.exitApp).not.toHaveBeenCalled();
+        it('Should not exit app as we can get back in history', () => {
+          history.push('url');
+          spyPlatform.backButton.emit();
+          expect(app.exitApp).not.toHaveBeenCalled();
+          expect(spyLocation.back).toHaveBeenCalled();
         });
       });
     });
@@ -127,6 +135,15 @@ describe('Back button confirm directive', () => {
     };
 
     beforeEach(() => {
+      const mockWindow = {
+        history: [],
+        navigator: {
+          app: {
+            exitApp: jest.fn(),
+          },
+        },
+      };
+
       TestBed
         .configureTestingModule({
           declarations: [
@@ -138,21 +155,18 @@ describe('Back button confirm directive', () => {
                 provide: BACK_BUTTON_CONFIRMATION_FUNC,
                 useValue: backButtonConfirmationFunc,
               },
-              networkConnectionDelayProvider: {
-                provide: NETWORK_CONNECTION_DELAY,
-                useValue: 0,
-              },
             }),
-            SantechAnalyticsModule.forRoot(),
-            SantechCommonModule.forRoot(),
-            SantechPlatformModule.forRoot(),
           ],
           providers: [
+            { provide: Location, useValue: spyLocation },
             { provide: Platform, useValue: spyPlatform },
-            { provide: App, useValue: spyApp },
             { provide: AlertController, useValue: spyAlertController },
+            { provide: PLATFORM_GLOBAL_CONTEXT, useValue: mockWindow },
           ],
         });
+
+      history = TestBed.get(PLATFORM_GLOBAL_CONTEXT).history;
+      app = TestBed.get(PLATFORM_GLOBAL_CONTEXT).navigator.app;
     });
 
     describe('On desktop', () => {
@@ -162,7 +176,9 @@ describe('Back button confirm directive', () => {
       }));
 
       it('Should not register back button action when platform\'s ready', () => {
-        expect(spyPlatform.registerBackButtonAction).not.toHaveBeenCalled();
+        spyPlatform.backButton.emit();
+        expect(spyLocation.back).not.toHaveBeenCalled();
+        expect(app.exitApp).not.toHaveBeenCalled();
       });
     });
 
@@ -171,79 +187,71 @@ describe('Back button confirm directive', () => {
         spyPlatform.ready.mockResolvedValue(cordovaPlatform);
       });
 
-      describe('When navigation cannot pop', () => {
+      describe('When no navigation history', () => {
         beforeEach(async(() => {
-          TestBed.createComponent(BackButtonConfirmTestComponent).autoDetectChanges();
+          fixture = TestBed.createComponent(BackButtonConfirmTestComponent);
+          fixture.autoDetectChanges();
         }));
 
-        it('Should register back button action when platform\'s ready', () => {
-          expect(spyPlatform.registerBackButtonAction).toHaveBeenCalled();
-        });
+        describe('When user press back button', () => {
+          beforeEach(() => spyPlatform.backButton.emit());
 
-        it('Should try to pop navigation', () => {
-          expect(spyApp.navPop).toHaveBeenCalled();
-        });
-
-        it('Should show confirm popup', () => {
-          expect(spyAlertController.create).toHaveBeenCalledWith({
-            buttons: [
-              {
-                handler: jasmine.any(Function),
-                text: 'cancelText',
-              },
-              {
-                handler: jasmine.any(Function),
-                text: 'confirmText',
-              },
-            ],
-            message: 'message',
-            title: 'title',
-          });
-          expect(spyAlert.present).toHaveBeenCalled();
-        });
-
-        describe('And user confirms', () => {
-          beforeEach(() => {
-            if (backButtonConfirmationFunc.confirm) {
-              backButtonConfirmationFunc.confirm();
-            }
+          it('Should show confirm popup', () => {
+            expect(spyAlertController.create).toHaveBeenCalledWith({
+              buttons: [
+                {
+                  handler: jasmine.any(Function),
+                  text: 'cancelText',
+                },
+                {
+                  handler: jasmine.any(Function),
+                  text: 'confirmText',
+                },
+              ],
+              message: 'message',
+              title: 'title',
+            });
+            expect(spyAlert.present).toHaveBeenCalled();
           });
 
-          it('Should exit app', () => {
-            expect(spyPlatform.exitApp).toHaveBeenCalled();
-          });
-        });
+          describe('And user confirms', () => {
+            beforeEach(() => {
+              if (backButtonConfirmationFunc.confirm) {
+                backButtonConfirmationFunc.confirm();
+              }
+            });
 
-        describe('And user cancels', () => {
-          beforeEach(() => {
-            if (backButtonConfirmationFunc.cancel) {
-              backButtonConfirmationFunc.cancel();
-            }
+            it('Should exit app', () => {
+              expect(app.exitApp).toHaveBeenCalled();
+            });
           });
 
-          it('Should dismiss the popup', () => {
-            expect(spyAlert.dismiss).toHaveBeenCalled();
+          describe('And user cancels', () => {
+            beforeEach(() => {
+              if (backButtonConfirmationFunc.cancel) {
+                backButtonConfirmationFunc.cancel();
+              }
+            });
+
+            it('Should dismiss the popup', () => {
+              expect(spyAlert.dismiss).toHaveBeenCalled();
+            });
           });
         });
       });
 
-      describe('When navigation can pop', () => {
+      describe('When navigation history', () => {
         beforeEach(async(() => {
-          spyApp.navPop.mockReturnValue(Promise.resolve());
-          TestBed.createComponent(BackButtonConfirmTestComponent).autoDetectChanges();
+          fixture = TestBed.createComponent(BackButtonConfirmTestComponent);
+          fixture.autoDetectChanges();
         }));
 
-        it('Should register back button action when platform\'s ready', () => {
-          expect(spyPlatform.registerBackButtonAction).toHaveBeenCalled();
-        });
-
-        it('Should try to pop navigation', () => {
-          expect(spyApp.navPop).toHaveBeenCalled();
-        });
-
-        it('Should not show confirm popup', () => {
+        it('Should not show confirm popup as we can get back in history', () => {
+          history.push('url');
+          spyPlatform.backButton.emit();
           expect(spyAlertController.create).not.toHaveBeenCalled();
           expect(spyAlert.present).not.toHaveBeenCalled();
+          expect(spyLocation.back).toHaveBeenCalled();
         });
       });
     });

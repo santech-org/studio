@@ -15,7 +15,7 @@
   "scripts": {
     "build": "npm run clean && npm run transpile && npm run rollup && npm run package",
     "clean": "rimraf dist dist.tgz",
-    "lint": "tslint \"**/*.ts\" \"**/*.js\"",
+    "lint": "tslint \"**/*.ts\" \"**/*.js\" -e \"node_modules/**\"",
     "package": "npm pack && mv santech-analytics-core-*.tgz dist.tgz",
     "rollup": "node rollup.js",
     "test": "echo no test",

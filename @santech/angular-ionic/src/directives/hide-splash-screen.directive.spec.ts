@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
-import { SplashScreen } from '@ionic-native/splash-screen';
+import { SplashScreen } from '@ionic-native/splash-screen/ngx';
+import { Platform } from '@ionic/angular';
 import { SantechAnalyticsModule } from '@santech/angular-analytics';
 import { SantechCommonModule } from '@santech/angular-common';
 import { SantechPlatformModule } from '@santech/angular-platform';
-import { Platform } from 'ionic-angular';
 import { cordovaPlatform, HideSplashScreenDirective, SantechIonicModule } from '..';
 import { spyPlatform, spySplashScreen } from '../../testing/ionic';
 

@@ -15,10 +15,11 @@
       "@ionic-native/network": "",
       "@ionic-native/onesignal": "",
       "@ionic-native/splash-screen": "",
+      "@ionic/angular": "",
+      "@ionic/core": "",
       "@santech/angular-common": "Santech.AngularComon",
       "@santech/angular-pica": "Santech.AngularPica",
       "@santech/angular-platform": "Santech.AngularPlatform",
-      "ionic-angular": "ionicBundle",
       "rxjs/Subscription": "Rx.Subscription"
     }
   }

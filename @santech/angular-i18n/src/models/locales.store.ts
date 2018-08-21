@@ -3,7 +3,7 @@ import localeEn from '@angular/common/locales/en';
 import localeFr from '@angular/common/locales/fr';
 import { Inject, Injectable, LOCALE_ID } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { ILocaleStore } from '../interfaces/locales';
 
 @Injectable()

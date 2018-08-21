@@ -4,7 +4,6 @@ import {
   PLATFORM_FETCH,
   PLATFORM_HEADERS,
   PLATFORM_STORAGE,
-  SantechPlatformModule,
 } from '@santech/angular-platform';
 import {
   Authenticator,
@@ -71,17 +70,8 @@ export * from './tokens/interceptors.token';
     AddHeaderVersionDirective,
     KeyboardSubmitDirective,
   ],
-  imports: [
-    SantechPlatformModule.forChild(),
-  ],
 })
 export class SantechCommonModule {
-  public static forChild(): ModuleWithProviders {
-    return {
-      ngModule: SantechCommonModule,
-    };
-  }
-
   public static forRoot(config: ISantechCommonModuleConfiguration = {}): ModuleWithProviders {
     return {
       ngModule: SantechCommonModule,

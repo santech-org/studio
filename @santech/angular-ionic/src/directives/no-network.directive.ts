@@ -1,7 +1,7 @@
 import { Directive, EventEmitter, Inject, OnDestroy, OnInit, Output } from '@angular/core';
-import { Network } from '@ionic-native/network';
+import { Network } from '@ionic-native/network/ngx';
 import { PLATFORM_SET_TIMEOUT } from '@santech/angular-platform';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { NETWORK_CONNECTION_DELAY } from '../tokens/network-connection-delay.token';
 
 @Directive({

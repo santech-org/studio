@@ -56,7 +56,7 @@ describe('WebSocketClient', () => {
   beforeEach(() => {
     clientStompStub = Object.create({
       connect: sinon.stub(),
-      debug: console.log,
+      debug: console.info,
       disconnect: sinon.stub(),
       subscribe: sinon.stub(),
     });
@@ -161,7 +161,7 @@ describe('WebSocketClient', () => {
     });
 
     it('Should keep the client debugging method', () => {
-      expect((client as any)._client.debug).toEqual(console.log);
+      expect((client as any)._client.debug).toEqual(console.info);
     });
   });
 

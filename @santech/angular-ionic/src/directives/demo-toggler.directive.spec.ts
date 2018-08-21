@@ -7,6 +7,8 @@ import { SantechCommonModule, TimeoutService } from '@santech/angular-common';
 import { MockTimeoutService } from '@santech/angular-common/testing';
 import { PLATFORM_LOCATION, PLATFORM_STORAGE, SantechPlatformModule } from '@santech/angular-platform';
 import { spyLocalstorage, spyLocation } from '@santech/angular-platform/testing';
+// tslint:disable-next-line:no-implicit-dependencies
+import 'hammerjs';
 import { DEMO_TOGGLER_DURATION, SantechIonicModule } from '..';
 
 @Component({
