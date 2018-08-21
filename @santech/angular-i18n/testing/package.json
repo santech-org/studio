@@ -12,7 +12,7 @@
   },
   "peerDependencies": {
     "@ngx-translate/core": "^9.0.0",
-    "@santech/angular-i18n": "^6.0.0",
-    "@santech/core": "^6.0.0"
+    "@santech/angular-i18n": "*",
+    "@santech/core": "*"
   }
 }

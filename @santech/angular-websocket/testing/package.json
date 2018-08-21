@@ -10,7 +10,7 @@
     }
   },
   "peerDependencies": {
-    "@santech/angular-websocket": "^6.0.0",
-    "@santech/core": "^6.0.0"
+    "@santech/angular-websocket": "*",
+    "@santech/core": "*"
   }
 }

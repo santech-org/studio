@@ -11,7 +11,7 @@
   },
   "peerDependencies": {
     "@angular/router": "^5.0.0",
-    "@santech/angular-common": "^6.0.0",
-    "@santech/core": "^6.0.0"
+    "@santech/angular-common": "*",
+    "@santech/core": "*"
   }
 }
