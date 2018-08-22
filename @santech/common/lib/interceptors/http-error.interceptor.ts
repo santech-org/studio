@@ -68,10 +68,18 @@ export class HttpErrorInterceptor implements IHttpInterceptor {
       return res;
     }
 
-    const data = httpErrors
-      .find((e) => e.code === res.status && e.error === res.data.error) || unkownHttpError;
+    const {
+      status,
+      data: body,
+    } = res;
 
-    Object.assign(res, { data });
+    const errorData = httpErrors
+      .find((e) => e.code === status && e.error === body.error) || unkownHttpError;
+
+    res.data = {
+      ...errorData,
+      body,
+    };
     return res;
   }
 }

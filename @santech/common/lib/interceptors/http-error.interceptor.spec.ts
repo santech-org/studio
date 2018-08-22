@@ -50,6 +50,7 @@ describe('HttpErrorInterceptor', () => {
           await http.get(url);
         } catch (res) {
           expect(res.data).toEqual({
+            body: badRequest,
             code: 400,
             error: 'error.badRequest',
           });
@@ -67,6 +68,7 @@ describe('HttpErrorInterceptor', () => {
           await http.get(url);
         } catch (res) {
           expect(res.data).toEqual({
+            body: unauthorized,
             code: 401,
             error: 'error.unauthorized',
           });
@@ -84,6 +86,7 @@ describe('HttpErrorInterceptor', () => {
           await http.get(url);
         } catch (res) {
           expect(res.data).toEqual({
+            body: accessDenied,
             code: 403,
             error: 'error.accessDenied',
           });
@@ -101,6 +104,7 @@ describe('HttpErrorInterceptor', () => {
           await http.get(url);
         } catch (res) {
           expect(res.data).toEqual({
+            body: notFound,
             code: 404,
             error: 'error.notFound',
           });
@@ -118,6 +122,7 @@ describe('HttpErrorInterceptor', () => {
           await http.get(url);
         } catch (res) {
           expect(res.data).toEqual({
+            body: conflict,
             code: 409,
             error: 'error.conflict',
           });
@@ -135,6 +140,7 @@ describe('HttpErrorInterceptor', () => {
           await http.get(url);
         } catch (res) {
           expect(res.data).toEqual({
+            body: locked,
             code: 423,
             error: 'error.locked',
           });
@@ -152,6 +158,7 @@ describe('HttpErrorInterceptor', () => {
           await http.get(url);
         } catch (res) {
           expect(res.data).toEqual({
+            body: internalServerError,
             code: 500,
             error: 'error.internalServerError',
           });
@@ -169,6 +176,7 @@ describe('HttpErrorInterceptor', () => {
           await http.get(url);
         } catch (res) {
           expect(res.data).toEqual({
+            body: internalServerError,
             code: 0,
             error: 'unknown',
           });

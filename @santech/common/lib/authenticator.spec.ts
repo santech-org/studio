@@ -190,6 +190,7 @@ describe('Authenticator', () => {
       const res = await service.waitForLogin as IDeserializedResponse<IError>;
       expect(res).not.toBeUndefined();
       expect(res.data).toEqual({
+        body: internalServerError,
         code: 500,
         error: 'error.internalServerError',
       });
@@ -392,6 +393,7 @@ describe('Authenticator', () => {
       } catch (res) {
         expect(service.isLogged()).toBe(false);
         expect(res.data).toEqual({
+          body: unauthorized,
           code: 401,
           error: 'error.unauthorized',
         });
@@ -427,6 +429,7 @@ describe('Authenticator', () => {
       } catch (res) {
         expect(service.isLogged()).toBe(false);
         expect(res.data).toEqual({
+          body: conflict,
           code: 409,
           error: 'error.conflict',
         });
@@ -460,6 +463,7 @@ describe('Authenticator', () => {
       } catch (res) {
         expect(service.isLogged()).toBe(false);
         expect(res.data).toEqual({
+          body: internalServerError,
           code: 500,
           error: 'error.internalServerError',
         });
@@ -657,6 +661,7 @@ describe('Authenticator', () => {
         } catch (res) {
           expect(res).not.toBeUndefined();
           expect(res.data).toEqual({
+            body: internalServerError,
             code: 500,
             error: 'error.internalServerError',
           });

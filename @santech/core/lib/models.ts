@@ -19,6 +19,7 @@ export interface IDeserializedResponse<T> extends IResponse<T> {
 }
 
 export interface IError {
+  body?: any;
   code: number;
   error: string;
 }
