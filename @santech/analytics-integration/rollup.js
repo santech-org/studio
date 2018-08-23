@@ -10,7 +10,7 @@ const buildModule = async () => {
       '@santech/common',
       '@santech/core',
     ],
-    input: './index.ts',
+    input: './src/index.ts',
     plugins,
   });
 
@@ -34,7 +34,7 @@ const buildTestingModule = async () => {
       '@santech/analytics-integration',
       '@santech/core/testing',
     ],
-    input: './index-testing.ts',
+    input: './src/index-testing.ts',
     plugins,
   });
 

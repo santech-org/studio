@@ -12,7 +12,7 @@ const buildModule = async () => {
       '@types/sockjs-client',
       'sockjs-client',
     ],
-    input: './index.ts',
+    input: './src/index.ts',
     plugins,
   });
 
@@ -38,7 +38,7 @@ const buildTestingModule = async () => {
       '@santech/core/testing',
       '@santech/websocket',
     ],
-    input: './index-testing.ts',
+    input: './src/index-testing.ts',
     plugins,
   });
 

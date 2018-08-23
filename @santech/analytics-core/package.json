@@ -16,7 +16,7 @@
     "build": "npm run clean && npm run transpile && npm run rollup && npm run package",
     "clean": "rimraf dist dist.tgz",
     "lint": "tslint \"**/*.ts\" \"**/*.js\"",
-    "package": "npm pack && rename santech-analytics-core*.tgz dist.tgz",
+    "package": "npm pack && mv santech-analytics-core-*.tgz dist.tgz",
     "rollup": "node rollup.js",
     "test": "echo no test",
     "transpile": "tsc -p . --declaration true && cpx \"+(index.d.ts)\" dist"
@@ -37,7 +37,6 @@
     "@segment/analytics.js-core": "*",
     "@segment/analytics.js-integration": "*",
     "cpx": "*",
-    "rename-cli": "*",
     "rimraf": "*",
     "rollup": "*",
     "rollup-plugin-commonjs": "*",

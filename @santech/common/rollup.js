@@ -6,7 +6,7 @@ const plugins = [typescript()];
 const buildModule = async () => {
   const bundle = await rollup.rollup({
     external: ['@santech/core'],
-    input: './index.ts',
+    input: './src/index.ts',
     plugins,
   });
 
@@ -25,7 +25,7 @@ const buildModule = async () => {
 const buildTestingModule = async () => {
   const testingBundle = await rollup.rollup({
     external: ['@santech/common', '@santech/core/testing'],
-    input: './index-testing.ts',
+    input: './src/index-testing.ts',
     plugins,
   });
 

@@ -17,14 +17,14 @@
   "scripts": {
     "build": "npm run clean && npm run transpile && npm run rollup && npm run docs && npm run package",
     "clean": "rimraf docs dist coverage .rpt2_cache dist.tgz",
-    "docs": "typedoc index.ts",
-    "lint": "tslint \"**/*.ts\" \"**/*.js\"",
-    "package": "npm pack && rename santech-analytics-integration*.tgz dist.tgz",
+    "docs": "typedoc src/index.ts",
+    "lint": "tslint \"**/*.ts\" \"**/*.js\" -e \"node_modules/**\"",
+    "package": "npm pack && mv santech-analytics-integration-*.tgz dist.tgz",
     "rollup": "node rollup.js",
     "start": "tsc -p . -w",
     "test": "jest --coverage",
     "test-watch": "jest --watch",
-    "transpile": "tsc -p . --declaration true"
+    "transpile": "tsc -p . --declaration true && tsc -p tsconfig.testing.json --declaration true"
   },
   "keywords": [
     "santech",
@@ -42,7 +42,6 @@
   "devDependencies": {
     "@types/jest": "*",
     "jest": "*",
-    "rename-cli": "*",
     "rimraf": "*",
     "rollup": "*",
     "rollup-plugin-typescript2": "*",
