@@ -1,6 +1,6 @@
 import { Directive, OnInit } from '@angular/core';
-import { Keyboard } from '@ionic-native/keyboard';
-import { Platform } from 'ionic-angular';
+import { Keyboard } from '@ionic-native/keyboard/ngx';
+import { Platform } from '@ionic/angular';
 import { cordovaPlatform } from '../models/cordova';
 
 @Directive({

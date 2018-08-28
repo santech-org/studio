@@ -1,12 +1,12 @@
 import { Inject, Injectable } from '@angular/core';
-import { CacheService as IonicCacheService } from 'ionic-cache';
+import { CacheService } from 'ionic-cache';
 import { CACHE_TTL } from '../tokens/cache-ttl.token';
 
 @Injectable()
-export class CacheService {
-  private _cache: IonicCacheService;
+export class RepositoryService {
+  private _cache: CacheService;
 
-  constructor(cache: IonicCacheService, @Inject(CACHE_TTL)cacheTTL: number) {
+  constructor(cache: CacheService, @Inject(CACHE_TTL) cacheTTL: number) {
     cache.setDefaultTTL(cacheTTL);
     this._cache = cache;
   }

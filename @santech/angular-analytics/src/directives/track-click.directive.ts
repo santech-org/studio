@@ -45,7 +45,7 @@ export class TrackClickDirective<Context, Resolvers extends IResolvers<any, Cont
 
   @HostListener('click')
   public async onClick() {
-    const resolvers = this._resolvers;
+    const resolvers = this._resolvers as Resolvers;
     const context = this.context;
     return Promise.all(this.keys.map((k) => resolvers[k])
       .map((s) => s.resolveAnalyticsKey(context)))

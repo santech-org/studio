@@ -19,6 +19,12 @@
       true,
       "@angular/common/locales",
       "@angular/core/testing",
+      "@ionic-native/camera/ngx",
+      "@ionic-native/file/ngx",
+      "@ionic-native/keyboard/ngx",
+      "@ionic-native/network/ngx",
+      "@ionic-native/onesignal/ngx",
+      "@ionic-native/splash-screen/ngx",
       "@santech/analytics-core/testing",
       "@santech/angular-common/testing",
       "@santech/angular-cropper/testing",
@@ -27,7 +33,7 @@
       "@santech/common/testing",
       "@santech/core/testing",
       "@santech/websocket/testing",
-      "rxjs"
+      "rxjs/operators"
     ],
     "no-unused-expression": false,
     "quotemark": [

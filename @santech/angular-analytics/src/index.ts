@@ -1,16 +1,19 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { analytics, IAnalyticsJS } from '@santech/analytics-core';
 import { SantechIntegration } from '@santech/analytics-integration';
-import { END_POINTS, SantechCommonModule } from '@santech/angular-common';
+import { END_POINTS } from '@santech/angular-common';
 import { Http } from '@santech/core';
+import { RoutingAnalyticsDirective } from './directives/routing-analytics.directive';
 import { TrackClickDirective } from './directives/track-click.directive';
 import { ISantechAnalyticsModuleConfiguration } from './interfaces/configuration';
 import { ANALYTICS_OPTIONS } from './tokens/analytics-options.token';
 import { ANALYTICS } from './tokens/analytics.token';
 
+export * from './directives/routing-analytics.directive';
 export * from './directives/track-click.directive';
 export * from './interfaces/configuration';
 export * from './interfaces/track-event';
+export * from './interfaces/track-page';
 export * from './tokens/analytics-options.token';
 export * from './tokens/analytics-resolvers.token';
 export * from './tokens/analytics.token';
@@ -21,22 +24,15 @@ export function analyticsFactory(): IAnalyticsJS {
 
 @NgModule({
   declarations: [
+    RoutingAnalyticsDirective,
     TrackClickDirective,
   ],
   exports: [
+    RoutingAnalyticsDirective,
     TrackClickDirective,
-  ],
-  imports: [
-    SantechCommonModule.forChild(),
   ],
 })
 export class SantechAnalyticsModule {
-  public static forChild(): ModuleWithProviders {
-    return {
-      ngModule: SantechAnalyticsModule,
-    };
-  }
-
   public static forRoot(config: ISantechAnalyticsModuleConfiguration = {}): ModuleWithProviders {
     return {
       ngModule: SantechAnalyticsModule,

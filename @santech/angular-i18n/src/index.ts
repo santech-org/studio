@@ -1,6 +1,6 @@
 import { LOCALE_ID, ModuleWithProviders, NgModule } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
-import { PLATFORM_NAVIGATOR, SantechPlatformModule } from '@santech/angular-platform';
+import { PLATFORM_NAVIGATOR } from '@santech/angular-platform';
 import { ISantechI18nModuleConfiguration } from './interfaces/configuration';
 import { LocalesService } from './models/locales.service';
 import { LocalesStore } from './models/locales.store';
@@ -17,17 +17,10 @@ export * from './tokens/locales.token';
     TranslateModule,
   ],
   imports: [
-    TranslateModule.forChild(),
-    SantechPlatformModule.forChild(),
+    TranslateModule,
   ],
 })
 export class SantechI18nModule {
-  public static forChild(): ModuleWithProviders {
-    return {
-      ngModule: SantechI18nModule,
-    };
-  }
-
   public static forRoot(config: ISantechI18nModuleConfiguration = {}): ModuleWithProviders {
     return {
       ngModule: SantechI18nModule,

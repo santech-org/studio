@@ -1,4 +1,4 @@
-import { Direction, PictureSourceType } from '@ionic-native/camera';
+import { Direction, PictureSourceType } from '@ionic-native/camera/ngx';
 
 export interface ICameraImage {
   base64: string;

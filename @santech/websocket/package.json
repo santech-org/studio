@@ -1,6 +1,6 @@
 {
   "name": "@santech/websocket",
-  "version": "7.0.0-alpha.14",
+  "version": "7.0.0-beta.0",
   "description": "websocket connector for santech studio",
   "main": "dist/umd/index.js",
   "module": "dist/index.js",
@@ -17,14 +17,14 @@
   "scripts": {
     "build": "npm run clean && npm run transpile && npm run rollup && npm run docs && npm run package",
     "clean": "rimraf docs dist coverage .rpt2_cache dist.tgz",
-    "docs": "typedoc index.ts",
-    "lint": "tslint \"**/*.ts\" \"**/*.js\"",
-    "package": "npm pack && rename santech-websocket*.tgz dist.tgz",
+    "docs": "typedoc src/index.ts",
+    "lint": "tslint \"**/*.ts\" \"**/*.js\" -e \"node_modules/**\"",
+    "package": "npm pack && mv santech-websocket-*.tgz dist.tgz",
     "rollup": "node rollup.js",
     "start": "tsc -p . -w",
     "test": "jest --coverage",
     "test-watch": "jest --watch",
-    "transpile": "tsc -p . --declaration true"
+    "transpile": "tsc -p . --declaration true && tsc -p tsconfig.testing.json --declaration true"
   },
   "keywords": [
     "santech",
@@ -34,8 +34,8 @@
   "author": "Paul Souche <psouche@santech.fr>",
   "license": "MIT",
   "dependencies": {
-    "@santech/common": "^7.0.0-alpha.14",
-    "@santech/core": "^7.0.0-alpha.14",
+    "@santech/common": "^7.0.0-beta.0",
+    "@santech/core": "^7.0.0-beta.0",
     "@stomp/stompjs": "*",
     "@types/sockjs-client": "*",
     "sockjs-client": "*"
@@ -44,7 +44,6 @@
     "@types/jest": "*",
     "@types/sinon": "*",
     "jest": "*",
-    "rename-cli": "*",
     "rimraf": "*",
     "rollup": "*",
     "rollup-plugin-typescript2": "*",
@@ -57,6 +56,7 @@
     "typescript": "*"
   },
   "jest": {
+    "testURL": "http://localhost",
     "transform": {
       "^.+\\.ts$": "ts-jest"
     },

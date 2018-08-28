@@ -13,6 +13,7 @@
   ],
   "include": [
     "./src/**/*.spec.ts",
+    "./build.ts",
   ],
   "typedocOptions": {
     "mode": "modules",

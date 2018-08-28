@@ -76,7 +76,7 @@ describe('SantechCommonModule', () => {
   describe('When imported in a child module', () => {
     beforeEach(() => TestBed.configureTestingModule({
       imports: [
-        SantechCommonModule.forChild(),
+        SantechCommonModule,
         SantechPlatformModule.forRoot(),
       ],
     }));

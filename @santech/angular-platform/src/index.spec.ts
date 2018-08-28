@@ -307,7 +307,7 @@ describe('SantechPlatformModule', () => {
   describe('When imported in a child module', () => {
     beforeEach(() => TestBed.configureTestingModule({
       imports: [
-        SantechPlatformModule.forChild(),
+        SantechPlatformModule,
       ],
     }));
 

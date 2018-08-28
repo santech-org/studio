@@ -1,61 +1,36 @@
-import { Directive, Inject, OnInit } from '@angular/core';
-import { Alert, AlertController, App, Platform } from 'ionic-angular';
-import { confirmFunction } from '../interfaces/confirmation';
+import { Directive, OnDestroy, OnInit } from '@angular/core';
+import { Platform } from '@ionic/angular';
+import { Subscription } from 'rxjs';
 import { cordovaPlatform } from '../models/cordova';
-import { BACK_BUTTON_CONFIRMATION_FUNC } from '../tokens/back-button-confirmation.token';
+import { NavigationService } from '../services/navigation.service';
 
 @Directive({
   selector: '[back-button-confirm]',
 })
-export class BackButtonConfirmDirective implements OnInit {
+export class BackButtonConfirmDirective implements OnInit, OnDestroy {
   private _platform: Platform;
-  private _alertCtrl: AlertController;
-  private _app: App;
-  private _confirmFunction: confirmFunction | undefined;
-  private _alert: Alert | undefined;
+  private _subscription: Subscription | undefined;
+  private _navigationService: NavigationService;
 
-  constructor(
-    platform: Platform,
-    alertCtrl: AlertController,
-    app: App,
-    @Inject(BACK_BUTTON_CONFIRMATION_FUNC) confirmFunc: confirmFunction | undefined) {
+  constructor(platform: Platform, navigationService: NavigationService) {
     this._platform = platform;
-    this._alertCtrl = alertCtrl;
-    this._app = app;
-    this._confirmFunction = confirmFunc;
+    this._navigationService = navigationService;
   }
 
   public async ngOnInit() {
     const platform = this._platform;
-    const pt = await platform.ready();
+    const pt = await this._platform.ready();
     if (pt !== cordovaPlatform) {
       return;
     }
-    platform.registerBackButtonAction(() => {
-      if (this._alert) {
-        return;
-      }
-      const popPromise = this._app.navPop();
-      return popPromise
-        ? popPromise
-        : this.showAlert();
-    });
+    this._subscription = platform.backButton
+      .subscribe(() => this._navigationService.handleBackButton());
   }
 
-  public showAlert() {
-    const confirmFunc = this._confirmFunction;
-    if (confirmFunc) {
-      const dismiss = () => {
-        alert.dismiss();
-        this._alert = undefined;
-      };
-      const alert = this._alert = this._alertCtrl
-        .create(confirmFunc(() => {
-          dismiss();
-          this._platform.exitApp();
-        }, dismiss));
-      return alert.present();
+  public ngOnDestroy() {
+    const subscription = this._subscription;
+    if (subscription) {
+      subscription.unsubscribe();
     }
-    return this._platform.exitApp();
   }
 }

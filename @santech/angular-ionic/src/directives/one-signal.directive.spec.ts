@@ -6,11 +6,11 @@ import {
   OSDisplayType,
   OSNotification,
   OSNotificationOpenedResult,
-} from '@ionic-native/onesignal';
+} from '@ionic-native/onesignal/ngx';
+import { Platform } from '@ionic/angular';
 import { SantechAnalyticsModule } from '@santech/angular-analytics';
 import { SantechCommonModule } from '@santech/angular-common';
 import { SantechPlatformModule } from '@santech/angular-platform';
-import { Platform } from 'ionic-angular';
 import { Subject } from 'rxjs';
 import { cordovaPlatform, ISubscriptionChange, ONE_SIGNAL_CONFIG, OneSignalService, SantechIonicModule } from '..';
 import { spyOneSignal, spyPlatform } from '../../testing/ionic';

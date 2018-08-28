@@ -1,5 +1,4 @@
 import { ModuleWithProviders, NgModule, Provider } from '@angular/core';
-import { SantechPicaModule } from '@santech/angular-pica';
 import { ResizeService } from './services/resize.service';
 import { IMG_MAX_HEIGHT, IMG_MAX_WIDTH } from './tokens/image-options';
 import { IMG_REGEX } from './tokens/image-regex';
@@ -18,11 +17,7 @@ export interface ISantechCropperModuleConfiguration {
   imgMaxWidth?: Provider;
 }
 
-@NgModule({
-  imports: [
-    SantechPicaModule.forChild(),
-  ],
-})
+@NgModule()
 export class SantechCropperModule {
   public static forChild(): ModuleWithProviders {
     return {

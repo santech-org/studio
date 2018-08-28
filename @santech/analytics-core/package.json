@@ -1,6 +1,6 @@
 {
   "name": "@santech/analytics-core",
-  "version": "7.0.0-alpha.14",
+  "version": "7.0.0-beta.0",
   "description": "santech analytics core bundle",
   "main": "dist/umd/index.js",
   "types": "dist/index.d.ts",
@@ -15,8 +15,8 @@
   "scripts": {
     "build": "npm run clean && npm run transpile && npm run rollup && npm run package",
     "clean": "rimraf dist dist.tgz",
-    "lint": "tslint \"**/*.ts\" \"**/*.js\"",
-    "package": "npm pack && rename santech-analytics-core*.tgz dist.tgz",
+    "lint": "tslint \"**/*.ts\" \"**/*.js\" -e \"node_modules/**\"",
+    "package": "npm pack && mv santech-analytics-core-*.tgz dist.tgz",
     "rollup": "node rollup.js",
     "test": "echo no test",
     "transpile": "tsc -p . --declaration true && cpx \"+(index.d.ts)\" dist"
@@ -30,14 +30,13 @@
   "author": "Paul Souche",
   "license": "MIT",
   "dependencies": {
-    "@santech/core": "^7.0.0-alpha.14",
+    "@santech/core": "^7.0.0-beta.0",
     "@types/segment-analytics": "*"
   },
   "devDependencies": {
     "@segment/analytics.js-core": "*",
     "@segment/analytics.js-integration": "*",
     "cpx": "*",
-    "rename-cli": "*",
     "rimraf": "*",
     "rollup": "*",
     "rollup-plugin-commonjs": "*",

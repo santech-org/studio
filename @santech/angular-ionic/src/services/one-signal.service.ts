@@ -1,5 +1,5 @@
 import { EventEmitter, Inject, Injectable, Output } from '@angular/core';
-import { OneSignal, OSNotification, OSNotificationOpenedResult } from '@ionic-native/onesignal';
+import { OneSignal, OSNotification, OSNotificationOpenedResult } from '@ionic-native/onesignal/ngx';
 import { Subscription } from 'rxjs';
 import { IOneSignalConfig, IOneSignalIds, ISubscriptionChange } from '../interfaces/one-signal';
 import { ONE_SIGNAL_CONFIG } from '../tokens/one-signal-config.token';

@@ -74,7 +74,7 @@ describe('SantechWebsocketModule', () => {
   describe('When imported in a child module', () => {
     beforeEach(() => TestBed.configureTestingModule({
       imports: [
-        SantechWebSocketModule.forChild(),
+        SantechWebSocketModule,
       ],
     }));
 

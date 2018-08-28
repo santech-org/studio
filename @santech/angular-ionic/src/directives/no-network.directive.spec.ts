@@ -1,10 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
 import { async, ComponentFixture, TestBed  } from '@angular/core/testing';
-import { Network } from '@ionic-native/network';
+import { Network } from '@ionic-native/network/ngx';
 import { SantechAnalyticsModule } from '@santech/angular-analytics';
 import { SantechCommonModule } from '@santech/angular-common';
 import { SantechPlatformModule } from '@santech/angular-platform';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 import { NETWORK_CONNECTION_DELAY, NoNetworkDirective, SantechIonicModule } from '..';
 import { spyNetwork } from '../../testing/ionic';
 

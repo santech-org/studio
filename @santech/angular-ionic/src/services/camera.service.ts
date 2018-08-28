@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Camera, DestinationType, EncodingType, MediaType, PictureSourceType } from '@ionic-native/camera';
-import { File as IonicFile } from '@ionic-native/file';
+import { Camera, DestinationType, EncodingType, MediaType, PictureSourceType } from '@ionic-native/camera/ngx';
+import { File as IonicFile } from '@ionic-native/file/ngx';
+import { Platform } from '@ionic/angular';
 import { FileService } from '@santech/angular-common';
 import { ResizeService } from '@santech/angular-cropper';
-import { Platform } from 'ionic-angular';
 import { ICameraImage, ICameraOptions } from '../interfaces/camera';
 import { cordovaPlatform } from '../models/cordova';
 

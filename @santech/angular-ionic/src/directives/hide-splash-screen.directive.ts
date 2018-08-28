@@ -1,6 +1,6 @@
 import { Directive, OnInit } from '@angular/core';
-import { SplashScreen } from '@ionic-native/splash-screen';
-import { Platform } from 'ionic-angular';
+import { SplashScreen } from '@ionic-native/splash-screen/ngx';
+import { Platform } from '@ionic/angular';
 import { cordovaPlatform } from '../models/cordova';
 
 @Directive({

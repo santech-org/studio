@@ -1,10 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
 import { ComponentFixture, TestBed  } from '@angular/core/testing';
+import { Platform } from '@ionic/angular';
 import { SantechAnalyticsModule } from '@santech/angular-analytics';
 import { SantechCommonModule } from '@santech/angular-common';
 import { PLATFORM_LOCATION, SantechPlatformModule } from '@santech/angular-platform';
 import { spyLocation } from '@santech/angular-platform/testing';
-import { Platform } from 'ionic-angular';
 import { ReloadDirective, SantechIonicModule, TIME_TO_RELOAD } from '..';
 import { spyPlatform } from '../../testing/ionic';
 

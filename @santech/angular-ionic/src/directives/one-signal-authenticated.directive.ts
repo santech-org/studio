@@ -1,5 +1,5 @@
 import { Directive, OnDestroy, OnInit } from '@angular/core';
-import { Platform } from 'ionic-angular';
+import { Platform } from '@ionic/angular';
 import { cordovaPlatform } from '../models/cordova';
 import { OneSignalService } from '../services/one-signal.service';
 

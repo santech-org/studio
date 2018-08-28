@@ -1,7 +1,7 @@
 import { Directive, Inject, OnDestroy, OnInit } from '@angular/core';
+import { Platform } from '@ionic/angular';
 import { PLATFORM_LOCATION } from '@santech/angular-platform';
-import { Platform } from 'ionic-angular';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { TIME_TO_RELOAD } from '../tokens/time-to-reload.token';
 
 @Directive({

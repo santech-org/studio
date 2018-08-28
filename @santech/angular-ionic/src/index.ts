@@ -1,13 +1,7 @@
 import { ModuleWithProviders, NgModule, Provider } from '@angular/core';
-import { Camera } from '@ionic-native/camera';
-import { File } from '@ionic-native/file';
-import { SantechAnalyticsModule } from '@santech/angular-analytics';
-import { SantechCommonModule } from '@santech/angular-common';
-import { SantechCropperModule } from '@santech/angular-cropper';
-import { SantechPlatformModule } from '@santech/angular-platform';
-import { IonicModule } from 'ionic-angular';
-import { CacheModule } from 'ionic-cache';
-import { AppAnalyticsDirective } from './directives/app-analytics.directive';
+import { Camera } from '@ionic-native/camera/ngx';
+import { File } from '@ionic-native/file/ngx';
+import { OneSignal } from '@ionic-native/onesignal/ngx';
 import { BackButtonConfirmDirective } from './directives/back-button-confirm.directive';
 import { CameraDirective } from './directives/camera.directive';
 import { DemoTogglerDirective } from './directives/demo-toggler.directive';
@@ -18,10 +12,11 @@ import { NoNetworkDirective } from './directives/no-network.directive';
 import { OneSignalAuthenticatedlDirective } from './directives/one-signal-authenticated.directive';
 import { OneSignalDirective } from './directives/one-signal.directive';
 import { ReloadDirective } from './directives/reload.directive';
-import { CacheService } from './services/cache.service';
 import { CameraService } from './services/camera.service';
 import { DemoTogglerService } from './services/demo-toggler.service';
+import { NavigationService } from './services/navigation.service';
 import { OneSignalService } from './services/one-signal.service';
+import { RepositoryService } from './services/repository.service';
 import { BACK_BUTTON_CONFIRMATION_FUNC } from './tokens/back-button-confirmation.token';
 import { CACHE_TTL } from './tokens/cache-ttl.token';
 import { DEMO_TOGGLER_DURATION } from './tokens/demo-toggler-duration.token';
@@ -31,21 +26,23 @@ import { TIME_TO_RELOAD } from './tokens/time-to-reload.token';
 
 export * from './directives/back-button-confirm.directive';
 export * from './directives/camera.directive';
+export * from './directives/demo-toggler.directive';
 export * from './directives/hide-splash-screen.directive';
 export * from './directives/keyboard-disable-scroll.directive';
 export * from './directives/keyboard-enable-accessorybar.directive';
 export * from './directives/no-network.directive';
-export * from './directives/one-signal.directive';
 export * from './directives/one-signal-authenticated.directive';
+export * from './directives/one-signal.directive';
 export * from './directives/reload.directive';
 export * from './interfaces/camera';
 export * from './interfaces/confirmation';
 export * from './interfaces/one-signal';
 export * from './models/cordova';
-export * from './services/demo-toggler.service';
-export * from './services/cache.service';
 export * from './services/camera.service';
+export * from './services/demo-toggler.service';
+export * from './services/navigation.service';
 export * from './services/one-signal.service';
+export * from './services/repository.service';
 export * from './tokens/back-button-confirmation.token';
 export * from './tokens/cache-ttl.token';
 export * from './tokens/demo-toggler-duration.token';
@@ -64,7 +61,6 @@ export interface ISantechIonicProviders {
 
 @NgModule({
   declarations: [
-    AppAnalyticsDirective,
     BackButtonConfirmDirective,
     CameraDirective,
     DemoTogglerDirective,
@@ -77,8 +73,6 @@ export interface ISantechIonicProviders {
     ReloadDirective,
   ],
   exports: [
-    IonicModule,
-    AppAnalyticsDirective,
     BackButtonConfirmDirective,
     CameraDirective,
     DemoTogglerDirective,
@@ -90,28 +84,20 @@ export interface ISantechIonicProviders {
     OneSignalAuthenticatedlDirective,
     ReloadDirective,
   ],
-  imports: [
-    SantechAnalyticsModule.forChild(),
-    SantechCommonModule.forChild(),
-    SantechCropperModule.forChild(),
-    SantechPlatformModule.forChild(),
-    IonicModule,
-    CacheModule.forRoot(),
-  ],
-  providers: [
-    File,
-    Camera,
-    CameraService,
-    CacheService,
-    OneSignalService,
-  ],
 })
 export class SantechIonicModule {
   public static forRoot(ionicProviders: ISantechIonicProviders = {}): ModuleWithProviders {
     return {
       ngModule: SantechIonicModule,
       providers: [
+        File,
+        Camera,
+        CameraService,
+        RepositoryService,
+        OneSignal,
         DemoTogglerService,
+        NavigationService,
+        OneSignalService,
         ionicProviders.backBtndefaultProvider
           ? ionicProviders.backBtndefaultProvider
           : {

@@ -1,4 +1,4 @@
 import { InjectionToken } from '@angular/core';
-import * as exifJs from 'exif-js';
 
-export const EXIF = new InjectionToken<typeof exifJs>('exif');
+// EXIFStatic not exported
+export const EXIF = new InjectionToken<any>('exif');

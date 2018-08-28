@@ -10,8 +10,9 @@
         "@ionic-native/network": "",
         "@ionic-native/onesignal": "",
         "@ionic-native/splash-screen": "",
+        "@ionic/angular": "",
+        "@ionic/core": "",
         "@santech/core/testing": "Santech.Core.Testing",
-        "ionic-angular": "ionicBundle",
         "rxjs": "Rx"
       }
     }
@@ -24,8 +25,9 @@
     "@ionic-native/network": "*",
     "@ionic-native/onesignal": "*",
     "@ionic-native/splash-screen": "*",
+    "@ionic/angular": "*",
+    "@ionic/core": "*",
     "@santech/core": "*",
-    "ionic-angular": "*",
     "rxjs": "*"
   }
 }
