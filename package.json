@@ -1,6 +1,6 @@
 {
   "name": "studio",
-  "version": "7.0.0-alpha.14",
+  "version": "7.0.0-beta.0",
   "private": true,
   "description": "Modules for santech clients",
   "keywords": [
@@ -19,7 +19,7 @@
     "lint": "lerna run lint --parallel",
     "test": "lerna run test",
     "test-parallel": "lerna run test --parallel",
-    "upgrade": "lerna publish --skip-git --skip-npm --yes",
+    "upgrade": "lerna version --no-git-tag-version --no-push --skip-npm --ignore-changes '**' --yes",
     "postinstall": "lerna run build"
   },
   "license": "MIT",

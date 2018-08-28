@@ -4,4 +4,4 @@ PACKAGE_VERSION=$(cat package.json \
   | awk -F: '{ print $2 }' \
   | sed 's/[",]//g')
 
-npm run upgrade -- --repo-version $PACKAGE_VERSION
+npm run upgrade -- $PACKAGE_VERSION
