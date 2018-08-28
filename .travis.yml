@@ -9,6 +9,7 @@ before_script:
   - yarn lint
 after_success:
   - test $TRAVIS_BRANCH = "master" && ./scripts/publish.sh
+  - test $TRAVIS_BRANCH = "next" && ./scripts/publish.sh
 env:
   global:
     secure: tCTwAb+BcsVt6ACUO9rbcUDvYtV06GaygXC0hZa+C4ExMJ5PEC26Xg8fj2U2avAFDJFe0TXvbpzwyP9u7oAp0hlKJPuxvCNriaWEz/EMdWwNKbsvIq5mvCmJ1P6CTelxycJmkhwEfse6I2GD6HzitHKR7M7zuG6G7miq07VRa/6DFfoEAfhbYKlebDqcCuiMqA7qLY7TSoEAUeqd3fFbok4ZN+s+YvOQ+PDj0x4+FBmPmYMQj+157pUeiluC83DJ04dIoa9HabZ76Th42YgSnqW1xyEDi7sz2vm4ngMJzLDSQqPyZRzB5DD83AKHAGmKTV9NTazvU3490x9ryhc+FJj27FYGE/7ap5U2OQUrvfA2zGDe632V+Bz6NKL+lxZiZXY0lPLSy1gyLJ/f5U+UlSZ8fCcI4C0MaavUC+FzhiCmyd3ExQNpm+ejMx+F5ktnYNFFafg3294h4oA9wqsfCqYfgQmBZiLvIzYvtix4q3WGhP8khKGAHXQg3iMyJwF3pvUO8NdoMUa+3gFz6ewlhC3W0T0QYPDGp0VoFkeReoHJPEpGUUk+nv8ZyAlRFx1GhHhM1jlyEL3/srN9vtf4Aq8wYLPHWLZF/A09Ws5XqrG11qmsfeZZiGQhT+g+RJoUNJM3GLVWzx2QWlQW9ht4tVL19iYerUktW+imSIHz3Zk=
