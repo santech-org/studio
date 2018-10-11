@@ -1,5 +1,6 @@
 import { EventEmitter } from '@angular/core';
 import { Camera } from '@ionic-native/camera/ngx';
+import { File } from '@ionic-native/file/ngx';
 import { Keyboard } from '@ionic-native/keyboard/ngx';
 import { Network } from '@ionic-native/network/ngx';
 import { OneSignal } from '@ionic-native/onesignal/ngx';
@@ -13,6 +14,7 @@ export const actionSheetControllerMethods = ['create'];
 export const alertMethods = ['present', 'dismiss'];
 export const alertControllerMethods = ['create'];
 export const cameraMethods = ['getPicture'];
+export const fileMethods = ['readAsDataURL'];
 export const keyboardMethods = ['disableScroll', 'hideFormAccessoryBar'];
 export const loadingMethods = ['present', 'dismiss'];
 export const loadingControllerMethods = ['create'];
@@ -49,6 +51,7 @@ let spyActionSheetController: SantechSpyObject<ActionSheetController>;
 let spyAlert: SantechSpyObject<ISpyAlert>;
 let spyAlertController: SantechSpyObject<AlertController>;
 let spyCamera: SantechSpyObject<Camera>;
+let spyFile: SantechSpyObject<File>;
 let spyKeyboard: SantechSpyObject<Keyboard>;
 let spyLoading: SantechSpyObject<HTMLIonLoadingElement>;
 let spyLoadingController: SantechSpyObject<LoadingController>;
@@ -65,6 +68,7 @@ if (typeof jasmine !== 'undefined' && typeof jasmine.createSpyObj === 'function'
   spyAlert = jasmine.createSpyObj('spyAlert', alertMethods);
   spyAlertController = jasmine.createSpyObj('spyAlert', alertControllerMethods);
   spyCamera = jasmine.createSpyObj('spyCamera', cameraMethods);
+  spyFile = jasmine.createSpyObj('spyFile', fileMethods);
   spyKeyboard = jasmine.createSpyObj('spyKeyboard', keyboardMethods);
   spyLoading = jasmine.createSpyObj('spyLoading', loadingMethods);
   spyLoadingController = jasmine.createSpyObj('spyLoadingController', loadingControllerMethods);
@@ -91,6 +95,7 @@ if (typeof jasmine !== 'undefined' && typeof jasmine.createSpyObj === 'function'
   spyAlert = createJestSpyObj(alertMethods);
   spyAlertController = createJestSpyObj(alertControllerMethods);
   spyCamera = createJestSpyObj(cameraMethods);
+  spyFile = createJestSpyObj(fileMethods);
   spyKeyboard = createJestSpyObj(keyboardMethods);
   spyLoading = createJestSpyObj(loadingMethods);
   spyLoadingController = createJestSpyObj(loadingControllerMethods);
@@ -147,6 +152,7 @@ export {
   spyAlert,
   spyAlertController,
   spyCamera,
+  spyFile,
   spyKeyboard,
   spyLoading,
   spyLoadingController,

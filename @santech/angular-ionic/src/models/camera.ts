@@ -1,0 +1,15 @@
+export const cameraErrorEnum = {
+  didNotComplete: 'did not complete!',
+  errorCapturingImage: 'error capturing image.',
+  errorCompressingImage: 'error compressing image.',
+  errorRetrievingImage: 'error retrieving image.',
+  hasNoAccessToAssets: 'has no access to assets',
+  hasNoAccessToCamera: 'has no access to camera',
+  noCameraAvailable: 'no camera available',
+  noImageSelected: 'no image selected',
+  nullDataFormPhotoLibrary: 'null data from photo library',
+  oneOrMorFilesFailedToBeDeleted: 'one or more files failed to be deleted.',
+  selectionDidNotComplete: 'selection did not complete!',
+  unableToCreateBitmap: 'unable to create bitmap!',
+  unableToRetrievePathFromPicture: 'unable to retrieve path to picture!',
+};
