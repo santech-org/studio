@@ -33,7 +33,7 @@ export class Authenticator implements IAuthenticator {
 
   private static _logoutHooks: Array<() => void> = [];
 
-  private _tokenRenewer: void | number | undefined;
+  private _tokenRenewer: void | undefined | NodeJS.Timeout;
   private _token: string | undefined;
   private _http: IHttp;
   private _jwt: IJwt;

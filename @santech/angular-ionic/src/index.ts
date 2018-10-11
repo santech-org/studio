@@ -6,7 +6,6 @@ import { BackButtonConfirmDirective } from './directives/back-button-confirm.dir
 import { CameraDirective } from './directives/camera.directive';
 import { DemoTogglerDirective } from './directives/demo-toggler.directive';
 import { HideSplashScreenDirective } from './directives/hide-splash-screen.directive';
-import { KeyboardDisableScrollDirective } from './directives/keyboard-disable-scroll.directive';
 import { KeyboardEnableAccessoryBarDirective } from './directives/keyboard-enable-accessorybar.directive';
 import { NoNetworkDirective } from './directives/no-network.directive';
 import { OneSignalAuthenticatedlDirective } from './directives/one-signal-authenticated.directive';
@@ -28,7 +27,6 @@ export * from './directives/back-button-confirm.directive';
 export * from './directives/camera.directive';
 export * from './directives/demo-toggler.directive';
 export * from './directives/hide-splash-screen.directive';
-export * from './directives/keyboard-disable-scroll.directive';
 export * from './directives/keyboard-enable-accessorybar.directive';
 export * from './directives/no-network.directive';
 export * from './directives/one-signal-authenticated.directive';
@@ -65,7 +63,6 @@ export interface ISantechIonicProviders {
     CameraDirective,
     DemoTogglerDirective,
     HideSplashScreenDirective,
-    KeyboardDisableScrollDirective,
     KeyboardEnableAccessoryBarDirective,
     NoNetworkDirective,
     OneSignalDirective,
@@ -77,7 +74,6 @@ export interface ISantechIonicProviders {
     CameraDirective,
     DemoTogglerDirective,
     HideSplashScreenDirective,
-    KeyboardDisableScrollDirective,
     KeyboardEnableAccessoryBarDirective,
     NoNetworkDirective,
     OneSignalDirective,

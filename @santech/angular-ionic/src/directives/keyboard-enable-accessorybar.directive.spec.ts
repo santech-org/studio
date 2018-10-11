@@ -49,7 +49,7 @@ describe('Keyboard enable accessory bar directive', () => {
     }));
 
     it('Should enable accessory bar when platform\'s ready', () => {
-      expect(spyKeyboard.hideKeyboardAccessoryBar).toHaveBeenCalledWith(false);
+      expect(spyKeyboard.hideFormAccessoryBar).toHaveBeenCalledWith(false);
     });
   });
 
@@ -60,7 +60,7 @@ describe('Keyboard enable accessory bar directive', () => {
     }));
 
     it('Should not enable accessory bar when platform\'s ready', () => {
-      expect(spyKeyboard.hideKeyboardAccessoryBar).not.toHaveBeenCalled();
+      expect(spyKeyboard.hideFormAccessoryBar).not.toHaveBeenCalled();
     });
   });
 });

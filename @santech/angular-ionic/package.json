@@ -38,8 +38,8 @@
     "@ionic-native/network": "^5.0.0-beta.0",
     "@ionic-native/onesignal": "^5.0.0-beta.0",
     "@ionic-native/splash-screen": "^5.0.0-beta.0",
-    "@ionic/angular": "^4.0.0-beta.0",
-    "@ionic/core": "^4.0.0-beta.0",
+    "@ionic/angular": "4.0.0-beta.11",
+    "@ionic/core": "4.0.0-beta.11",
     "@ionic/storage": "^2.0.0",
     "@santech/analytics-core": "^7.0.0-alpha.0",
     "@santech/analytics-integration": "^7.0.0-alpha.0",
@@ -67,8 +67,8 @@
     "@ionic-native/network": "^5.0.0-beta.0",
     "@ionic-native/onesignal": "^5.0.0-beta.0",
     "@ionic-native/splash-screen": "^5.0.0-beta.0",
-    "@ionic/angular": "^4.0.0-beta.0",
-    "@ionic/core": "^4.0.0-beta.0",
+    "@ionic/angular": "4.0.0-beta.11",
+    "@ionic/core": "4.0.0-beta.11",
     "@ionic/storage": "*",
     "@santech/angular-analytics": "^7.0.0-beta.0",
     "@santech/angular-common": "^7.0.0-beta.0",
@@ -102,6 +102,9 @@
     "testURL": "http://localhost",
     "transform": {
       "^.+\\.(ts|js|html)$": "<rootDir>../../node_modules/jest-preset-angular/preprocessor.js"
+    },
+    "moduleNameMapper": {
+      "^@ionic/core/loader": "<rootDir>../../node_modules/@ionic/core/dist/esm/es5/ionic.define.js"
     },
     "preset": "jest-preset-angular",
     "roots": [
