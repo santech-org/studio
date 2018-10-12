@@ -1,50 +1,44 @@
-import { Directive, ElementRef, EventEmitter, HostListener, Input, Output } from '@angular/core';
-import { ICameraImage, ICameraOptions } from '../interfaces/camera';
+import { Directive, EventEmitter, HostListener, Input, Output } from '@angular/core';
+import { ICameraDirective, ICameraImage, ICameraOptions } from '../interfaces/camera';
 import { CameraService } from '../services/camera.service';
 
 @Directive({
   selector: '[camera]',
 })
-export class CameraDirective {
+export class CameraDirective implements ICameraDirective {
   @Output()
   public pictureSuccess = new EventEmitter<ICameraImage>();
 
   @Output()
   public pictureError = new EventEmitter<Error>();
 
+  @Output()
+  public pictureStart = new EventEmitter<void>();
+
+  @Output()
+  public pictureCancel = new EventEmitter<void>();
+
+  @Output()
+  public pictureProcess = new EventEmitter<void>();
+
   @Input()
   public options: ICameraOptions = {};
 
-  public input: HTMLInputElement;
-
   private _cameraService: CameraService;
-  private _picturePromise: Promise<ICameraImage> | undefined;
 
-  constructor(cameraService: CameraService, el: ElementRef) {
+  constructor(cameraService: CameraService) {
     this._cameraService = cameraService;
-
-    const input: HTMLInputElement = document.createElement('input');
-    input.type = 'file';
-    input.hidden = true;
-    this.input = input;
-
-    el.nativeElement.appendChild(this.input);
   }
 
   @HostListener('click')
   public async onClick() {
-    let promise = this._picturePromise;
-    if (promise) {
-      return promise;
-    }
-
     try {
-      promise = this._picturePromise = this._cameraService.takePicture(this.options, this.input);
-      this.pictureSuccess.emit(await promise);
+      this.pictureStart.emit();
+      this.pictureSuccess.emit(await this._cameraService.takePicture(this));
     } catch (e) {
-      this.pictureError.emit(new Error(e.message));
-    } finally {
-      delete this._picturePromise;
+      e
+        ? this.pictureError.emit(e)
+        : this.pictureCancel.emit();
     }
   }
 }
