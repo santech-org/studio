@@ -1,67 +1,46 @@
 export interface ITokenStorage {
-  setJwt(jwt: string): void | Promise<void>;
-  setItem(key: string, item: string): void | Promise<void>;
-  setDeviceToken(token: string): void | Promise<void>;
-  getJwt(): string | Promise<string>;
+  useDifferentKey(keys: IStorageKeys): void;
+  resetKeys(): void;
+  useOtherBrowserStorage(storage: Storage): void;
+  setItem(data: IStorageData): void | Promise<void>;
   getItem(key: string): string | Promise<string>;
-  getDeviceToken(): string | Promise<string>;
-  removeJwt(): void | Promise<void>;
   removeItem(key: string): void | Promise<void>;
-  removeDeviceToken(): void | Promise<void>;
 }
 
-export interface IAuthKeys {
-  authKey: string;
-  deviceKey: string;
+export interface IStorageKeys {
+  [key: string]: string;
+}
+
+export interface IStorageData {
+  [key: string]: string;
 }
 
 export class TokenStorage implements ITokenStorage {
   private _storage: Storage;
-  private _authKey: string;
-  private _deviceKey: string;
-  private _keys: IAuthKeys;
+  private _intialKeys: IStorageKeys;
+  private _keys: IStorageKeys;
 
-  constructor(storage: Storage, keys: IAuthKeys) {
-    const { authKey, deviceKey } = keys;
-    this._keys = keys;
+  constructor(storage: Storage, keys: IStorageKeys) {
+    this._keys = this._intialKeys = keys;
     this._storage = storage;
-    this._authKey = authKey;
-    this._deviceKey = deviceKey;
   }
 
-  public useDifferentKey(otherAuthKey: string, otherDeviceKey?: string) {
-    this._authKey = otherAuthKey;
-    this._deviceKey = otherDeviceKey || this._deviceKey;
+  public useDifferentKey(keys: IStorageKeys) {
+    this._keys = keys;
   }
 
   public resetKeys() {
-    const { authKey, deviceKey } = this._keys;
-    this._authKey = authKey;
-    this._deviceKey = deviceKey;
+    this._keys = this._intialKeys;
   }
 
   public useOtherBrowserStorage(storage: Storage) {
     this._storage = storage;
   }
 
-  public setJwt(jwt: string) {
-    this._storage.setItem(this._authKey, jwt);
-  }
-
-  public setItem(key: string, item: string) {
-    this._storage.setItem(key, item);
-  }
-
-  public setDeviceToken(token: string) {
-    this._storage.setItem(this._deviceKey, token);
-  }
-
-  public getJwt() {
-    const jwt = this._storage.getItem(this._authKey) as string | null;
-    if (!jwt) {
-      throw new Error('Not logged in');
-    }
-    return jwt;
+  public setItem(data: IStorageData) {
+    const storage = this._storage;
+    const keys = this._keys;
+    Object.keys(data).forEach((k) => storage.setItem(keys[k], data[k]));
   }
 
   public getItem(key: string) {
@@ -72,23 +51,7 @@ export class TokenStorage implements ITokenStorage {
     return item;
   }
 
-  public getDeviceToken() {
-    const token = this._storage.getItem(this._deviceKey) as string | null;
-    if (!token) {
-      throw new Error('No device token');
-    }
-    return token;
-  }
-
-  public removeJwt() {
-    this._storage.removeItem(this._authKey);
-  }
-
   public removeItem(key: string) {
     this._storage.removeItem(key);
-  }
-
-  public removeDeviceToken() {
-    this._storage.removeItem(this._deviceKey);
   }
 }

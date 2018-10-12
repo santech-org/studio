@@ -1,52 +1,22 @@
-import {
-  IDeserializedResponse,
-  IDtoAttributes,
-  IEndPoints,
-  IError,
-  IPrivateEndPoints,
-  IPublicEndPoints,
-} from '@santech/core';
-
-export interface IAuthenticateParams {
-  login: string;
-  password: string;
-  rememberMe?: boolean;
-  duration?: number;
+export interface IDtoAttributes {
+  [attribute: string]: string | number | boolean | string[] | IDtoAttributes | undefined | null;
 }
 
-export interface IJwtDto {
-  idToken: string;
-  userToken?: string | undefined | null;
-}
-
-export interface IPublicTokenDto {
-  publicToken: string;
-}
-
-export interface IAuthenticatorEndPoints extends IPublicEndPoints, IPrivateEndPoints {
+export interface IAuthenticatorEndPoints {
   authenticateEndPoint: string;
   renewEndPoint: string;
 }
 
-export interface ILogggerEndPoints extends IEndPoints {
-  logEndPoint: string;
+export interface ILoggerEndPoints {
+  loggerEndPoint: string;
 }
 
 export interface ILogDto {
   timestamp: string;
   level: TLogLevel;
   message: string;
-  attributes?: IDtoAttributes | undefined | null;
-}
-
-export interface IHttpErrorDto {
-  error: string;
-  message: string;
-  fieldErrors?: any[];
-  path: string;
-  timestamp: string;
 }
 
 export type TLogLevel = 'INFO' | 'WARN' | 'ERROR' | 'DEBUG';
 
-export type TTokenRecoveryPromise = void | IDeserializedResponse<IError>;
+export type TTokenRecoveryPromise<T extends object> = Promise<T | null>;

@@ -33,9 +33,6 @@ if (typeof jasmine !== 'undefined' && typeof jasmine.createSpyObj === 'function'
   spyJwt = jasmine.createSpyObj('spyJwt', jwtMethods);
 
   spyTokenStorage = jasmine.createSpyObj('spyTokenStorage', tokenStorageMethods);
-
-  spyTokenStorage.setDeviceToken;
-
 } else if (typeof jest !== 'undefined') {
   spyHttp = createJestSpyObj(httpMethods);
 

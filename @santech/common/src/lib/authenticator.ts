@@ -1,12 +1,12 @@
 import { IDeserializedResponse, IDeserializedToken, IHttp, IJwt, ITokenStorage, noop } from '@santech/core';
-import { IAuthenticateParams, IAuthenticatorEndPoints, IJwtDto, TTokenRecoveryPromise } from './models';
+import { IAuthenticatorEndPoints, TTokenRecoveryPromise } from './models';
 
-export interface IAuthenticator {
-  readonly waitForLogin: Promise<TTokenRecoveryPromise>;
+export interface IAuthenticator<JwtDto extends object, AuthenticateParams extends object, ErrorDto extends object> {
+  readonly waitForLogin: TTokenRecoveryPromise<ErrorDto>;
   readonly jwt: IDeserializedToken;
   readonly token: string;
-  authenticate(params: IAuthenticateParams): Promise<void>;
-  tryAuthenticate(jwt: IJwtDto): Promise<void>;
+  authenticate(params: AuthenticateParams): Promise<void>;
+  tryAuthenticate(jwt: JwtDto): Promise<void>;
   renewToken(): Promise<void>;
   getAuthorizationHeader(): string;
   isLogged(): boolean;
@@ -16,7 +16,8 @@ export interface IAuthenticator {
 /**
  * @description Use this class to authenticate on API
  */
-export class Authenticator implements IAuthenticator {
+export class Authenticator<JwtDto extends object, AuthenticateParams extends object, ErrorDto extends object>
+  implements IAuthenticator<JwtDto, AuthenticateParams, ErrorDto> {
   /**
    * @description Add a callback when logged out
    */
@@ -39,7 +40,7 @@ export class Authenticator implements IAuthenticator {
   private _jwt: IJwt;
   private _storage: ITokenStorage;
   private _endPoints: IAuthenticatorEndPoints;
-  private _waitForLogin: Promise<TTokenRecoveryPromise>;
+  private _waitForLogin: TTokenRecoveryPromise<ErrorDto>;
 
   constructor(http: IHttp, storage: ITokenStorage, jwt: IJwt, endPoints: IAuthenticatorEndPoints) {
     this._http = http;
@@ -49,7 +50,7 @@ export class Authenticator implements IAuthenticator {
     this._waitForLogin = this._tryRetrievePreviousSession((token) => this._cacheToken(token));
   }
 
-  get waitForLogin() {
+  get waitForLogin(): TTokenRecoveryPromise<ErrorDto> {
     return this._waitForLogin;
   }
 
@@ -57,14 +58,14 @@ export class Authenticator implements IAuthenticator {
     return this._jwt.deserializeToken(this.token);
   }
 
-  get token() {
+  get token(): string {
     return this._token || '';
   }
 
   /**
    * @description Authenticate for given credentials and set Jwt
    */
-  public authenticate(params: IAuthenticateParams): Promise<void> {
+  public authenticate(params: AuthenticateParams): Promise<void> {
     const deviceName = (typeof navigator !== 'undefined' && navigator.userAgent)
       ? navigator.userAgent
       : 'no user agent';
@@ -72,14 +73,14 @@ export class Authenticator implements IAuthenticator {
     return this._login(() => this._http
       .post(this._endPoints.authenticateEndPoint, {
         deviceName,
-        ...params,
+        ...params as object,
       }));
   }
 
   /**
    * @description Try authenticate for recovered Jwt or for given Jwt
    */
-  public async tryAuthenticate(jwt?: IJwtDto): Promise<void> {
+  public async tryAuthenticate(jwt?: JwtDto): Promise<void> {
     if (jwt) {
       await this._storeJwt(jwt);
     }
@@ -121,14 +122,13 @@ export class Authenticator implements IAuthenticator {
    * @description Clear Jwt
    */
   public logout() {
-    this._storage.removeJwt();
-    this._storage.removeDeviceToken();
+    this._storage.removeItem();
     this._clearTokenRenewer();
     this._token = '';
     Authenticator._logoutHooks.forEach((cb) => cb());
   }
 
-  private async _login(request: () => Promise<IDeserializedResponse<IJwtDto>>): Promise<void> {
+  private async _login(request: () => Promise<IDeserializedResponse<JwtDto>>): Promise<void> {
     const { data: jwt } = await request();
     await this._storeJwt(jwt);
     return this._cacheToken(jwt.idToken);
@@ -184,7 +184,7 @@ export class Authenticator implements IAuthenticator {
     }
   }
 
-  private async _storeJwt(jwt: IJwtDto) {
+  private async _storeJwt(jwt: JwtDto) {
     const storePromises = [
       Promise.resolve((this._storage.setJwt(jwt.idToken))),
     ];

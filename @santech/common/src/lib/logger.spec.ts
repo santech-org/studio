@@ -4,7 +4,7 @@ import sinon = require('sinon');
 import { Logger } from './logger';
 import { ILogDto } from './models';
 
-const logEndPoint = 'url/to/logger/api/log';
+const loggerEndPoint = 'url/to/logger/api/log';
 
 let httpStub: sinon.SinonStubbedInstance<Http> & Http;
 
@@ -13,7 +13,7 @@ describe('Logger', () => {
 
   beforeEach(() => httpStub = sinon.createStubInstance(Http) as sinon.SinonStubbedInstance<Http> & Http);
 
-  beforeEach(() => service = new Logger(httpStub, { logEndPoint }));
+  beforeEach(() => service = new Logger(httpStub, { loggerEndPoint }));
 
   describe('When log', () => {
     const log: ILogDto = {
@@ -24,7 +24,7 @@ describe('Logger', () => {
 
     beforeEach(() => {
       httpStub.post
-        .withArgs(logEndPoint, log)
+        .withArgs(loggerEndPoint, log)
         .returns(Promise.resolve(success({ ok: true })));
       return;
     });
