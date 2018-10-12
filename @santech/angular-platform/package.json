@@ -1,6 +1,6 @@
 {
   "name": "@santech/angular-platform",
-  "version": "7.0.0-beta.0",
+  "version": "7.0.0-beta.1",
   "description": "santech angular platform module",
   "main": "dist/bundles/santech-angular-platform.umd.js",
   "module": "dist/esm5/santech-angular-platform.js",
@@ -39,7 +39,7 @@
     "@angular/core": "*",
     "@angular/platform-browser": "*",
     "@angular/platform-browser-dynamic": "*",
-    "@santech/core": "^7.0.0-beta.0",
+    "@santech/core": "^7.0.0-beta.1",
     "@types/jest": "*",
     "@types/node": "*",
     "jest": "*",
