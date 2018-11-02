@@ -36,7 +36,7 @@
   "dependencies": {
     "@santech/common": "^7.0.0-beta.1",
     "@santech/core": "^7.0.0-beta.1",
-    "@stomp/stompjs": "*",
+    "@stomp/stompjs": "^4.0.0",
     "@types/sockjs-client": "*",
     "sockjs-client": "*"
   },
