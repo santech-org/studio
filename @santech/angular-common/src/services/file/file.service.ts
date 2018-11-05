@@ -21,7 +21,9 @@ export class FileService {
   public readImageFile(file: File) {
     const reader = this._newFileReader();
     return new Promise<string>((res, rej) => {
-      reader.onloadend = () => res(reader.result);
+      reader.onloadend = () => typeof reader.result === 'string'
+        ? res(reader.result)
+        : rej(reader.result);
       reader.onerror = () => rej(reader.error);
       reader.readAsDataURL(file);
     });
