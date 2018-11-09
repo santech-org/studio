@@ -13,11 +13,13 @@ import { OneSignalDirective } from './directives/one-signal.directive';
 import { ReloadDirective } from './directives/reload.directive';
 import { CameraService } from './services/camera.service';
 import { DemoTogglerService } from './services/demo-toggler.service';
+import { FileCacheIndexService } from './services/file-cache-index.service';
+import { FileCacheService } from './services/file-cache.service';
+import { LocalFileService } from './services/local-file.service';
 import { NavigationService } from './services/navigation.service';
 import { OneSignalService } from './services/one-signal.service';
-import { RepositoryService } from './services/repository.service';
 import { BACK_BUTTON_CONFIRMATION_FUNC } from './tokens/back-button-confirmation.token';
-import { CACHE_TTL } from './tokens/cache-ttl.token';
+import { CACHE_CONFIG } from './tokens/cache-config.token';
 import { DEMO_TOGGLER_DURATION } from './tokens/demo-toggler-duration.token';
 import { NETWORK_CONNECTION_DELAY } from './tokens/network-connection-delay.token';
 import { ONE_SIGNAL_CONFIG } from './tokens/one-signal-config.token';
@@ -32,6 +34,7 @@ export * from './directives/no-network.directive';
 export * from './directives/one-signal-authenticated.directive';
 export * from './directives/one-signal.directive';
 export * from './directives/reload.directive';
+export * from './interfaces/cache';
 export * from './interfaces/camera';
 export * from './interfaces/confirmation';
 export * from './interfaces/one-signal';
@@ -40,10 +43,12 @@ export * from './models/cordova';
 export * from './services/camera.service';
 export * from './services/demo-toggler.service';
 export * from './services/navigation.service';
+export * from './services/file-cache-index.service';
+export * from './services/file-cache.service';
+export * from './services/local-file.service';
 export * from './services/one-signal.service';
-export * from './services/repository.service';
 export * from './tokens/back-button-confirmation.token';
-export * from './tokens/cache-ttl.token';
+export * from './tokens/cache-config.token';
 export * from './tokens/demo-toggler-duration.token';
 export * from './tokens/network-connection-delay.token';
 export * from './tokens/one-signal-config.token';
@@ -51,11 +56,11 @@ export * from './tokens/time-to-reload.token';
 
 export interface ISantechIonicProviders {
   backBtndefaultProvider?: Provider;
-  cacheTTL?: Provider;
   networkConnectionDelayProvider?: Provider;
   demoTogglerDurationProvider?: Provider;
   timeToReloadProvider?: Provider;
   oneSignalConfigProvider?: Provider;
+  cacheConfigProvider?: Provider;
 }
 
 @NgModule({
@@ -90,9 +95,11 @@ export class SantechIonicModule {
         File,
         Camera,
         CameraService,
-        RepositoryService,
         OneSignal,
         DemoTogglerService,
+        FileCacheIndexService,
+        FileCacheService,
+        LocalFileService,
         NavigationService,
         OneSignalService,
         ionicProviders.backBtndefaultProvider
@@ -100,12 +107,6 @@ export class SantechIonicModule {
           : {
             provide: BACK_BUTTON_CONFIRMATION_FUNC,
             useValue: undefined,
-          },
-        ionicProviders.cacheTTL
-          ? ionicProviders.cacheTTL
-          : {
-            provide: CACHE_TTL,
-            useValue: 86400, // 1 Day
           },
         ionicProviders.networkConnectionDelayProvider
           ? ionicProviders.networkConnectionDelayProvider
@@ -130,6 +131,16 @@ export class SantechIonicModule {
           : {
             provide: ONE_SIGNAL_CONFIG,
             useValue: null,
+          },
+        ionicProviders.cacheConfigProvider
+          ? ionicProviders.cacheConfigProvider
+          : {
+            provide: CACHE_CONFIG,
+            useValue: {
+              directory: 'cache',
+              maxAge: 24 * 60 * 60 * 1000,
+              maxSize: 256 * 1024 * 1024,
+            },
           },
       ],
     };
