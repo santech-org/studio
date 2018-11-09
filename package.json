@@ -47,7 +47,6 @@
     "@stomp/stompjs": "^4.0.0",
     "babel-core": "^6.0.0",
     "exif-js": "^2.0.0",
-    "ionic-cache": "^3.0.0",
     "pica": "^5.0.0",
     "rxjs": "^6.0.0",
     "rxjs-compat": "^6.0.0",
