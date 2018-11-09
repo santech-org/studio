@@ -46,7 +46,6 @@
     "@santech/angular-platform": "^7.0.0-alpha.0",
     "@santech/core": "^7.0.0-alpha.0",
     "ionic-angular": "^3.0.0",
-    "ionic-cache": "^3.0.0",
     "rxjs": "^5.0.0"
   },
   "devDependencies": {
@@ -76,7 +75,6 @@
     "@types/onesignal-cordova-plugin": "*",
     "cpx": "*",
     "ionic-angular": "*",
-    "ionic-cache": "*",
     "jest": "*",
     "jest-localstorage-mock": "*",
     "jest-preset-angular": "*",
