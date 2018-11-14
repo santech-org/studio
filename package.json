@@ -1,6 +1,6 @@
 {
   "name": "studio",
-  "version": "7.0.0-alpha.14",
+  "version": "7.0.0-alpha.15",
   "private": true,
   "description": "Modules for santech clients",
   "keywords": [
@@ -43,7 +43,6 @@
     "@stomp/stompjs": "^4.0.0",
     "exif-js": "^2.0.0",
     "ionic-angular": "^3.0.0",
-    "ionic-cache": "^3.0.0",
     "pica": "^4.0.0",
     "rxjs": "^5.0.0",
     "sockjs-client": "^1.0.0",
