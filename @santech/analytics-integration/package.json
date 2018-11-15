@@ -1,6 +1,6 @@
 {
   "name": "@santech/analytics-integration",
-  "version": "7.0.0-beta.2",
+  "version": "7.0.0-beta.3",
   "description": "Analytics integration for santech studio",
   "main": "dist/umd/index.js",
   "module": "dist/index.js",
@@ -35,9 +35,9 @@
   "author": "Paul Souche <psouche@santech.fr>",
   "license": "MIT",
   "dependencies": {
-    "@santech/analytics-core": "^7.0.0-beta.2",
-    "@santech/common": "^7.0.0-beta.2",
-    "@santech/core": "^7.0.0-beta.2"
+    "@santech/analytics-core": "^7.0.0-beta.3",
+    "@santech/common": "^7.0.0-beta.3",
+    "@santech/core": "^7.0.0-beta.3"
   },
   "devDependencies": {
     "@types/jest": "*",
