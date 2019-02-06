@@ -6,6 +6,7 @@
       "umdModuleIds": {
         "@santech/angular-ionic": "Santech.AngularIonic",
         "@ionic-native/camera": "",
+        "@ionic-native/file": "",
         "@ionic-native/keyboard": "",
         "@ionic-native/network": "",
         "@ionic-native/onesignal": "",
@@ -20,6 +21,7 @@
     "@angular/core": "*",
     "@santech/angular-ionic": "*",
     "@ionic-native/camera": "*",
+    "@ionic-native/file": "*",
     "@ionic-native/keyboard": "*",
     "@ionic-native/network": "*",
     "@ionic-native/onesignal": "*",

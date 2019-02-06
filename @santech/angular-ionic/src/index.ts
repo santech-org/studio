@@ -43,6 +43,7 @@ export * from './interfaces/cache';
 export * from './interfaces/camera';
 export * from './interfaces/confirmation';
 export * from './interfaces/one-signal';
+export * from './models/camera';
 export * from './models/cordova';
 export * from './services/demo-toggler.service';
 export * from './services/camera.service';
