@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@angular/core';
 import * as Pica from 'pica';
 import { TPicaInput } from '../interfaces/input';
 import { IPicaResizeCanvas, IPicaResizeOptions, IPicaResizeParams } from '../interfaces/param';
+import { IMAGE_FORMAT } from '../tokens/image-format.token';
 import { PICA } from '../tokens/pica.token';
 import { PicaCanvasService } from './pica-canvas.service';
 import { PicaImageService } from './pica-image.service';
@@ -10,11 +11,18 @@ import { PicaImageService } from './pica-image.service';
 export class PicaService {
   private _canvasService: PicaCanvasService;
   private _imageService: PicaImageService;
+  private _imageFormat: string;
   private _pica: typeof Pica;
 
-  constructor(canvasService: PicaCanvasService, imageService: PicaImageService, @Inject(PICA) pica: any) {
+  constructor(
+    canvasService: PicaCanvasService,
+    imageService: PicaImageService,
+    @Inject(IMAGE_FORMAT) imageFormat: string,
+    @Inject(PICA) pica: any,
+  ) {
     this._canvasService = canvasService;
     this._imageService = imageService;
+    this._imageFormat = imageFormat;
     this._pica = pica;
   }
 
@@ -60,9 +68,9 @@ export class PicaService {
       try {
         const canvas: HTMLCanvasElement = await pica.resize(from, to, options);
         if (typeof data === 'string') {
-          return res(canvas.toDataURL());
+          return res(canvas.toDataURL(this._imageFormat));
         }
-        const {name, type} = data;
+        const { name, type } = data;
         const blob = await pica.toBlob(canvas, type);
         return res(this._imageService.blobToFile(blob, name, type));
       } catch (e) {
