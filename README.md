@@ -1,5 +1,5 @@
 studio
-[![Build Status](https://travis-ci.org/santech-org/studio.svg?branch=master)](https://travis-ci.org/santech-org/studio)
+[![Build Status](https://travis-ci.com/santech-org/studio.svg?branch=master)](https://travis-ci.com/santech-org/studio)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 ========
 

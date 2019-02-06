@@ -1,5 +1,6 @@
 import { EventEmitter } from '@angular/core';
 import { Camera } from '@ionic-native/camera';
+import { File } from '@ionic-native/file';
 import { Keyboard } from '@ionic-native/keyboard';
 import { Network } from '@ionic-native/network';
 import { OneSignal } from '@ionic-native/onesignal';
@@ -29,6 +30,7 @@ export const alertMethods = ['present', 'dismiss'];
 export const alertControllerMethods = ['create'];
 export const appMethods = ['getRootNav', 'navPop'];
 export const cameraMethods = ['getPicture'];
+export const fileMethods = ['readAsDataURL'];
 export const keyboardMethods = ['disableScroll', 'hideKeyboardAccessoryBar'];
 export const loadingMethods = ['present', 'dismiss'];
 export const loadingControllerMethods = ['create'];
@@ -77,6 +79,7 @@ let spyAlert: SantechSpyObject<ISpyAlert>;
 let spyAlertController: SantechSpyObject<AlertController>;
 let spyApp: SantechSpyObject<App>;
 let spyCamera: SantechSpyObject<Camera>;
+let spyFile: SantechSpyObject<File>;
 let spyKeyboard: SantechSpyObject<Keyboard>;
 let spyLoading: SantechSpyObject<Loading>;
 let spyLoadingController: SantechSpyObject<LoadingController>;
@@ -97,6 +100,7 @@ if (typeof jasmine !== 'undefined' && typeof jasmine.createSpyObj === 'function'
   spyAlertController = jasmine.createSpyObj('spyAlert', alertControllerMethods);
   spyApp = jasmine.createSpyObj('spyApp', appMethods);
   spyCamera = jasmine.createSpyObj('spyCamera', cameraMethods);
+  spyFile = jasmine.createSpyObj('spyFile', fileMethods);
   spyKeyboard = jasmine.createSpyObj('spyKeyboard', keyboardMethods);
   spyLoading = jasmine.createSpyObj('spyLoading', loadingMethods);
   spyLoadingController = jasmine.createSpyObj('spyLoadingController', loadingControllerMethods);
@@ -129,11 +133,13 @@ if (typeof jasmine !== 'undefined' && typeof jasmine.createSpyObj === 'function'
   spyAlertController = createJestSpyObj(alertControllerMethods);
   spyApp = createJestSpyObj(appMethods);
   spyCamera = createJestSpyObj(cameraMethods);
+  spyFile = createJestSpyObj(fileMethods);
   spyKeyboard = createJestSpyObj(keyboardMethods);
   spyLoading = createJestSpyObj(loadingMethods);
   spyLoadingController = createJestSpyObj(loadingControllerMethods);
   spyModal = createJestSpyObj(modalMethods);
   spyModalController = createJestSpyObj(modalControllerMethods);
+
   spyNavController = createJestSpyObj(navControllerMethods);
   spyNavParams = createJestSpyObj(navParamsMethods);
   spyNetwork = createJestSpyObj(networkMethods);
@@ -158,6 +164,7 @@ if (typeof jasmine !== 'undefined' && typeof jasmine.createSpyObj === 'function'
 if (spyPlatform) {
   const pause = new EventEmitter<Event>();
   const resume = new EventEmitter<Event>();
+  const backButton = new EventEmitter<Event>();
   Object.defineProperty(spyPlatform, 'pause', {
     enumerable: true,
     get: () => pause,
@@ -165,6 +172,10 @@ if (spyPlatform) {
   Object.defineProperty(spyPlatform, 'resume', {
     enumerable: true,
     get: () => resume,
+  });
+  Object.defineProperty(spyPlatform, 'backButton', {
+    enumerable: true,
+    get: () => backButton,
   });
 }
 
@@ -186,6 +197,7 @@ export {
   spyAlertController,
   spyApp,
   spyCamera,
+  spyFile,
   spyKeyboard,
   spyLoading,
   spyLoadingController,
